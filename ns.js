@@ -53,22 +53,22 @@ fs.emptyDir(output, function (err) {
                 console.log('[INFO] ASSETS: Synced');
             }
         });
-    getPlayerData(playerlist, function(data) {
-        getWorldTime(function(wtime) {
+    getPlayerData(playerlist, function (data) {
+        getWorldTime(function (wtime) {
             async.eachSeries(data, function (player, callback) {
                 if (player.data && player.stats && player.data.uuid) {
                     // all data retrieved
                     var playerpath = path.join(config.BASEPATH, config['render'].output, player.data.uuid_short);
-                    fs.ensureDir(playerpath, function(err) {
-                        var skinapipath =  'https://sessionserver.mojang.com/session/minecraft/profile/' + player.data.uuid_short;
-                        getMojangAPI(skinapipath, function(err, res) {
+                    fs.ensureDir(playerpath, function (err) {
+                        var skinapipath = 'https://sessionserver.mojang.com/session/minecraft/profile/' + player.data.uuid_short;
+                        getMojangAPI(skinapipath, function (err, res) {
                             if (err) {
                                 console.error('[ERROR] SKIN API', skinapipath, err);
                             } else {
                                 var apiprefix_avatar = 'https://crafatar.com/avatars/';
                                 var apiprefix_body = 'https://crafatar.com/renders/body/';
                                 var slim = '';
-                                res.properties.forEach(function(t) {
+                                res.properties.forEach(function (t) {
                                     if (t.name === 'textures') {
                                         var texture = JSON.parse(new Buffer(t.value, 'base64').toString('ascii'));
                                         if (texture.textures.SKIN) {
@@ -101,7 +101,7 @@ fs.emptyDir(output, function (err) {
                     });
                 }
                 callback();
-            }, function() {
+            }, function () {
                 render(
                     path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'),
                     path.join(config.BASEPATH, config['render'].output, 'index.html'),
@@ -117,15 +117,15 @@ fs.emptyDir(output, function (err) {
     });
 });
 
-function getWorldTime (callback) {
+function getWorldTime(callback) {
     var nbt = new NBT();
-    nbt.loadFromZlibCompressedFile(path.join(config.BASEPATH, config['render'].level), function(err) {
+    nbt.loadFromZlibCompressedFile(path.join(config.BASEPATH, config['render'].level), function (err) {
         if (err) throw err;
         callback(bignum(nbt.select("").select("Data").select("Time").getValue()).toNumber() / 20);
     });
 }
 
-function getAllPlayers () {
+function getAllPlayers() {
     var uuids = [];
     var r = new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
     fs.readdirSync(path.join(config.BASEPATH, config['render'].playerdata)).forEach(function (f) {
@@ -138,7 +138,7 @@ function getAllPlayers () {
     return uuids;
 }
 
-function getWhitelistedPlayers () {
+function getWhitelistedPlayers() {
     var uuids = [];
     JSON.parse(fs.readFileSync(config['render'].whitelist, 'utf8')).forEach(function (p) {
         uuids.push(p.uuid);
@@ -146,13 +146,13 @@ function getWhitelistedPlayers () {
     return uuids;
 }
 
-function getPlayerData (uuids, callback) {
-    async.mapSeries(uuids, function(uuid, cb) {
+function getPlayerData(uuids, callback) {
+    async.mapSeries(uuids, function (uuid, cb) {
         var datafile = path.join(config.BASEPATH, config['render'].playerdata, uuid + '.dat');
         var statsfile = path.join(config.BASEPATH, config['render'].stats, uuid + '.json');
         async.parallel({
-            stats: function(taskcb) {
-                fs.readFile(statsfile, function(error, data) {
+            stats: function (taskcb) {
+                fs.readFile(statsfile, function (error, data) {
                     if (error) {
                         console.log('[ERROR] READ:', statsfile, error);
                         return taskcb(null, {});
@@ -160,9 +160,9 @@ function getPlayerData (uuids, callback) {
                     taskcb(null, JSON.parse(data));
                 });
             },
-            data: function(taskcb) {
+            data: function (taskcb) {
                 var nbt = new NBT();
-                nbt.loadFromZlibCompressedFile(datafile, function(err) {
+                nbt.loadFromZlibCompressedFile(datafile, function (err) {
                     if (err) {
                         console.error('[ERROR] READ:', datafile, err);
                         return taskcb(null, {});
@@ -170,7 +170,7 @@ function getPlayerData (uuids, callback) {
                     console.log('[INFO] PARSE:', datafile);
                     var uuid_short = uuid.replace(/-/g, '');
                     var api_namehistory = 'https://api.mojang.com/user/profiles/' + uuid_short + '/names';
-                    getMojangAPI(api_namehistory, function(err, res) {
+                    getMojangAPI(api_namehistory, function (err, res) {
                         if (err) {
                             console.error('[ERROR] Request:', api_namehistory, err);
                             return taskcb(null, {});
@@ -192,17 +192,17 @@ function getPlayerData (uuids, callback) {
                     });
                 });
             }
-        }, function(err, d) {
+        }, function (err, d) {
             cb(null, d);
         });
-    }, function(err, playerdata) {
+    }, function (err, playerdata) {
         callback(playerdata);
     });
 }
 
-function getMojangAPI (path, callback) {
+function getMojangAPI(path, callback) {
     console.log('[INFO] API REQUEST:', path);
-    request(path, reqOpts, function(err, res, body) {
+    request(path, reqOpts, function (err, res, body) {
         if (!err && res.statusCode == 200) {
             callback(null, JSON.parse(body));
         } else {
@@ -223,7 +223,7 @@ function download(path, dest) {
 }
 
 function render(src, dest, data) {
-    ejs.renderFile(src, data, function(err, html){
+    ejs.renderFile(src, data, function (err, html) {
         if (err) {
             return console.error('[ERROR] RENDER:', src, err);
         }
