@@ -58,8 +58,37 @@ fs.emptyDir(output, function (err) {
             async.eachSeries(data, function (player, callback) {
                 if (player.data && player.stats && player.data.uuid) {
                     // all data retrieved
-                    var playerpath = path.join(config.BASEPATH, config['render'].output, player.data.uuid_short)
+                    var playerpath = path.join(config.BASEPATH, config['render'].output, player.data.uuid_short);
                     fs.ensureDir(playerpath, function(err) {
+                        var skinapipath =  'https://sessionserver.mojang.com/session/minecraft/profile/' + player.data.uuid_short;
+                        getMojangAPI(skinapipath, function(err, res) {
+                            if (err) {
+                                console.error('[ERROR] SKIN API', skinapipath, err);
+                            } else {
+                                var apiprefix_avatar = 'https://crafatar.com/avatars/';
+                                var apiprefix_body = 'https://crafatar.com/renders/body/';
+                                var slim = '';
+                                res.properties.forEach(function(t) {
+                                    if (t.name === 'textures') {
+                                        var texture = JSON.parse(new Buffer(t.value, 'base64').toString('ascii'));
+                                        if (texture.textures.SKIN) {
+                                            if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
+                                                // Alex model
+                                                slim = '?overlay';
+                                            }
+                                        }
+                                    }
+                                });
+                                download(
+                                    apiprefix_avatar + player.data.uuid_short + slim,
+                                    path.join(playerpath, 'avatar.png')
+                                );
+                                download(
+                                    apiprefix_body + player.data.uuid_short + slim,
+                                    path.join(playerpath, 'body.png')
+                                );
+                            }
+                        });
                         render(
                             path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'),
                             path.join(playerpath, 'index.html'),
@@ -183,17 +212,27 @@ function getMojangAPI (path, callback) {
     });
 }
 
+function download(path, dest) {
+    console.log('[INFO] DOWNLOAD:', path);
+    request
+        .get(path)
+        .on('error', function (err) {
+            console.error('[ERROR] DOWNLOAD:', path, err);
+        })
+        .pipe(fs.createWriteStream(dest));
+}
+
 function render(src, dest, data) {
     ejs.renderFile(src, data, function(err, html){
         if (err) {
-            return console.error('[ERROR] RENDER: ', src, err);
+            return console.error('[ERROR] RENDER:', src, err);
         }
-        console.log('[INFO] RENDER: ', src);
+        console.log('[INFO] RENDER:', src);
         fs.writeFile(dest, html, function (err) {
             if (err) {
-                return console.error('[ERROR] CREATE: ', dest, err);
+                return console.error('[ERROR] CREATE:', dest, err);
             }
-            console.log('[INFO] CREATE: ', dest);
+            console.log('[INFO] CREATE:', dest);
         });
     });
 }
