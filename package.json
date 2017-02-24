@@ -1,0 +1,26 @@
+{
+  "name": "nyaa-stats",
+  "version": "0.0.1",
+  "description": "Web Stats for NyaaCat",
+  "main": "ns.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NyaaCat/NyaaStats.git"
+  },
+  "keywords": [
+    "Minecraft",
+    "stats"
+  ],
+  "author": "Phoenix Nemo <phoenixlzx@nyaa.cat>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NyaaCat/NyaaStats/issues"
+  },
+  "homepage": "https://github.com/NyaaCat/NyaaStats#readme"
+}
