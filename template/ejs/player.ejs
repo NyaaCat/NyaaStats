@@ -1,0 +1,6 @@
+Player: <%= playerdata.data.playername %>
+Joined: <%= moment(playerdata.data.time_start).format("dddd, MMMM Do YYYY, HH:mm:ss ZZ") %>
+Stats:
+<% for (var prop in playerdata.stats) { %>
+<%= prop %>: <%= playerdata.stats[prop] %>
+<% } %>

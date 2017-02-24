@@ -1,0 +1,9 @@
+<%= config['web'].title %>
+
+Word Time elapsed: <%= moment.duration(wtime, 'seconds').humanize() %>
+
+Players:
+<% playerdata.forEach(function(p) { %>
+Player: <%= p.data.playername %>
+UUID: <%= p.data.uuid_short %>
+<% }) %>
