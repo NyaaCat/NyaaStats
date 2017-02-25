@@ -3,6 +3,12 @@ body {
     padding-bottom: 20px;
 }
 
+@media (max-width:767px){
+    .row{
+        margin: -5px;
+    }
+}
+
 .text-middle {
     vertical-align: middle;
 }

@@ -37,9 +37,11 @@ if (config['render'].whitelist) {
 } else {
     playerlist = getAllPlayers();
 }
+console.log('[INFO] Players found:', playerlist.length);
 
 var output = path.join(config.BASEPATH, config['render'].output);
 console.log('[INFO] CREATE:', output);
+
 fs.emptyDir(output, function (err) {
     if (err) throw err;
     ncp(
@@ -53,51 +55,25 @@ fs.emptyDir(output, function (err) {
                 console.log('[INFO] ASSETS: Synced');
             }
         });
-    getPlayerData(playerlist, function (data) {
-        data = filter(data);
-        data.sort(function (a, b) {
-            return b._seen - a._seen; // sort by activity
-        });
-        getWorldTime(function (wtime) {
-            async.eachSeries(data, function (player, callback) {
-                if (player.data && player.stats && player.data.uuid) {
-                    // all data retrieved
-                    var playerpath = path.join(config.BASEPATH, config['render'].output, player.data.uuid_short);
-                    fs.ensureDir(playerpath, function (err) {
-                        var skinapipath = 'https://sessionserver.mojang.com/session/minecraft/profile/' + player.data.uuid_short;
-                        getMojangAPI(skinapipath, function (err, res) {
-                            if (err || !res) {
-                                console.error('[ERROR] SKIN API', skinapipath, err);
-                            } else {
-                                var apiprefix_avatar = 'https://crafatar.com/avatars/';
-                                var apiprefix_body = 'https://crafatar.com/renders/body/';
-                                var slim = '';
-                                res.properties.forEach(function (t) {
-                                    if (t.name === 'textures') {
-                                        var texture = JSON.parse(new Buffer(t.value, 'base64').toString('ascii'));
-                                        if (texture.textures.SKIN) {
-                                            if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
-                                                // Alex model
-                                                slim = '&default=MHF_Alex&overlay';
-                                            }
-                                        }
-                                    }
-                                });
-                                download(
-                                    apiprefix_avatar + player.data.uuid_short + '?size=64' + slim,
-                                    path.join(playerpath, 'avatar.png')
-                                );
-                                download(
-                                    apiprefix_body + player.data.uuid_short + '?size=128' + slim,
-                                    path.join(playerpath, 'body.png')
-                                );
-                            }
-                        });
+    var banlist = [];
+    var indexdata = [];
+    if (config['render']['banned-players'] && !config['render']['render-banned']) {
+        banlist = getBannedPlayers();
+    }
+    async.eachSeries(playerlist, function (uuid, callback) {
+        if (banlist.indexOf(uuid) === -1) {
+            getPlayerData(uuid, {
+                banlist: banlist
+            }, function (data) {
+                if (data && data.stats && data.data) {
+                    indexdata.push(data);
+                    var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
+                    getPlayerAssets(data.data.uuid_short, playerpath, function () {
                         render(
                             path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'),
                             path.join(playerpath, 'index.html'),
                             {
-                                playerdata: player,
+                                playerdata: data,
                                 config: config,
                                 moment: moment,
                                 lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json')))
@@ -106,21 +82,29 @@ fs.emptyDir(output, function (err) {
                     });
                 }
                 callback();
-            }, function () {
-                render(
-                    path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'),
-                    path.join(config.BASEPATH, config['render'].output, 'index.html'),
-                    {
-                        playerdata: data,
-                        wtime: wtime,
-                        config: config,
-                        moment: moment
-                    }
-                );
             });
+        } else {
+            callback();
+        }
+    }, function (err) {
+        getWorldTime(function (wtime) {
+            indexdata.sort(function (a, b) {
+                return b.data._seen - a.data._seen; // sort by activity
+            });
+            render(
+                path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'),
+                path.join(config.BASEPATH, config['render'].output, 'index.html'),
+                {
+                    playerdata: indexdata,
+                    wtime: wtime,
+                    config: config,
+                    moment: moment
+                }
+            );
         });
     });
 });
+
 
 function getWorldTime(callback) {
     var nbt = new NBT();
@@ -151,70 +135,83 @@ function getWhitelistedPlayers() {
     return uuids;
 }
 
-function getPlayerData(uuids, callback) {
+function getBannedPlayers() {
     var banlist = [];
-    if (config['render']['banned-players']) {
-        var banned = JSON.parse(fs.readFileSync(path.join(config.BASEPATH, config['render']['banned-players']), 'utf8'));
-        banned.forEach(function (ban) {
-            banlist.push(ban.uuid);
-        });
-    }
-    async.mapSeries(uuids, function (uuid, cb) {
-        var datafile = path.join(config.BASEPATH, config['render'].playerdata, uuid + '.dat');
-        var statsfile = path.join(config.BASEPATH, config['render'].stats, uuid + '.json');
-        async.parallel({
-            stats: function (taskcb) {
-                fs.readFile(statsfile, function (error, data) {
-                    if (error) {
-                        console.log('[ERROR] READ:', statsfile, error);
-                        return taskcb(null, {});
-                    }
-                    taskcb(null, JSON.parse(data));
-                });
-            },
-            data: function (taskcb) {
-                var nbt = new NBT();
-                nbt.loadFromZlibCompressedFile(datafile, function (err) {
-                    if (err) {
-                        console.error('[ERROR] READ:', datafile, err);
-                        return taskcb(null, {});
-                    }
-                    console.log('[INFO] PARSE:', datafile);
-                    var uuid_short = uuid.replace(/-/g, '');
-                    var api_namehistory = 'https://api.mojang.com/user/profiles/' + uuid_short + '/names';
-                    getMojangAPI(api_namehistory, function (err, res) {
-                        if (err || !res) {
-                            console.error('[ERROR] API REQUEST:', api_namehistory, err);
-                            return taskcb(null, {});
-                        }
+    var banned = JSON.parse(fs.readFileSync(path.join(config.BASEPATH, config['render']['banned-players']), 'utf8'));
+    banned.forEach(function (ban) {
+        banlist.push(ban.uuid);
+    });
+    return banlist;
+}
+
+function getPlayerData(uuid, extdata, callback) {
+    var datafile = path.join(config.BASEPATH, config['render'].playerdata, uuid + '.dat');
+    var statsfile = path.join(config.BASEPATH, config['render'].stats, uuid + '.json');
+    async.parallel({
+        stats: function (cb) {
+            fs.readFile(statsfile, function (error, data) {
+                if (error) {
+                    console.log('[ERROR] READ:', statsfile, error);
+                    return cb();
+                }
+                cb(null, JSON.parse(data));
+            });
+        },
+        data: function (cb) {
+            var nbt = new NBT();
+            nbt.loadFromZlibCompressedFile(datafile, function (err) {
+                if (err) {
+                    console.error('[ERROR] READ:', datafile, err);
+                    return cb();
+                }
+                console.log('[INFO] PARSE:', datafile);
+                var uuid_short = uuid.replace(/-/g, '');
+                getNameHistory(uuid_short, function(history) {
+                    if (history && history[0]) {
                         var lived = '';
                         if (nbt.select("").select("Spigot.ticksLived")) {
                             lived = nbt.select("").select("Spigot.ticksLived").getValue() / 20;
                         }
+                        var time_start = bignum(nbt.select("").select("bukkit").select("firstPlayed").getValue()).toNumber();
+                        var time_last = bignum(nbt.select("").select("bukkit").select("lastPlayed").getValue()).toNumber();
                         var pdata = {
-                            time_start: bignum(nbt.select("").select("bukkit").select("firstPlayed").getValue()).toNumber(),
-                            time_last: bignum(nbt.select("").select("bukkit").select("lastPlayed").getValue()).toNumber(),
+                            _seen: time_last,
+                            time_start: time_start,
+                            time_last: time_last,
                             time_lived: lived,
                             uuid: uuid,
                             uuid_short: uuid_short,
-                            playername: res[res.length -1].name,
-                            names: res
+                            playername: history[0].name,
+                            names: history,
+                            banned: extdata.banlist.indexOf(uuid) !== -1
                         };
-                        taskcb(null, pdata);
-                    });
+                        cb(null, pdata);
+                    } else {
+                        cb();
+                    }
                 });
-            }
-        }, function (err, d) {
-            if (d.data && d.data.time_last) {
-                d._seen = d.data.time_last;
-                if (banlist.indexOf(d.data.uuid) !== -1) {
-                    d.banned = true;
-                }
-            }
-            cb(null, d);
-        });
-    }, function (err, playerdata) {
-        callback(playerdata);
+            });
+        }
+    }, function (err, d) {
+        callback(d);
+    });
+}
+
+function getNameHistory (uuid, callback) {
+    var api_namehistory = 'https://api.mojang.com/user/profiles/' + uuid + '/names';
+    var history = [];
+    getMojangAPI(api_namehistory, function (err, res) {
+        if (err || !res) {
+            return callback();
+        }
+        var limit = config['api']['max-name-history'];
+        if (res.length < config['api']['max-name-history']) {
+            limit = res.length;
+        }
+        for (var i = 1; i <= limit; i++) {
+            history.push(res[res.length - i]);
+        }
+        callback(history);
     });
 }
 
@@ -231,6 +228,41 @@ function getMojangAPI(path, callback) {
             console.error('[ERROR] API REQUEST:', path, err);
             callback(err);
         }
+    });
+}
+
+function getPlayerAssets (uuid, playerpath, callback) {
+    fs.ensureDir(playerpath, function (err) {
+        var skinapipath = 'https://sessionserver.mojang.com/session/minecraft/profile/' + uuid;
+        getMojangAPI(skinapipath, function (err, res) {
+            if (err || !res) {
+                console.error('[ERROR] SKIN API', skinapipath, err);
+            } else {
+                var apiprefix_avatar = 'https://crafatar.com/avatars/';
+                var apiprefix_body = 'https://crafatar.com/renders/body/';
+                var slim = '';
+                res.properties.forEach(function (t) {
+                    if (t.name === 'textures') {
+                        var texture = JSON.parse(new Buffer(t.value, 'base64').toString('ascii'));
+                        if (texture.textures.SKIN) {
+                            if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
+                                // Alex model
+                                slim = '&default=MHF_Alex&overlay';
+                            }
+                        }
+                    }
+                });
+                download(
+                    apiprefix_avatar + uuid + '?size=64' + slim,
+                    path.join(playerpath, 'avatar.png')
+                );
+                download(
+                    apiprefix_body + uuid + '?size=128' + slim,
+                    path.join(playerpath, 'body.png')
+                );
+            }
+            callback();
+        });
     });
 }
 
@@ -259,18 +291,3 @@ function render(src, dest, data) {
     });
 }
 
-function filter(playerdata) {
-    var players = [];
-    playerdata.forEach(function (p) {
-        if (p.data && p.stats && p.data.uuid) {
-            if (config['render']['render-banned']) {
-                players.push(p);
-            } else {
-                if (!p.data.banned) {
-                    players.push(p);
-                }
-            }
-        }
-    });
-    return players;
-}

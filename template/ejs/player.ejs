@@ -62,14 +62,14 @@
                                 <% if (playerdata.data.time_start) { %>
                                 <li class="list-group-item">
                                     <h4 class="list-group-item-heading">
-                                        <%= moment(playerdata.data.time_start).format("dddd, MMMM Do YYYY, HH:mm:ss ZZ") %>
+                                        <%= moment(playerdata.data.time_start).format(config['render']['time-format'].full) %>
                                     </h4>
                                     <p class="list-group-item-text text-muted">First Login</p>
                                 </li>
                                 <% } if (playerdata.data.time_last) { %>
                                 <li class="list-group-item">
                                     <h4 class="list-group-item-heading">
-                                        <%= moment(playerdata.data.time_last).format("dddd, MMMM Do YYYY, HH:mm:ss ZZ") %>
+                                        <%= moment(playerdata.data.time_last).format(config['render']['time-format'].full) %>
                                     </h4>
                                     <p class="list-group-item-text text-muted">Last Active</p>
                                 </li>
@@ -95,21 +95,18 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <%
-                                for (var i = playerdata.data.names.length - 1; i > 0; i--) {
-                                    var n = playerdata.data.names[i];
-                                %>
+                                <% playerdata.data.names.forEach(function (n) { %>
                                 <li class="list-group-item">
                                     <h5>
                                         <%= n.name %>
                                         <% if (n.changedToAt) { %>
-                                        <small>Changed at <%= moment(n.changedToAt).format("dddd, MMMM Do YYYY, HH:mm:ss ZZ") %></small>
+                                        <small>Changed at <%= moment(n.changedToAt).format(config['render']['time-format'].compact) %></small>
                                         <% } else { %>
                                         <small>Initial</small>
                                         <% } %>
                                     </h5>
                                 </li>
-                                <% } %>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>
@@ -186,6 +183,9 @@
     <hr/>
     <footer>
         <p><%= config['web'].servername %></p>
+        <p class="text-muted">
+            Last Update <%= moment().format(config['render']['time-format'].full) %>
+        </p>
     </footer>
 </div> <!-- /container -->
 <script src="../js/jquery.min.js"></script>
