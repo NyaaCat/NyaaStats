@@ -80,6 +80,7 @@ fs.emptyDir(output, function (err) {
                                 playerdata: data,
                                 config: config,
                                 moment: moment,
+                                numAbbr: numAbbr,
                                 lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json')))
                             }
                         );
@@ -95,6 +96,20 @@ fs.emptyDir(output, function (err) {
             indexdata.sort(function (a, b) {
                 return b.data._seen - a.data._seen; // sort by activity
             });
+            if (config['render'].json) {
+                var jsonfile = path.join(config.BASEPATH, config['render'].output, 'stats.json');
+                fs.writeFile(jsonfile, JSON.stringify({
+                    update: new Date().getTime(),
+                    world_lived: wtime,
+                    stats: indexdata
+                }), function (err) {
+                    if (err) {
+                        console.error('[ERROR] CREATE:', jsonfile, err);
+                    } else {
+                        console.log('[INFO] CREATE:', jsonfile)
+                    }
+                });
+            }
             render(
                 template.index,
                 path.join(config.BASEPATH, config['render'].output, 'index.html'),
@@ -169,7 +184,7 @@ function getPlayerData(uuid, extdata, callback) {
                 }
                 console.log('[INFO] PARSE:', datafile);
                 var uuid_short = uuid.replace(/-/g, '');
-                getNameHistory(uuid_short, function(history) {
+                getNameHistory(uuid_short, function (history) {
                     if (history && history[0]) {
                         var lived = '';
                         if (nbt.select("").select("Spigot.ticksLived")) {
@@ -200,7 +215,7 @@ function getPlayerData(uuid, extdata, callback) {
     });
 }
 
-function getNameHistory (uuid, callback) {
+function getNameHistory(uuid, callback) {
     var api_namehistory = 'https://api.mojang.com/user/profiles/' + uuid + '/names';
     var history = [];
     getMojangAPI(api_namehistory, function (err, res) {
@@ -234,7 +249,7 @@ function getMojangAPI(path, callback) {
     });
 }
 
-function getPlayerAssets (uuid, playerpath, callback) {
+function getPlayerAssets(uuid, playerpath, callback) {
     fs.ensureDir(playerpath, function (err) {
         var skinapipath = 'https://sessionserver.mojang.com/session/minecraft/profile/' + uuid;
         getMojangAPI(skinapipath, function (err, res) {
@@ -287,3 +302,25 @@ function render(src, dest, data) {
         console.log('[INFO] CREATE:', dest);
     });
 }
+
+function numAbbr (value) {
+    value = Math.round(value);
+    var newValue = value;
+    if (value >= 1000) {
+        var suffixes = ["", "k", "M", "b"];
+        var suffixNum = Math.floor(("" + value).length / 3);
+        var shortValue = '';
+        for (var precision = 2; precision >= 1; precision--) {
+            shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000, suffixNum) ) : value).toPrecision(precision));
+            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g, '');
+            if (dotLessShortValue.length <= 2) {
+                break;
+            }
+        }
+        if (shortValue % 1 != 0) {
+            shortValue = shortValue.toFixed(1);
+        }
+        newValue = shortValue + suffixes[suffixNum];
+    }
+    return newValue;
+};
