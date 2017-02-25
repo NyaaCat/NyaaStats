@@ -9,6 +9,14 @@ render:
   playerdata: data/playerdata # directory path here, required
   stats: data/stats # directory path here, required
   whitelist: whitelist.json # file path here, leave blank to disable
-  banned-players: banned-player.json # file path here, leave blank to disable
+  banned-players: banned-players.json # file path here, leave blank to disable
   render-banned: false  # do not render banned players
   output: public # directory path here, required
+  time-format: # time format on display, details http://momentjs.com/docs/#/displaying/format/
+    full: dddd, MMMM Do, YYYY HH:mm:ss ZZ
+    short: MMMM Do, YYYY
+    compact: YYYY-M-D HH:mm:ss
+
+api:
+  ratelimit: true # set to 1 request per sec as per mojang api rate limit
+  max-name-history: 3 # Maximum history will be recorded
