@@ -1,0 +1,14 @@
+# NyaaStats configuration
+web:
+  title: Nyaa Stats # website title
+  servername: Minecraft Server # Server Name
+  homepage: https://minecraft.example.com # Your homepage
+
+render:
+  level: data/level.dat # file path here, required
+  playerdata: data/playerdata # directory path here, required
+  stats: data/stats # directory path here, required
+  whitelist: whitelist.json # file path here, leave blank to disable
+  banned-players: banned-player.json # file path here, leave blank to disable
+  render-banned: false  # do not render banned players
+  output: public # directory path here, required
