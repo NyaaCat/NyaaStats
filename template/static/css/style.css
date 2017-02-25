@@ -1,0 +1,13 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.text-middle {
+    vertical-align: middle;
+}
+
+.achievements {
+    width: 32px;
+    height: 32px;
+}

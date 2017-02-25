@@ -43,7 +43,7 @@ console.log('[INFO] CREATE:', output);
 fs.emptyDir(output, function (err) {
     if (err) throw err;
     ncp(
-        path.join(config.BASEPATH, 'templates', 'static'),
+        path.join(config.BASEPATH, 'template', 'static'),
         path.join(config.BASEPATH, config['render'].output),
         ncpOpts,
         function (err) {
@@ -54,6 +54,10 @@ fs.emptyDir(output, function (err) {
             }
         });
     getPlayerData(playerlist, function (data) {
+        data = filter(data);
+        data.sort(function (a, b) {
+            return b._seen - a._seen; // sort by activity
+        });
         getWorldTime(function (wtime) {
             async.eachSeries(data, function (player, callback) {
                 if (player.data && player.stats && player.data.uuid) {
@@ -62,7 +66,7 @@ fs.emptyDir(output, function (err) {
                     fs.ensureDir(playerpath, function (err) {
                         var skinapipath = 'https://sessionserver.mojang.com/session/minecraft/profile/' + player.data.uuid_short;
                         getMojangAPI(skinapipath, function (err, res) {
-                            if (err) {
+                            if (err || !res) {
                                 console.error('[ERROR] SKIN API', skinapipath, err);
                             } else {
                                 var apiprefix_avatar = 'https://crafatar.com/avatars/';
@@ -74,17 +78,17 @@ fs.emptyDir(output, function (err) {
                                         if (texture.textures.SKIN) {
                                             if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
                                                 // Alex model
-                                                slim = '?overlay';
+                                                slim = '&default=MHF_Alex&overlay';
                                             }
                                         }
                                     }
                                 });
                                 download(
-                                    apiprefix_avatar + player.data.uuid_short + slim,
+                                    apiprefix_avatar + player.data.uuid_short + '?size=64' + slim,
                                     path.join(playerpath, 'avatar.png')
                                 );
                                 download(
-                                    apiprefix_body + player.data.uuid_short + slim,
+                                    apiprefix_body + player.data.uuid_short + '?size=128' + slim,
                                     path.join(playerpath, 'body.png')
                                 );
                             }
@@ -95,7 +99,8 @@ fs.emptyDir(output, function (err) {
                             {
                                 playerdata: player,
                                 config: config,
-                                moment: moment
+                                moment: moment,
+                                lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json')))
                             }
                         );
                     });
@@ -147,6 +152,13 @@ function getWhitelistedPlayers() {
 }
 
 function getPlayerData(uuids, callback) {
+    var banlist = [];
+    if (config['render']['banned-players']) {
+        var banned = JSON.parse(fs.readFileSync(path.join(config.BASEPATH, config['render']['banned-players']), 'utf8'));
+        banned.forEach(function (ban) {
+            banlist.push(ban.uuid);
+        });
+    }
     async.mapSeries(uuids, function (uuid, cb) {
         var datafile = path.join(config.BASEPATH, config['render'].playerdata, uuid + '.dat');
         var statsfile = path.join(config.BASEPATH, config['render'].stats, uuid + '.json');
@@ -193,6 +205,12 @@ function getPlayerData(uuids, callback) {
                 });
             }
         }, function (err, d) {
+            if (d.data && d.data.time_last) {
+                d._seen = d.data.time_last;
+                if (banlist.indexOf(d.data.uuid) !== -1) {
+                    d.banned = true;
+                }
+            }
             cb(null, d);
         });
     }, function (err, playerdata) {
@@ -235,4 +253,20 @@ function render(src, dest, data) {
             console.log('[INFO] CREATE:', dest);
         });
     });
+}
+
+function filter(playerdata) {
+    var players = [];
+    playerdata.forEach(function (p) {
+        if (p.data && p.stats && p.data.uuid) {
+            if (config['render']['render-banned']) {
+                players.push(p);
+            } else {
+                if (!p.data.banned) {
+                    players.push(p);
+                }
+            }
+        }
+    });
+    return players;
 }

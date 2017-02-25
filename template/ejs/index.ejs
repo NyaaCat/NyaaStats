@@ -1,10 +1,79 @@
-<%= config['web'].title %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-Word Time elapsed: <%= moment.duration(wtime, 'seconds').humanize() %>
+    <title><%= config['web'].title %></title>
 
-Players:
-<% playerdata.forEach(function(p) { %>
-Player: <%= p.data.playername %>
-UUID: <%= p.data.uuid_short %>
-img: <%= p.data.uuid_short %>/avatar.png
-<% }) %>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><%= config['web'].title %></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" placeholder="Search Username" class="form-control" id="search">
+                </div>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1><%= config['web'].servername %></h1>
+        <p>Server time elapsed <%= moment.duration(wtime, 'seconds').humanize() %></p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <% playerdata.forEach(function(p) { %>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 searchbox">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left media-middle">
+                            <a href="<%= p.data.uuid_short %>">
+                                <img class="media-object" src="<%= p.data.uuid_short %>/avatar.png" alt="<%= p.data.playername %>'s Avatar">
+                            </a>
+                        </div>
+                        <div class="media-body text-middle">
+                            <h4 class="media-heading"><%= p.data.playername %></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+    <hr/>
+    <footer>
+        <p><%= config['web'].servername %></p>
+    </footer>
+</div> <!-- /container -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.quicksearch.js"></script>
+<script>
+    $('input#search').quicksearch('div.searchbox');
+</script>
+</body>
+</html>
