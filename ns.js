@@ -219,8 +219,12 @@ function getPlayerData(uuids, callback) {
 }
 
 function getMojangAPI(path, callback) {
+    var timeout = 0;
+    if (config['api'].ratelimit) {
+        timeout = 1000;
+    }
     console.log('[INFO] API REQUEST:', path);
-    request(path, reqOpts, function (err, res, body) {
+    setTimeout(request, timeout, path, reqOpts, function (err, res, body) {
         if (!err && res.statusCode == 200) {
             callback(null, JSON.parse(body));
         } else {
