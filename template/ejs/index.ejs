@@ -83,8 +83,12 @@
 <script src="js/jquery.unveil.js"></script>
 <script>
     $(function() {
-        $('input#search').quicksearch('div.searchbox');
-        $('img.lazy').unveil();
+        $('input#search').quicksearch('div.searchbox', {
+            'onAfter': function () {
+                $('img.lazy').trigger('unveil');
+            }
+        });
+        $('img.lazy').unveil(200);
     });
 </script>
 </body>
