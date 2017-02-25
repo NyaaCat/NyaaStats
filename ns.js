@@ -250,17 +250,17 @@ function getPlayerAssets (uuid, playerpath, callback) {
                         if (texture.textures.SKIN) {
                             if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
                                 // Alex model
-                                slim = '&default=MHF_Alex&overlay';
+                                slim = '&default=MHF_Alex';
                             }
                         }
                     }
                 });
                 download(
-                    apiprefix_avatar + uuid + '?size=64' + slim,
+                    apiprefix_avatar + uuid + '?size=64&overlay' + slim,
                     path.join(playerpath, 'avatar.png')
                 );
                 download(
-                    apiprefix_body + uuid + '?size=128' + slim,
+                    apiprefix_body + uuid + '?size=128&overlay' + slim,
                     path.join(playerpath, 'body.png')
                 );
             }
