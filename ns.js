@@ -57,6 +57,7 @@ fs.emptyDir(output, function (err) {
         });
     var banlist = [];
     var indexdata = [];
+    var playeruuids = [];
     var template = {
         index: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'),
         player: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8')
@@ -71,6 +72,7 @@ fs.emptyDir(output, function (err) {
             }, function (data) {
                 if (data && data.stats && data.data) {
                     indexdata.push(data);
+                    playeruuids.push(data.data.uuid);
                     var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
                     getPlayerAssets(data.data.uuid_short, playerpath, function () {
                         render(
@@ -85,6 +87,9 @@ fs.emptyDir(output, function (err) {
                             }
                         );
                     });
+                    if (config['render'].json) {
+                        writeJSON(path.join(playerpath, 'stats.json'), data);
+                    }
                 }
                 callback();
             });
@@ -97,18 +102,14 @@ fs.emptyDir(output, function (err) {
                 return b.data._seen - a.data._seen; // sort by activity
             });
             if (config['render'].json) {
-                var jsonfile = path.join(config.BASEPATH, config['render'].output, 'stats.json');
-                fs.writeFile(jsonfile, JSON.stringify({
-                    update: new Date().getTime(),
-                    world_lived: wtime,
-                    stats: indexdata
-                }), function (err) {
-                    if (err) {
-                        console.error('[ERROR] CREATE:', jsonfile, err);
-                    } else {
-                        console.log('[INFO] CREATE:', jsonfile)
+                writeJSON(
+                    path.join(config.BASEPATH, config['render'].output, 'players.json'),
+                    {
+                        update: new Date().getTime(),
+                        world_lived: wtime,
+                        players: playeruuids
                     }
-                });
+                );
             }
             render(
                 template.index,
@@ -303,6 +304,16 @@ function render(src, dest, data) {
     });
 }
 
+function writeJSON(dest, data) {
+    fs.writeFile(dest, JSON.stringify(data), function (err) {
+        if (err) {
+            console.log('[ERROR] CREATE:', dest);
+        } else {
+            console.log('[INFO] CREATE:', dest);
+        }
+    });
+}
+
 function numAbbr (value) {
     value = Math.round(value);
     var newValue = value;
@@ -323,4 +334,4 @@ function numAbbr (value) {
         newValue = shortValue + suffixes[suffixNum];
     }
     return newValue;
-};
+}
