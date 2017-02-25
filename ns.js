@@ -183,8 +183,8 @@ function getPlayerData(uuids, callback) {
                     var uuid_short = uuid.replace(/-/g, '');
                     var api_namehistory = 'https://api.mojang.com/user/profiles/' + uuid_short + '/names';
                     getMojangAPI(api_namehistory, function (err, res) {
-                        if (err) {
-                            console.error('[ERROR] Request:', api_namehistory, err);
+                        if (err || !res) {
+                            console.error('[ERROR] API REQUEST:', api_namehistory, err);
                             return taskcb(null, {});
                         }
                         var lived = '';
