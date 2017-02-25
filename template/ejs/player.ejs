@@ -95,18 +95,21 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <% playerdata.data.names.forEach(function (n) { %>
+                                <%
+                                for (var i = playerdata.data.names.length - 1; i > 0; i--) {
+                                    var n = playerdata.data.names[i];
+                                %>
                                 <li class="list-group-item">
                                     <h5>
                                         <%= n.name %>
                                         <% if (n.changedToAt) { %>
-                                        <small>Changed <%= moment(n.changedToAt).format("dddd, MMMM Do YYYY, HH:mm:ss ZZ") %></small>
+                                        <small>Changed at <%= moment(n.changedToAt).format("dddd, MMMM Do YYYY, HH:mm:ss ZZ") %></small>
                                         <% } else { %>
-                                        <small>Current</small>
+                                        <small>Initial</small>
                                         <% } %>
                                     </h5>
                                 </li>
-                                <% }) %>
+                                <% } %>
                             </ul>
                         </div>
                     </div>

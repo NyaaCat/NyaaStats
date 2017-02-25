@@ -197,7 +197,7 @@ function getPlayerData(uuids, callback) {
                             time_lived: lived,
                             uuid: uuid,
                             uuid_short: uuid_short,
-                            playername: res[0].name,
+                            playername: res[res.length -1].name,
                             names: res
                         };
                         taskcb(null, pdata);
