@@ -39,7 +39,9 @@
     <div class="container">
         <h1><%= config['web'].servername %></h1>
         <p>Server time elapsed <%= moment.duration(wtime, 'seconds').humanize() %></p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <% if (config['web'].homepage) { %>
+        <p><a class="btn btn-primary btn-lg" href="<%= config['web'].homepage %>" role="button">Learn more &raquo;</a></p>
+        <% } %>
     </div>
 </div>
 
