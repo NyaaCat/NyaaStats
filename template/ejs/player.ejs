@@ -76,7 +76,7 @@
                                 <% } if (playerdata.data.time_lived) { %>
                                 <li class="list-group-item">
                                     <h4 class="list-group-item-heading">
-                                        <%= parseInt(moment.duration(playerdata.data.time_lived, 'seconds').asHours()) %> Hours
+                                        <%= moment.duration(playerdata.data.time_lived, 'seconds').asHours().toFixed(1) %> Hours
                                     </h4>
                                     <p class="list-group-item-text text-muted">Total Online</p>
                                 </li>
