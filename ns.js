@@ -57,6 +57,10 @@ fs.emptyDir(output, function (err) {
         });
     var banlist = [];
     var indexdata = [];
+    var template = {
+        index: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'),
+        player: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8')
+    };
     if (config['render']['banned-players'] && !config['render']['render-banned']) {
         banlist = getBannedPlayers();
     }
@@ -70,7 +74,7 @@ fs.emptyDir(output, function (err) {
                     var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
                     getPlayerAssets(data.data.uuid_short, playerpath, function () {
                         render(
-                            path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'),
+                            template.player,
                             path.join(playerpath, 'index.html'),
                             {
                                 playerdata: data,
@@ -92,7 +96,7 @@ fs.emptyDir(output, function (err) {
                 return b.data._seen - a.data._seen; // sort by activity
             });
             render(
-                path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'),
+                template.index,
                 path.join(config.BASEPATH, config['render'].output, 'index.html'),
                 {
                     playerdata: indexdata,
@@ -104,7 +108,6 @@ fs.emptyDir(output, function (err) {
         });
     });
 });
-
 
 function getWorldTime(callback) {
     var nbt = new NBT();
@@ -277,17 +280,10 @@ function download(path, dest) {
 }
 
 function render(src, dest, data) {
-    ejs.renderFile(src, data, function (err, html) {
+    fs.writeFile(dest, ejs.render(src, data), function (err) {
         if (err) {
-            return console.error('[ERROR] RENDER:', src, err);
+            return console.error('[ERROR] CREATE:', dest, err);
         }
-        console.log('[INFO] RENDER:', src);
-        fs.writeFile(dest, html, function (err) {
-            if (err) {
-                return console.error('[ERROR] CREATE:', dest, err);
-            }
-            console.log('[INFO] CREATE:', dest);
-        });
+        console.log('[INFO] CREATE:', dest);
     });
 }
-
