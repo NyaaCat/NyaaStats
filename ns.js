@@ -61,11 +61,11 @@ fs.emptyDir(output, function (err) {
         index: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'),
         player: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8')
     };
-    if (config['render']['banned-players'] && !config['render']['render-banned']) {
+    if (config['render']['banned-players']) {
         banlist = getBannedPlayers();
     }
     async.eachSeries(playerlist, function (uuid, callback) {
-        if (banlist.indexOf(uuid) === -1) {
+        if (banlist.indexOf(uuid) === -1 || config['render']['render-banned']) {
             getPlayerData(uuid, {
                 banlist: banlist
             }, function (data) {
