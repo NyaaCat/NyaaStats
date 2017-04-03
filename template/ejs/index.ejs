@@ -62,6 +62,13 @@
                         </div>
                         <div class="media-body text-middle">
                             <h4 class="media-heading"><%= p.data.playername %></h4>
+                            <div class="name-qs"> <!-- search with name history and uuid -->
+                                <% p.data.names.forEach(function(n) { %>
+                                    <div><%= n.name %></div>
+                                <% }) %>
+                                <div>p.data.uuid</div>
+                                <div>p.data.uuid_short</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,7 +95,7 @@
                 $('img.lazy').trigger('unveil');
             }
         });
-        $('img.lazy').unveil(200);
+        $('img.lazy').unveil(300);
     });
 </script>
 </body>
