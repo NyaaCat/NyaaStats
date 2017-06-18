@@ -39,6 +39,15 @@ if (config['render'].whitelist) {
 }
 console.log('[INFO] Players found:', playerlist.length);
 
+if (config['render'].advancements) {
+    console.log('[INFO] Advancements is set: Render mode set to 1.12+');
+    if (!config['advancements-progress']) {
+        console.log('[WARN] You do not have advancements progresses defined. Please visit github.com/NyaaCat/NyaaStats for a new version of config file.');
+    }
+} else {
+    console.log('[INFO] Advancements not set: Render mode set to 1.11');
+}
+
 var output = path.join(config.BASEPATH, config['render'].output);
 console.log('[INFO] CREATE:', output);
 
@@ -59,8 +68,12 @@ fs.emptyDir(output, function (err) {
     var indexdata = [];
     var playeruuids = [];
     var template = {
-        index: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'),
-        player: fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8')
+        index: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'), {
+            filename: path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs')
+        }),
+        player: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8'), {
+            filename: path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs')
+        })
     };
     if (config['render']['banned-players']) {
         banlist = getBannedPlayers();
@@ -165,12 +178,29 @@ function getBannedPlayers() {
 
 function getPlayerData(uuid, extdata, callback) {
     var datafile = path.join(config.BASEPATH, config['render'].playerdata, uuid + '.dat');
-    var statsfile = path.join(config.BASEPATH, config['render'].stats, uuid + '.json');
+    if (config['render'].stats) {
+        var statsfile = path.join(config.BASEPATH, config['render'].stats, uuid + '.json');
+    }
+    if (config['render'].advancements) {
+        var advancementsfile = path.join(config.BASEPATH, config['render'].advancements, uuid + '.json');
+    }
+
     async.parallel({
         stats: function (cb) {
             fs.readFile(statsfile, function (error, data) {
                 if (error) {
                     console.log('[ERROR] READ:', statsfile, error);
+                    return cb();
+                }
+                cb(null, JSON.parse(data));
+            });
+        },
+        advancements: function (cb) {
+            // compatible to 1.11
+            if (!config['render'].advancements) return cb();
+            fs.readFile(advancementsfile, function (error, data) {
+                if (error) {
+                    console.log('[ERROR] READ:', advancementsfile, error);
                     return cb();
                 }
                 cb(null, JSON.parse(data));
@@ -295,8 +325,8 @@ function download(path, dest) {
         .pipe(fs.createWriteStream(dest));
 }
 
-function render(src, dest, data) {
-    fs.writeFile(dest, ejs.render(src, data), function (err) {
+function render(template, dest, data) {
+    fs.writeFile(dest, template(data), function (err) {
         if (err) {
             return console.error('[ERROR] CREATE:', dest, err);
         }
@@ -328,7 +358,7 @@ function numAbbr (value) {
                 break;
             }
         }
-        if (shortValue % 1 != 0) {
+        if (shortValue % 1 !== 0) {
             shortValue = shortValue.toFixed(1);
         }
         newValue = shortValue + suffixes[suffixNum];
