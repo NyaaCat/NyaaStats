@@ -120,6 +120,94 @@
             <li>Player</li>
             <li class="active"><%= playerdata.data.playername %></li>
         </ol>
+        <%
+        if (playerdata.advancements) {
+        var
+                adv_minecraft = [],
+                adv_nether = [],
+                adv_the_end = [],
+                adv_adventure = [],
+                adv_husbandry = [];
+        Object.keys(playerdata.advancements).forEach(function(k) {
+            var adv = k.split('/');
+            var type = adv[0].split(':')[1];
+            var prog = Object.keys(playerdata.advancements[k].criteria).length;
+            var prog_total = 1;
+
+            if (config['advancements-progress'] && config['advancements-progress'][type]) {
+                if (config['advancements-progress'][type][adv[1]]) {
+                    prog_total = config['advancements-progress'][type][adv[1]];
+                }
+            }
+
+            var adv_val = {
+                "adv": adv[1],
+                "adv_id": k,
+                "type": type,
+                "prog": prog,
+                "prog_total": prog_total
+            }
+            switch (type) {
+                case "story":
+                    adv_minecraft.push(adv_val);
+                    break;
+                case "nether":
+                    adv_nether.push(adv_val);
+                    break;
+                case "end":
+                    adv_the_end.push(adv_val);
+                    break;
+                case "adventure":
+                    adv_adventure.push(adv_val);
+                    break;
+                case "husbandry":
+                    adv_husbandry.push(adv_val);
+                    break;
+                default:
+                    // do nothing
+            }
+        });
+        %>
+        <div class="row">
+            <h3>Advancements</h3>
+            <hr/>
+            <div>
+                <h4>Minecraft</h4>
+                <hr/>
+                <% adv_minecraft.forEach(function (adv) { %>
+                <% include _player_advancement.ejs %>
+                <% }) %>
+            </div>
+            <div>
+                <h4>Nether</h4>
+                <hr/>
+                <% adv_nether.forEach(function (adv) { %>
+                <% include _player_advancement.ejs %>
+                <% }) %>
+            </div>
+            <div>
+                <h4>The End</h4>
+                <hr/>
+                <% adv_the_end.forEach(function (adv) { %>
+                <% include _player_advancement.ejs %>
+                <% }) %>
+            </div>
+            <div>
+                <h4>Adventure</h4>
+                <hr/>
+                <% adv_adventure.forEach(function (adv) { %>
+                <% include _player_advancement.ejs %>
+                <% }) %>
+            </div>
+            <div>
+                <h4>Husbandry</h4>
+                <hr/>
+                <% adv_husbandry.forEach(function (adv) { %>
+                <% include _player_advancement.ejs %>
+                <% }) %>
+            </div>
+        </div>
+        <% } else  { %>
         <div class="row">
             <h3>Achievements</h3>
             <hr/>
@@ -158,6 +246,7 @@
             </div>
             <% }} %>
         </div>
+        <% } %>
         <div class="row">
             <h3>Statistics</h3>
             <hr/>
