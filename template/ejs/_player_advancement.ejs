@@ -8,7 +8,15 @@
                 <div class="media-body text-middle">
                     <h4 class="media-heading">
                         <%= lang['advancement'][adv["adv_id"]] %><br/>
-                        <small>Completed: <%= adv["prog"] %><% if (adv["prog_total"] !== 0) { %> / <%= adv["prog_total"] %><% } %></small>
+                        <small>
+                            <% if (adv["prog_total"] !== 0) { %>
+                            Completed <%= adv["prog"] %> / <%= adv["prog_total"] %>
+                            <% } else if  (adv["prog"] > 1 && adv["prog_total"] === 0) { %>
+                            Completed: <%= adv["prog"] %>
+                            <% } else { %>
+                            Completed
+                            <% } %>
+                        </small>
                     </h4>
                 </div>
             </div>
