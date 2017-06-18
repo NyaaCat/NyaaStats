@@ -6,8 +6,10 @@
                     <img class="media-object achievements" src="../img/advancements/<%= adv["type"] %>/<%= adv["adv"] %>.png">
                 </div>
                 <div class="media-body text-middle">
-                    <h4 class="media-heading"><%= lang['advancement'][adv["adv_id"]] %></h4>
-                    Completed: <%= adv["prog"] %> / <%= adv["prog_total"] %>
+                    <h4 class="media-heading">
+                        <%= lang['advancement'][adv["adv_id"]] %><br/>
+                        <small>Completed: <%= adv["prog"] %> / <%= adv["prog_total"] %></small>
+                    </h4>
                 </div>
             </div>
         </div>
