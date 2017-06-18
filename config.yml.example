@@ -8,6 +8,7 @@ render:
   level: data/level.dat # file path here, required
   playerdata: data/playerdata # directory path here, required
   stats: data/stats # directory path here, required
+  advancements: data/advancements # advancements path here, required
   whitelist: whitelist.json # file path here, leave blank to disable
   banned-players: banned-players.json # file path here, leave blank to disable
   render-banned: false  # do not render banned players
@@ -21,3 +22,16 @@ render:
 api:
   ratelimit: true # set to 1 request per sec as per mojang api rate limit
   max-name-history: 3 # Maximum history will be recorded
+
+# Set advancements progresses
+# Details: http://minecraft.gamepedia.com/Advancements
+advancements-progress:
+  nether:
+    all_potions: 11
+    all_effects: 20
+  adventure:
+    kill_all_mobs: 22
+    adventuring_time: 36
+  husbandry:
+    breed_all_animals: 10
+    balanced_diet: 35
