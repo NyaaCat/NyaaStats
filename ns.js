@@ -190,7 +190,7 @@ function getPlayerData(uuid, extdata, callback) {
             fs.readFile(statsfile, function (error, data) {
                 if (error) {
                     console.log('[ERROR] READ:', statsfile, error);
-                    return cb();
+                    return cb(null, []);
                 }
                 cb(null, JSON.parse(data));
             });
@@ -201,7 +201,7 @@ function getPlayerData(uuid, extdata, callback) {
             fs.readFile(advancementsfile, function (error, data) {
                 if (error) {
                     console.log('[ERROR] READ:', advancementsfile, error);
-                    return cb();
+                    return cb(null, {});
                 }
                 cb(null, JSON.parse(data));
             });
