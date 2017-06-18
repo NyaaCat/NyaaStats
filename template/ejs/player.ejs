@@ -133,7 +133,7 @@
             var adv = k.split('/');
             var type = adv[0].split(':')[1];
             var prog = Object.keys(playerdata.advancements[k].criteria).length;
-            var prog_total = 1;
+            var prog_total = 0;
 
             if (config['advancements-progress'] && config['advancements-progress'][type]) {
                 if (config['advancements-progress'][type][adv[1]]) {
@@ -175,48 +175,58 @@
             <h3>Advancements</h3>
             <hr/>
             <% if (adv_story.length > 0) { %>
-            <div>
-                <h4>Minecraft</h4>
-                <hr/>
-                <% adv_story.forEach(function (adv) { %>
-                <% include _player_advancement.ejs %>
-                <% }) %>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Minecraft</h4>
+                    <hr/>
+                    <% adv_story.forEach(function (adv) { %>
+                    <% include _player_advancement.ejs %>
+                    <% }) %>
+                </div>
             </div>
             <% } %>
             <% if (adv_nether.length > 0) { %>
-            <div>
-                <h4>Nether</h4>
-                <hr/>
-                <% adv_nether.forEach(function (adv) { %>
-                <% include _player_advancement.ejs %>
-                <% }) %>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Nether</h4>
+                    <hr/>
+                    <% adv_nether.forEach(function (adv) { %>
+                    <% include _player_advancement.ejs %>
+                    <% }) %>
+                </div>
             </div>
             <% } %>
             <% if (adv_end.length > 0) { %>
-            <div>
-                <h4>The End</h4>
-                <hr/>
-                <% adv_end.forEach(function (adv) { %>
-                <% include _player_advancement.ejs %>
-                <% }) %>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>The End</h4>
+                    <hr/>
+                    <% adv_end.forEach(function (adv) { %>
+                    <% include _player_advancement.ejs %>
+                    <% }) %>
+                </div>
             </div>
             <% } %>
             <% if (adv_adventure.length > 0) { %>
-            <div>
-                <h4>Adventure</h4>
-                <hr/>
-                <% adv_adventure.forEach(function (adv) { %>
-                <% include _player_advancement.ejs %>
-                <% }) %>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Adventure</h4>
+                    <hr/>
+                    <% adv_adventure.forEach(function (adv) { %>
+                    <% include _player_advancement.ejs %>
+                    <% }) %>
+                </div>
             </div>
             <% } %>
             <% if (adv_husbandry.length > 0) { %>
-            <div>
-                <h4>Husbandry</h4>
-                <hr/>
-                <% adv_husbandry.forEach(function (adv) { %>
-                <% include _player_advancement.ejs %>
-                <% }) %>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Husbandry</h4>
+                    <hr/>
+                    <% adv_husbandry.forEach(function (adv) { %>
+                    <% include _player_advancement.ejs %>
+                    <% }) %>
+                </div>
             </div>
             <% } %>
         </div>
