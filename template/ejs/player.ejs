@@ -125,7 +125,7 @@
         var
                 adv_minecraft = [],
                 adv_nether = [],
-                adv_the_end = [],
+                adv_end = [],
                 adv_adventure = [],
                 adv_husbandry = [];
         Object.keys(playerdata.advancements).forEach(function(k) {
@@ -188,7 +188,7 @@
             <div>
                 <h4>The End</h4>
                 <hr/>
-                <% adv_the_end.forEach(function (adv) { %>
+                <% adv_end.forEach(function (adv) { %>
                 <% include _player_advancement.ejs %>
                 <% }) %>
             </div>
