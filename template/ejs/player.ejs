@@ -123,11 +123,12 @@
         <%
         if (playerdata.advancements) {
         var
-                adv_minecraft = [],
+                adv_story = [],
                 adv_nether = [],
                 adv_end = [],
                 adv_adventure = [],
-                adv_husbandry = [];
+                adv_husbandry = [],
+                adv_total = 0;
         Object.keys(playerdata.advancements).forEach(function(k) {
             var adv = k.split('/');
             var type = adv[0].split(':')[1];
@@ -149,7 +150,7 @@
             }
             switch (type) {
                 case "story":
-                    adv_minecraft.push(adv_val);
+                    adv_story.push(adv_val);
                     break;
                 case "nether":
                     adv_nether.push(adv_val);
@@ -167,17 +168,22 @@
                     // do nothing
             }
         });
+        adv_total = adv_story.length + adv_nether.length + adv_end.length + adv_adventure.length + adv_husbandry.length;
         %>
+        <% if (adv_total > 0) { %>
         <div class="row">
             <h3>Advancements</h3>
             <hr/>
+            <% if (adv_story.length > 0) { %>
             <div>
                 <h4>Minecraft</h4>
                 <hr/>
-                <% adv_minecraft.forEach(function (adv) { %>
+                <% adv_story.forEach(function (adv) { %>
                 <% include _player_advancement.ejs %>
                 <% }) %>
             </div>
+            <% } %>
+            <% if (adv_nether.length > 0) { %>
             <div>
                 <h4>Nether</h4>
                 <hr/>
@@ -185,6 +191,8 @@
                 <% include _player_advancement.ejs %>
                 <% }) %>
             </div>
+            <% } %>
+            <% if (adv_end.length > 0) { %>
             <div>
                 <h4>The End</h4>
                 <hr/>
@@ -192,6 +200,8 @@
                 <% include _player_advancement.ejs %>
                 <% }) %>
             </div>
+            <% } %>
+            <% if (adv_adventure.length > 0) { %>
             <div>
                 <h4>Adventure</h4>
                 <hr/>
@@ -199,6 +209,8 @@
                 <% include _player_advancement.ejs %>
                 <% }) %>
             </div>
+            <% } %>
+            <% if (adv_husbandry.length > 0) { %>
             <div>
                 <h4>Husbandry</h4>
                 <hr/>
@@ -206,8 +218,9 @@
                 <% include _player_advancement.ejs %>
                 <% }) %>
             </div>
+            <% } %>
         </div>
-        <% } else  { %>
+        <% } } %>
         <div class="row">
             <h3>Achievements</h3>
             <hr/>
@@ -244,7 +257,7 @@
                     </div>
                 </div>
             </div>
-            <% }} %>
+            <% } %>
         </div>
         <% } %>
         <div class="row">
