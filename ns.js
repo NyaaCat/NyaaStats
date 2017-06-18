@@ -201,8 +201,7 @@ function getPlayerData(uuid, extdata, callback) {
             fs.readFile(advancementsfile, function (error, data) {
                 if (error) {
                     console.log('[ERROR] READ:', advancementsfile, error);
-                    // advancements not necessary
-                    data = '';
+                    return cb();
                 }
                 cb(null, JSON.parse(data));
             });
