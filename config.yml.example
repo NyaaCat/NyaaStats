@@ -33,5 +33,5 @@ advancements-progress:
     kill_all_mobs: 22
     adventuring_time: 36
   husbandry:
-    breed_all_animals: 10
+    bred_all_animals: 10
     balanced_diet: 35
