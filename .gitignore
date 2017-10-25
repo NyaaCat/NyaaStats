@@ -3,4 +3,6 @@ test
 config.yml
 node_modules
 npm-debug.log
-
+public
+data
+.DS_Store
