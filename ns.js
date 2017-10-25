@@ -97,9 +97,8 @@ fs.emptyDir(output, (err) => {
     }
   }, () => {
     utils.getWorldTime((wtime) => {
-      indexdata.sort((a, b) => {
-        return b.data._seen - a.data._seen; // sort by activity
-      });
+      // sort by activity
+      indexdata.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
       if (config.render.json) {
         Utils.writeJSON(
           path.join(config.BASEPATH, config.render.output, 'players.json'),
