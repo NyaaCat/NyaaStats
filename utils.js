@@ -4,7 +4,6 @@ import NBT from 'mcnbt';
 import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
-import moment from 'moment';
 
 const reqOpts = {
   timeout: 30000, // 30 secs

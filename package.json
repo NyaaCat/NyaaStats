@@ -27,12 +27,9 @@
   "dependencies": {
     "async": "^2.1.5",
     "bignum": "^0.12.5",
-    "ejs": "^2.5.6",
     "fs-extra": "^2.0.0",
     "js-yaml": "^3.8.1",
     "mcnbt": "0.0.7",
-    "moment": "^2.17.1",
-    "ncp": "^2.0.0",
     "request": "^2.79.0",
     "request-promise": "^4.2.2"
   },

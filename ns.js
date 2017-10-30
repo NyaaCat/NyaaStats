@@ -1,21 +1,11 @@
 import fs from 'fs-extra';
 import path from 'path';
-import ejs from 'ejs';
 import async from 'async';
-import ncp from 'ncp';
-import moment from 'moment';
 
 import Utils from './utils';
 
 const utils = new Utils();
 const config = utils.getConfig();
-
-const ncpOpts = {
-  filter: (filepath) => {
-    const filename = path.basename(filepath);
-    return filename.indexOf('.') !== 0;
-  },
-};
 
 let playerlist = [];
 if (config.render.whitelist) {
@@ -42,17 +32,7 @@ try {
 } catch (err) {
   throw new Error(err);
 }
-ncp(
-  path.join(config.BASEPATH, 'template', 'static'),
-  path.join(config.BASEPATH, config.render.output),
-  ncpOpts,
-  (ncpErr) => {
-    if (ncpErr) {
-      return console.error('[ERROR] ASSETS:', ncpErr);
-    }
-    return console.log('[INFO] ASSETS: Synced');
-  },
-);
+
 let banlist = [];
 const indexdata = [];
 const playeruuids = [];
