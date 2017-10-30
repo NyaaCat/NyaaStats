@@ -1,4 +1,4 @@
-import request from 'request';
+import request from 'request-promise';
 import bignum from 'bignum';
 import NBT from 'mcnbt';
 import path from 'path';
@@ -17,6 +17,7 @@ function delay(ms) {
 export default class Utils {
   constructor() {
     this.config = Utils.loadConfig();
+    this.apiLimited = false;
   }
 
   getConfig() {
@@ -174,10 +175,10 @@ export default class Utils {
     return history;
   }
 
-
   async getMojangAPI(apiPath) {
-    if (this.config.api.ratelimit) {
+    if (this.config.api.ratelimit && this.apiLimited) {
       await delay(1000);
+      this.apiLimited = true;
     }
     console.log('[INFO] API REQUEST:', apiPath);
     let body;
@@ -188,8 +189,12 @@ export default class Utils {
       });
     } catch (err) {
       console.error('[ERROR] API REQUEST:', apiPath, err);
+      this.apiLimited = false;
       throw new Error(err);
     }
+    setTimeout(() => {
+      this.apiLimited = false;
+    }, 1000);
     return JSON.parse(body);
   }
 
