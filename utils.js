@@ -4,12 +4,15 @@ import NBT from 'mcnbt';
 import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
-import async from 'async';
 
 const reqOpts = {
   timeout: 30000, // 30 secs
   pool: false,
 };
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export default class Utils {
   constructor() {
@@ -32,15 +35,17 @@ export default class Utils {
     return config;
   }
 
-  getWorldTime(callback) {
+  getWorldTime() {
     const nbt = new NBT();
-    nbt.loadFromZlibCompressedFile(
-      path.join(this.config.BASEPATH, this.config.render.level),
-      (err) => {
-        if (err) throw err;
-        callback(bignum(nbt.select('').select('Data').select('Time').getValue()).toNumber() / 20);
-      },
-    );
+    return new Promise((resolve, reject) => {
+      nbt.loadFromZlibCompressedFile(
+        path.join(this.config.BASEPATH, this.config.render.level),
+        (err) => {
+          if (err) return reject(err);
+          return resolve(bignum(nbt.select('').select('Data').select('Time').getValue()).toNumber() / 20);
+        },
+      );
+    });
   }
 
   getAllPlayers() {
@@ -73,7 +78,8 @@ export default class Utils {
     return banlist;
   }
 
-  getPlayerData(uuid, extdata, callback) {
+  // return [ stats, advancements, data ]
+  getPlayerData(uuid, extdata) {
     const datafile = path.join(this.config.BASEPATH, this.config.render.playerdata, `${uuid}.dat`);
     let statsfile;
     let advancementsfile;
@@ -84,134 +90,146 @@ export default class Utils {
       advancementsfile = path.join(this.config.BASEPATH, this.config.render.advancements, `${uuid}.json`);
     }
 
-    async.parallel({
-      stats: (cb) => {
-        fs.readFile(statsfile, (error, data) => {
-          if (error) {
-            console.log('[ERROR] READ:', statsfile, error);
-            return cb(null, []);
-          }
-          return cb(null, JSON.parse(data));
-        });
-      },
-      advancements: (cb) => {
+    return Promise.all([
+      new Promise((resolve) => {
+        let data;
+        try {
+          data = fs.readFileSync(statsfile);
+        } catch (error) {
+          console.log('[ERROR] READ:', statsfile, error);
+          return resolve([]);
+        }
+        return resolve(JSON.parse(data));
+      }),
+      new Promise((resolve) => {
         // compatible to 1.11
-        if (!this.config.render.advancements) return cb();
-        return fs.readFile(advancementsfile, (error, data) => {
-          if (error) {
-            console.log('[ERROR] READ:', advancementsfile, error);
-            return cb(null, {});
-          }
-          return cb(null, JSON.parse(data));
-        });
-      },
-      data: (cb) => {
+        if (!this.config.render.advancements) return resolve();
+        let data;
+        try {
+          data = fs.readFileSync(advancementsfile);
+        } catch (error) {
+          console.log('[ERROR] READ:', advancementsfile, error);
+          return resolve({});
+        }
+        return resolve(JSON.parse(data));
+      }),
+      new Promise((resolve) => {
         const nbt = new NBT();
-        nbt.loadFromZlibCompressedFile(datafile, (err) => {
+        nbt.loadFromZlibCompressedFile(datafile, async (err) => {
           if (err) {
             console.error('[ERROR] READ:', datafile, err);
-            return cb();
+            return resolve();
           }
           console.log('[INFO] PARSE:', datafile);
           const uuidShort = uuid.replace(/-/g, '');
-          return this.getNameHistory(uuidShort, (history) => {
-            if (history && history[0]) {
-              let lived = '';
-              if (nbt.select('').select('Spigot.ticksLived')) {
-                lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20;
-              }
-              const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber();
-              const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber();
-              const pdata = {
-                _seen: timeLast,
-                time_start: timeStart,
-                time_last: timeLast,
-                time_lived: lived,
-                playername: history[0].name,
-                names: history,
-                banned: extdata.banlist.indexOf(uuid) !== -1,
-                uuid_short: uuidShort,
-                uuid,
-              };
-              cb(null, pdata);
-            } else {
-              cb();
+          let history;
+          try {
+            history = await this.getNameHistory(uuidShort);
+          } catch (error) {
+            return resolve();
+          }
+          if (history && history[0]) {
+            let lived = '';
+            if (nbt.select('').select('Spigot.ticksLived')) {
+              lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20;
             }
-          });
+            const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber();
+            const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber();
+            const pdata = {
+              _seen: timeLast,
+              time_start: timeStart,
+              time_last: timeLast,
+              time_lived: lived,
+              playername: history[0].name,
+              names: history,
+              banned: extdata.banlist.indexOf(uuid) !== -1,
+              uuid_short: uuidShort,
+              uuid,
+            };
+            return resolve(pdata);
+          }
+          return resolve();
         });
-      },
-    }, (err, d) => {
-      callback(d);
-    });
+      }),
+    ]);
   }
 
-  getNameHistory(uuid, callback) {
+  async getNameHistory(uuid) {
     const apiNameHistory = `https://api.mojang.com/user/profiles/${uuid}/names`;
     const history = [];
-    this.getMojangAPI(apiNameHistory, (err, res) => {
-      if (err || !res) {
-        return callback();
-      }
-      let limit = this.config.api['max-name-history'];
-      if (res.length < this.config.api['max-name-history']) {
-        limit = res.length;
-      }
-      for (let i = 1; i <= limit; i += 1) {
-        history.push(res[res.length - i]);
-      }
-      return callback(history);
-    });
+    let res;
+    try {
+      res = await this.getMojangAPI(apiNameHistory);
+    } catch (err) {
+      return null;
+    }
+    if (!res) return null;
+    let limit = this.config.api['max-name-history'];
+    if (res.length < this.config.api['max-name-history']) {
+      limit = res.length;
+    }
+    for (let i = 1; i <= limit; i += 1) {
+      history.push(res[res.length - i]);
+    }
+    return history;
   }
 
-  getMojangAPI(apiPath, callback) {
-    let timeout = 0;
+
+  async getMojangAPI(apiPath) {
     if (this.config.api.ratelimit) {
-      timeout = 1000;
+      await delay(1000);
     }
     console.log('[INFO] API REQUEST:', apiPath);
-    setTimeout(request, timeout, apiPath, reqOpts, (err, res, body) => {
-      if (!err && res.statusCode === 200) {
-        callback(null, JSON.parse(body));
-      } else {
-        console.error('[ERROR] API REQUEST:', apiPath, err);
-        callback(err);
-      }
-    });
+    let body;
+    try {
+      body = await request({
+        url: apiPath,
+        ...reqOpts,
+      });
+    } catch (err) {
+      console.error('[ERROR] API REQUEST:', apiPath, err);
+      throw new Error(err);
+    }
+    return JSON.parse(body);
   }
 
-  getPlayerAssets(uuid, playerpath, callback) {
-    fs.ensureDir(playerpath, () => {
-      const skinapipath = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`;
-      this.getMojangAPI(skinapipath, (err, res) => {
-        if (err || !res) {
-          console.error('[ERROR] SKIN API', skinapipath, err);
-        } else {
-          const apiprefixAvatar = 'https://crafatar.com/avatars/';
-          const apiprefixBody = 'https://crafatar.com/renders/body/';
-          let slim = '';
-          res.properties.forEach((t) => {
-            if (t.name === 'textures') {
-              const texture = JSON.parse(Buffer.from(t.value, 'base64').toString('ascii'));
-              if (texture.textures.SKIN) {
-                if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
-                  // Alex model
-                  slim = '&default=MHF_Alex';
-                }
-              }
-            }
-          });
-          Utils.download(
-            `${apiprefixAvatar}${uuid}?size=64&overlay${slim}`,
-            path.join(playerpath, 'avatar.png'),
-          );
-          Utils.download(
-            `${apiprefixBody}${uuid}?size=128&overlay${slim}`,
-            path.join(playerpath, 'body.png'),
-          );
+  async getPlayerAssets(uuid, playerpath) {
+    try {
+      fs.ensureDirSync(playerpath);
+    } catch (error) {
+      throw new Error(error);
+    }
+    const skinapipath = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`;
+
+    let res;
+    try {
+      res = await this.getMojangAPI(skinapipath);
+    } catch (err) {
+      console.error('[ERROR] SKIN API', skinapipath, err);
+      throw new Error(err);
+    }
+    const apiprefixAvatar = 'https://crafatar.com/avatars/';
+    const apiprefixBody = 'https://crafatar.com/renders/body/';
+    let slim = '';
+    res.properties.forEach((t) => {
+      if (t.name === 'textures') {
+        const texture = JSON.parse(Buffer.from(t.value, 'base64').toString('ascii'));
+        if (texture.textures.SKIN) {
+          if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
+            // Alex model
+            slim = '&default=MHF_Alex';
+          }
         }
-        callback();
-      });
+      }
     });
+    Utils.download(
+      `${apiprefixAvatar}${uuid}?size=64&overlay${slim}`,
+      path.join(playerpath, 'avatar.png'),
+    );
+    Utils.download(
+      `${apiprefixBody}${uuid}?size=128&overlay${slim}`,
+      path.join(playerpath, 'body.png'),
+    );
   }
 
   static download(apiPath, dest) {

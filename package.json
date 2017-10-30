@@ -33,7 +33,8 @@
     "mcnbt": "0.0.7",
     "moment": "^2.17.1",
     "ncp": "^2.0.0",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -55,70 +55,83 @@ fs.emptyDir(output, (err) => {
   const playeruuids = [];
   const template = {
     index: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'), {
-      filename: path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs')
+      filename: path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'),
     }),
     player: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8'), {
-      filename: path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs')
+      filename: path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'),
     }),
   };
   if (config.render['banned-players']) {
     banlist = utils.getBannedPlayers();
   }
-  async.eachSeries(playerlist, (uuid, callback) => {
+  async.eachSeries(playerlist, async (uuid, callback) => {
     if (banlist.indexOf(uuid) === -1 || config.render['render-banned']) {
-      utils.getPlayerData(uuid, {
-        banlist,
-      }, (data) => {
-        if (data && data.stats && data.data) {
-          indexdata.push(data);
-          playeruuids.push(data.data.uuid);
-          const playerpath = path.join(config.BASEPATH, config.render.output, data.data.uuid_short);
-          utils.getPlayerAssets(data.data.uuid_short, playerpath, () => {
-            utils.render(
-              template.player,
-              path.join(playerpath, 'index.html'),
-              {
-                playerdata: data,
-                config,
-                moment,
-                numAbbr: Utils.numAbbr,
-                lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json')))
-              },
-            );
-          });
-          if (config.render.json) {
-            Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
-          }
+      let data;
+      try {
+        data = await utils.getPlayerData(uuid, { banlist });
+      } catch (error) {
+        console.log(error);
+        return callback();
+      }
+      data = {
+        stats: data[0],
+        advancements: data[1],
+        data: data[2],
+      };
+      if (data && data.stats && data.data) {
+        indexdata.push(data);
+        playeruuids.push(data.data.uuid);
+        const playerpath = path.join(config.BASEPATH, config.render.output, data.data.uuid_short);
+        try {
+          await utils.getPlayerAssets(data.data.uuid_short, playerpath);
+        } catch (error) {
+          console.log(error);
         }
-        callback();
-      });
-    } else {
-      callback();
-    }
-  }, () => {
-    utils.getWorldTime((wtime) => {
-      // sort by activity
-      indexdata.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
-      if (config.render.json) {
-        Utils.writeJSON(
-          path.join(config.BASEPATH, config.render.output, 'players.json'),
+        utils.render(
+          template.player,
+          path.join(playerpath, 'index.html'),
           {
-            update: new Date().getTime(),
-            world_lived: wtime,
-            players: playeruuids,
+            playerdata: data,
+            config,
+            moment,
+            numAbbr: Utils.numAbbr,
+            lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json'))),
           },
         );
+        if (config.render.json) {
+          Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
+        }
       }
-      utils.render(
-        template.index,
-        path.join(config.BASEPATH, config.render.output, 'index.html'),
+      return callback();
+    }
+    return callback();
+  }, async () => {
+    let wtime;
+    try {
+      wtime = await utils.getWorldTime();
+    } catch (error) {
+      throw new Error(error);
+    }
+    indexdata.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
+    if (config.render.json) {
+      Utils.writeJSON(
+        path.join(config.BASEPATH, config.render.output, 'players.json'),
         {
-          playerdata: indexdata,
-          wtime,
-          config,
-          moment,
+          update: new Date().getTime(),
+          world_lived: wtime,
+          players: playeruuids,
         },
       );
-    });
+    }
+    utils.render(
+      template.index,
+      path.join(config.BASEPATH, config.render.output, 'index.html'),
+      {
+        playerdata: indexdata,
+        wtime,
+        config,
+        moment,
+      },
+    );
   });
 });
