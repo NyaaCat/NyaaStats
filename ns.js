@@ -37,101 +37,58 @@ if (config.render.advancements) {
 const output = path.join(config.BASEPATH, config.render.output);
 console.log('[INFO] CREATE:', output);
 
-fs.emptyDir(output, (err) => {
-  if (err) throw err;
-  ncp(
-    path.join(config.BASEPATH, 'template', 'static'),
-    path.join(config.BASEPATH, config.render.output),
-    ncpOpts,
-    (ncpErr) => {
-      if (ncpErr) {
-        return console.error('[ERROR] ASSETS:', err);
-      }
-      return console.log('[INFO] ASSETS: Synced');
-    },
-  );
-  let banlist = [];
-  const indexdata = [];
-  const playeruuids = [];
-  const template = {
-    index: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'), {
-      filename: path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'),
-    }),
-    player: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8'), {
-      filename: path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'),
-    }),
-  };
-  if (config.render['banned-players']) {
-    banlist = utils.getBannedPlayers();
-  }
-  async.eachSeries(playerlist, async (uuid, callback) => {
-    if (banlist.indexOf(uuid) === -1 || config.render['render-banned']) {
-      let data;
-      try {
-        data = await utils.getPlayerData(uuid, { banlist });
-      } catch (error) {
-        console.log(error);
-        return callback();
-      }
-      data = {
-        stats: data[0],
-        advancements: data[1],
-        data: data[2],
-      };
-      if (data && data.stats && data.data) {
-        indexdata.push(data);
-        playeruuids.push(data.data.uuid);
-        const playerpath = path.join(config.BASEPATH, config.render.output, data.data.uuid_short);
-        try {
-          await utils.getPlayerAssets(data.data.uuid_short, playerpath);
-        } catch (error) {
-          console.log(error);
-        }
-        utils.render(
-          template.player,
-          path.join(playerpath, 'index.html'),
-          {
-            playerdata: data,
-            config,
-            moment,
-            numAbbr: Utils.numAbbr,
-            lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json'))),
-          },
-        );
-        if (config.render.json) {
-          Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
-        }
-      }
-      return callback();
+try {
+  fs.emptyDirSync(output);
+} catch (err) {
+  throw new Error(err);
+}
+ncp(
+  path.join(config.BASEPATH, 'template', 'static'),
+  path.join(config.BASEPATH, config.render.output),
+  ncpOpts,
+  (ncpErr) => {
+    if (ncpErr) {
+      return console.error('[ERROR] ASSETS:', ncpErr);
     }
+    return console.log('[INFO] ASSETS: Synced');
+  },
+);
+let banlist = [];
+const indexdata = [];
+const playeruuids = [];
+if (config.render['banned-players']) {
+  banlist = utils.getBannedPlayers();
+}
+async.eachSeries(playerlist, async (uuid, callback) => {
+  let data;
+  try {
+    data = await utils.createPlayerData(uuid, banlist);
+  } catch (error) {
     return callback();
-  }, async () => {
-    let wtime;
-    try {
-      wtime = await utils.getWorldTime();
-    } catch (error) {
-      throw new Error(error);
-    }
-    indexdata.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
-    if (config.render.json) {
-      Utils.writeJSON(
-        path.join(config.BASEPATH, config.render.output, 'players.json'),
-        {
-          update: new Date().getTime(),
-          world_lived: wtime,
-          players: playeruuids,
-        },
-      );
-    }
-    utils.render(
-      template.index,
-      path.join(config.BASEPATH, config.render.output, 'index.html'),
+  }
+  indexdata.push(data);
+  playeruuids.push({
+    uuid: data.data.uuid,
+    playername: data.data.playername,
+    names: data.data.names,
+  });
+  return callback();
+}, async () => {
+  let wtime;
+  try {
+    wtime = await utils.getWorldTime();
+  } catch (error) {
+    throw new Error(error);
+  }
+  indexdata.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
+  if (config.render.json) {
+    Utils.writeJSON(
+      path.join(config.BASEPATH, config.render.output, 'players.json'),
       {
-        playerdata: indexdata,
-        wtime,
-        config,
-        moment,
+        update: new Date().getTime(),
+        world_lived: wtime,
+        players: playeruuids,
       },
     );
-  });
+  }
 });

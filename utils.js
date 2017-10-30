@@ -4,6 +4,7 @@ import NBT from 'mcnbt';
 import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
+import moment from 'moment';
 
 const reqOpts = {
   timeout: 30000, // 30 secs
@@ -178,8 +179,9 @@ export default class Utils {
   async getMojangAPI(apiPath) {
     if (this.config.api.ratelimit && this.apiLimited) {
       await delay(1000);
-      this.apiLimited = true;
+      return this.getMojangAPI(apiPath);
     }
+    this.apiLimited = true;
     console.log('[INFO] API REQUEST:', apiPath);
     let body;
     try {
@@ -194,7 +196,7 @@ export default class Utils {
     }
     setTimeout(() => {
       this.apiLimited = false;
-    }, 1000);
+    }, 1500);
     return JSON.parse(body);
   }
 
@@ -247,15 +249,6 @@ export default class Utils {
       .pipe(fs.createWriteStream(dest));
   }
 
-  render(template, dest, data) {
-    fs.writeFile(dest, template(data), (err) => {
-      if (err) {
-        return console.error('[ERROR] CREATE:', dest, err);
-      }
-      return console.log('[INFO] CREATE:', dest);
-    });
-  }
-
   static writeJSON(dest, data) {
     fs.writeFile(dest, JSON.stringify(data), (err) => {
       if (err) {
@@ -287,5 +280,38 @@ export default class Utils {
       newValue = shortValue + suffixes[suffixNum];
     }
     return newValue;
+  }
+
+  createPlayerData(uuid, banlist) {
+    return new Promise(async (resolve, reject) => {
+      if (banlist.indexOf(uuid) !== -1 && !this.config.render['render-banned']) {
+        return reject();
+      }
+      let data;
+      try {
+        data = await this.getPlayerData(uuid, { banlist });
+      } catch (error) {
+        console.log(error);
+        return reject(error);
+      }
+      data = {
+        stats: data[0],
+        advancements: data[1],
+        data: data[2],
+      };
+      if (data && data.stats && data.data) {
+        const playerpath = path.join(this.config.BASEPATH, this.config.render.output, data.data.uuid_short);
+        try {
+          await this.getPlayerAssets(data.data.uuid_short, playerpath);
+        } catch (error) {
+          console.log(error);
+        }
+        if (this.config.render.json) {
+          Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
+        }
+        return resolve(data);
+      }
+      return reject();
+    });
   }
 }
