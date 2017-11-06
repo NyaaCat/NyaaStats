@@ -79,80 +79,90 @@ export default class Utils {
     return banlist;
   }
 
-  // return [ stats, advancements, data ]
-  getPlayerData(uuid, extdata) {
-    const datafile = path.join(this.config.BASEPATH, this.config.render.playerdata, `${uuid}.dat`);
-    let statsfile;
-    let advancementsfile;
-    if (this.config.render.stats) {
-      statsfile = path.join(this.config.BASEPATH, this.config.render.stats, `${uuid}.json`);
-    }
-    if (this.config.render.advancements) {
-      advancementsfile = path.join(this.config.BASEPATH, this.config.render.advancements, `${uuid}.json`);
-    }
+  getPlayerState(uuid) {
+    return new Promise((resolve) => {
+      if (!this.config.render.stats) return resolve([]);
+      const statsfile = path.join(this.config.BASEPATH, this.config.render.stats, `${uuid}.json`);
+      let data;
+      try {
+        data = fs.readFileSync(statsfile);
+      } catch (error) {
+        console.log('[ERROR] READ:', statsfile, error);
+        return resolve([]);
+      }
+      return resolve(JSON.parse(data));
+    });
+  }
 
-    return Promise.all([
-      new Promise((resolve) => {
-        let data;
-        try {
-          data = fs.readFileSync(statsfile);
-        } catch (error) {
-          console.log('[ERROR] READ:', statsfile, error);
-          return resolve([]);
-        }
-        return resolve(JSON.parse(data));
-      }),
-      new Promise((resolve) => {
-        // compatible to 1.11
-        if (!this.config.render.advancements) return resolve();
-        let data;
-        try {
-          data = fs.readFileSync(advancementsfile);
-        } catch (error) {
-          console.log('[ERROR] READ:', advancementsfile, error);
-          return resolve({});
-        }
-        return resolve(JSON.parse(data));
-      }),
-      new Promise((resolve) => {
-        const nbt = new NBT();
-        nbt.loadFromZlibCompressedFile(datafile, async (err) => {
-          if (err) {
-            console.error('[ERROR] READ:', datafile, err);
-            return resolve();
-          }
-          console.log('[INFO] PARSE:', datafile);
-          const uuidShort = uuid.replace(/-/g, '');
-          let history;
-          try {
-            history = await this.getNameHistory(uuidShort);
-          } catch (error) {
-            return resolve();
-          }
-          if (history && history[0]) {
-            let lived = '';
-            if (nbt.select('').select('Spigot.ticksLived')) {
-              lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20;
-            }
-            const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber();
-            const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber();
-            const pdata = {
-              _seen: timeLast,
-              time_start: timeStart,
-              time_last: timeLast,
-              time_lived: lived,
-              playername: history[0].name,
-              names: history,
-              banned: extdata.banlist.indexOf(uuid) !== -1,
-              uuid_short: uuidShort,
-              uuid,
-            };
-            return resolve(pdata);
-          }
+  getPlayerAdvancements(uuid) {
+    return new Promise((resolve) => {
+      // compatible to 1.11
+      if (!this.config.render.advancements) return resolve();
+      const advancementsfile = path.join(this.config.BASEPATH, this.config.render.advancements, `${uuid}.json`);
+
+      let data;
+      try {
+        data = fs.readFileSync(advancementsfile);
+      } catch (error) {
+        console.log('[ERROR] READ:', advancementsfile, error);
+        return resolve({});
+      }
+      return resolve(JSON.parse(data));
+    });
+  }
+
+  getPlayerData(uuid) {
+    const datafile = path.join(this.config.BASEPATH, this.config.render.playerdata, `${uuid}.dat`);
+    return new Promise((resolve) => {
+      const nbt = new NBT();
+      nbt.loadFromZlibCompressedFile(datafile, async (err) => {
+        if (err) {
+          console.error('[ERROR] READ:', datafile, err);
           return resolve();
-        });
-      }),
+        }
+        console.log('[INFO] PARSE:', datafile);
+        const uuidShort = uuid.replace(/-/g, '');
+        let history;
+        try {
+          history = await this.getNameHistory(uuidShort);
+        } catch (error) {
+          return resolve();
+        }
+        if (history && history[0]) {
+          let lived = '';
+          if (nbt.select('').select('Spigot.ticksLived')) {
+            lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20;
+          }
+          const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber();
+          const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber();
+          const pdata = {
+            _seen: timeLast,
+            time_start: timeStart,
+            time_last: timeLast,
+            time_lived: lived,
+            playername: history[0].name,
+            names: history,
+            uuid_short: uuidShort,
+            uuid,
+          };
+          return resolve(pdata);
+        }
+        return resolve();
+      });
+    });
+  }
+
+  async getPlayerTotalData(uuid) {
+    const data = await Promise.all([
+      this.getPlayerState(uuid),
+      this.getPlayerAdvancements(uuid),
+      this.getPlayerData(uuid),
     ]);
+    return {
+      stats: data[0],
+      advancements: data[1],
+      data: data[2],
+    };
   }
 
   async getNameHistory(uuid) {
@@ -177,7 +187,7 @@ export default class Utils {
 
   async getMojangAPI(apiPath) {
     if (this.config.api.ratelimit && this.apiLimited) {
-      await delay(1000);
+      await delay(this.config.api.ratelimit * 1000);
       return this.getMojangAPI(apiPath);
     }
     this.apiLimited = true;
@@ -258,46 +268,15 @@ export default class Utils {
     });
   }
 
-  static numAbbr(value) {
-    value = Math.round(value);
-    let newValue = value;
-    if (value >= 1000) {
-      const suffixes = ['', 'k', 'M', 'b'];
-      const suffixNum = Math.floor((`${value}`).length / 3);
-      let shortValue = '';
-      for (let precision = 2; precision >= 1; precision -= 1) {
-        shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value)
-          .toPrecision(precision));
-        const dotLessShortValue = (`${shortValue}`).replace(/[^a-zA-Z 0-9]+/g, '');
-        if (dotLessShortValue.length <= 2) {
-          break;
-        }
-      }
-      if (shortValue % 1 !== 0) {
-        shortValue = shortValue.toFixed(1);
-      }
-      newValue = shortValue + suffixes[suffixNum];
-    }
-    return newValue;
-  }
-
-  createPlayerData(uuid, banlist) {
+  createPlayerData(uuid) {
     return new Promise(async (resolve, reject) => {
-      if (banlist.indexOf(uuid) !== -1 && !this.config.render['render-banned']) {
-        return reject();
-      }
       let data;
       try {
-        data = await this.getPlayerData(uuid, { banlist });
+        data = await this.getPlayerTotalData(uuid);
       } catch (error) {
         console.log(error);
         return reject(error);
       }
-      data = {
-        stats: data[0],
-        advancements: data[1],
-        data: data[2],
-      };
       if (data && data.stats && data.data) {
         const playerpath = path.join(this.config.BASEPATH, this.config.render.output, data.data.uuid_short);
         try {
@@ -305,9 +284,7 @@ export default class Utils {
         } catch (error) {
           console.log(error);
         }
-        if (this.config.render.json) {
-          Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
-        }
+        Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
         return resolve(data);
       }
       return reject();

@@ -69,7 +69,7 @@ export default {
     } catch (error) {
       this.showNetworkErrorAlert = true;
     }
-    this.players = data.data.players;
+    this.players = data.data;
   },
   components: {
     playerblock: PlayerBlock,

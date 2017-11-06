@@ -34,41 +34,32 @@ try {
 }
 
 let banlist = [];
-const indexdata = [];
-const playeruuids = [];
+const players = [];
 if (config.render['banned-players']) {
   banlist = utils.getBannedPlayers();
 }
+if (!config.render['render-banned']) {
+  playerlist = playerlist.filter(player => banlist.indexOf(player) === -1);
+}
+
 async.eachSeries(playerlist, async (uuid, callback) => {
   let data;
   try {
-    data = await utils.createPlayerData(uuid, banlist);
+    data = await utils.createPlayerData(uuid);
   } catch (error) {
     return callback();
   }
-  indexdata.push(data);
-  playeruuids.push({
-    uuid: data.data.uuid,
+  players.push({
+    uuid: data.data.uuid_short,
     playername: data.data.playername,
     names: data.data.names,
+    seen: data.data._seen, // eslint-disable-line
   });
   return callback();
 }, async () => {
-  let wtime;
-  try {
-    wtime = await utils.getWorldTime();
-  } catch (error) {
-    throw new Error(error);
-  }
-  indexdata.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
-  if (config.render.json) {
-    Utils.writeJSON(
-      path.join(config.BASEPATH, config.render.output, 'players.json'),
-      {
-        update: new Date().getTime(),
-        world_lived: wtime,
-        players: playeruuids,
-      },
-    );
-  }
+  players.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
+  Utils.writeJSON(
+    path.join(config.BASEPATH, config.render.output, 'players.json'),
+    players,
+  );
 });
