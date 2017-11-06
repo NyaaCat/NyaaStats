@@ -1,12 +1,42 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import App from '../App';
+import Navbar from '../components/Navbar';
+import PlayerList from '../components/PlayerList';
+import Footer from '../components/Footer';
+import Welcome from '../components/Welcome';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
-    { path: '/', component: App },
-    // { path: '/player/:uuid', component: PlayerPage },
+    {
+      path: '/',
+      components: {
+        navbar: Navbar,
+        container: PlayerList,
+        footer: Footer,
+        welcome: Welcome,
+      },
+      props: {
+        navbar: {
+          search: true,
+        },
+      },
+    },
+    {
+      path: '/player/:uuid',
+      components: {
+        navbar: Navbar,
+        container: PlayerList,
+        footer: Footer,
+        welcome: Welcome,
+      },
+      props: {
+        navbar: {
+          search: false,
+        },
+        container: true,
+      },
+    },
   ],
 });

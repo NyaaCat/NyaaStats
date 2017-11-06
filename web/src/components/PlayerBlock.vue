@@ -1,5 +1,5 @@
 <template>
-  <a :href="uuid">
+  <router-link :to="`player/${uuid}`">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 searchbox">
       <div class="panel panel-default">
         <div class="panel-body">
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script>

@@ -19,7 +19,7 @@ render:
     compact: YYYY-M-D HH:mm:ss
 
 api:
-  ratelimit: 1 # set to 1 request per sec as per mojang api rate limit
+  ratelimit: 2 # set to 1 request per sec as per mojang api rate limit
   max-name-history: 3 # Maximum history will be recorded
 
 # Set advancements progresses

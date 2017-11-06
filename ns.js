@@ -73,6 +73,8 @@ async.eachSeries(playerlist, async (uuid, callback) => {
     path.join(config.BASEPATH, config.render.output, 'info.json'),
     {
       worldTime,
+      timeFormat: config.render['time-format'],
+      lastUpdate: (new Date()).valueOf(),
       ...config.web,
     },
   );

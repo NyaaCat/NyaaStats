@@ -1,78 +1,37 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="/">Kedama-Koiru Monogatari Player Stats</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-              <form class="navbar-form navbar-right">
-                  <div class="form-group">
-                      <input type="text" placeholder="Search Player..." class="form-control" id="search">
-                  </div>
-              </form>
-          </div><!--/.navbar-collapse -->
-      </div>
+    <nav>
+      <router-view name="navbar" :info="info"></router-view>
     </nav>
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Kedama-Koiru Monogatari</h1>
-        <p>Server time elapsed a year</p>
 
-        <p><a class="btn btn-primary btn-lg" href="https://www.craft.moe" role="button">Learn more &raquo;</a></p>
+    <router-view name="welcome" :info="info"></router-view>
 
-      </div>
-    </div>
     <div class="container">
-      <div class="row">
-        <playerblock v-for="player in players" :key="player.uuid" v-bind:player="player"></playerblock>
-      </div>
-      <hr/>
-      <footer>
-        <p>Test</p>
-        <p class="text-muted">
-            Last Update Test
-        </p>
-      </footer>
+      <router-view name="container"></router-view>
+      <router-view name="footer" :info="info"></router-view>
     </div>
-    <b-alert variant="danger"
-             dismissible
-             :show="showNetworkErrorAlert"
-             @dismissed="showNetworkErrorAlert=false">
-      Network Error!
-    </b-alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import PlayerBlock from './components/PlayerBlock';
 
 export default {
   name: 'app',
   data() {
     return {
-      players: [],
-      showNetworkErrorAlert: false,
+      info: {},
     };
   },
-  async mounted() {
+  async beforeMount() {
     let data;
     try {
-      data = await axios.get('/static/data/players.json');
+      data = await axios.get('/static/data/info.json');
     } catch (error) {
       this.showNetworkErrorAlert = true;
+      return;
     }
-    this.players = data.data;
-  },
-  components: {
-    playerblock: PlayerBlock,
+    this.info = data.data;
   },
 };
 </script>

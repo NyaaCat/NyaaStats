@@ -30,6 +30,7 @@
     "fs-extra": "^2.0.0",
     "js-yaml": "^3.8.1",
     "mcnbt": "0.0.7",
+    "moment": "^2.19.1",
     "request": "^2.79.0",
     "request-promise": "^4.2.2"
   },
