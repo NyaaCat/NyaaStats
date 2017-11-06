@@ -62,4 +62,19 @@ async.eachSeries(playerlist, async (uuid, callback) => {
     path.join(config.BASEPATH, config.render.output, 'players.json'),
     players,
   );
+
+  let worldTime;
+  try {
+    worldTime = await utils.getWorldTime();
+  } catch (error) {
+    throw new Error(error);
+  }
+  Utils.writeJSON(
+    path.join(config.BASEPATH, config.render.output, 'info.json'),
+    {
+      worldTime,
+      ...config.web,
+    },
+  );
 });
+
