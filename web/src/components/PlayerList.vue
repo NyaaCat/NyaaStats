@@ -6,9 +6,9 @@
              @dismissed="showNetworkErrorAlert=false">
       Network Error!
     </b-alert>
-    <div class="row">
+    <lazy-component class="row">
       <playerblock v-for="player in players" :key="player.uuid" v-bind:player="player"></playerblock>
-    </div>
+    </lazy-component>
     <hr/>
   </div>
 </template>

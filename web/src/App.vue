@@ -7,7 +7,7 @@
     <router-view name="welcome" :info="info"></router-view>
 
     <div class="container">
-      <router-view name="container"></router-view>
+      <router-view name="container" :info="info"></router-view>
       <router-view name="footer" :info="info"></router-view>
     </div>
   </div>

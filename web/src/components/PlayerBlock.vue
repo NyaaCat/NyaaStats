@@ -5,7 +5,7 @@
         <div class="panel-body">
           <div class="media">
             <div class="media-left media-middle">
-              <img class="media-object lazy" :src="`/static/data/${uuid}/avatar.png`" :alt="`${player.playername}'s Avatar`" />
+              <img class="media-object lazy" v-lazy="`/static/data/${uuid}/avatar.png`" :alt="`${player.playername}'s Avatar`" width="64" height="64" />
             </div>
             <div class="media-body text-middle">
               <h4 class="media-heading">{{player.playername}}</h4>

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Navbar from '../components/Navbar';
 import PlayerList from '../components/PlayerList';
+import PlayerPage from '../components/PlayerPage';
 import Footer from '../components/Footer';
 import Welcome from '../components/Welcome';
 
@@ -27,15 +28,13 @@ export default new Router({
       path: '/player/:uuid',
       components: {
         navbar: Navbar,
-        container: PlayerList,
+        container: PlayerPage,
         footer: Footer,
-        welcome: Welcome,
       },
       props: {
         navbar: {
           search: false,
         },
-        container: true,
       },
     },
   ],

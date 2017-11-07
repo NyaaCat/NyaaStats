@@ -14,9 +14,10 @@
     "axios": "^0.17.0",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^3.3.7",
-    "bootstrap-vue": "^1.0.0-beta.9",
+    "bootstrap-vue": "^1.0.0",
     "moment": "^2.19.1",
     "vue": "^2.5.2",
+    "vue-lazyload": "^1.1.4",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
