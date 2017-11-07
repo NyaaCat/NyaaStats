@@ -80,32 +80,32 @@ export default class Utils {
   }
 
   getPlayerState(uuid) {
-    return new Promise((resolve) => {
-      if (!this.config.render.stats) return resolve([]);
+    return new Promise((resolve, reject) => {
+      if (!this.config.render.stats) return reject();
       const statsfile = path.join(this.config.BASEPATH, this.config.render.stats, `${uuid}.json`);
       let data;
       try {
         data = fs.readFileSync(statsfile);
       } catch (error) {
-        console.log('[ERROR] READ:', statsfile, error);
-        return resolve([]);
+        console.log('[ERROR] READ:', statsfile);
+        return reject();
       }
       return resolve(JSON.parse(data));
     });
   }
 
   getPlayerAdvancements(uuid) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       // compatible to 1.11
-      if (!this.config.render.advancements) return resolve();
+      if (!this.config.render.advancements) return reject();
       const advancementsfile = path.join(this.config.BASEPATH, this.config.render.advancements, `${uuid}.json`);
 
       let data;
       try {
         data = fs.readFileSync(advancementsfile);
       } catch (error) {
-        console.log('[ERROR] READ:', advancementsfile, error);
-        return resolve({});
+        console.log('[ERROR] READ:', advancementsfile);
+        return reject();
       }
       return resolve(JSON.parse(data));
     });
@@ -113,12 +113,12 @@ export default class Utils {
 
   getPlayerData(uuid) {
     const datafile = path.join(this.config.BASEPATH, this.config.render.playerdata, `${uuid}.dat`);
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const nbt = new NBT();
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
         if (err) {
-          console.error('[ERROR] READ:', datafile, err);
-          return resolve();
+          console.error('[ERROR] READ:', datafile);
+          return reject();
         }
         console.log('[INFO] PARSE:', datafile);
         const uuidShort = uuid.replace(/-/g, '');
@@ -126,7 +126,7 @@ export default class Utils {
         try {
           history = await this.getNameHistory(uuidShort);
         } catch (error) {
-          return resolve();
+          return reject();
         }
         if (history && history[0]) {
           let lived = '';
@@ -147,21 +147,26 @@ export default class Utils {
           };
           return resolve(pdata);
         }
-        return resolve();
+        return reject();
       });
     });
   }
 
   async getPlayerTotalData(uuid) {
-    const data = await Promise.all([
-      this.getPlayerState(uuid),
-      this.getPlayerAdvancements(uuid),
-      this.getPlayerData(uuid),
-    ]);
+    let stats;
+    let advancements;
+    let data;
+    try {
+      stats = await this.getPlayerState(uuid);
+      advancements = await this.getPlayerAdvancements(uuid);
+      data = await this.getPlayerData(uuid);
+    } catch (error) {
+      return null;
+    }
     return {
-      stats: data[0],
-      advancements: data[1],
-      data: data[2],
+      stats,
+      advancements,
+      data,
     };
   }
 
@@ -187,11 +192,15 @@ export default class Utils {
 
   async getMojangAPI(apiPath) {
     if (this.config.api.ratelimit && this.apiLimited) {
-      await delay(this.config.api.ratelimit * 1000);
+      await delay(10);
       return this.getMojangAPI(apiPath);
     }
     this.apiLimited = true;
     console.log('[INFO] API REQUEST:', apiPath);
+    setTimeout(() => {
+      this.apiLimited = false;
+    }, this.config.api.ratelimit * 1000);
+
     let body;
     try {
       body = await request({
@@ -200,12 +209,12 @@ export default class Utils {
       });
     } catch (err) {
       console.error('[ERROR] API REQUEST:', apiPath, err);
-      this.apiLimited = false;
+      setTimeout(() => {
+        this.apiLimited = false;
+      }, this.config.api.ratelimit * 3000);
       throw new Error(err);
     }
-    setTimeout(() => {
-      this.apiLimited = false;
-    }, 1500);
+
     return JSON.parse(body);
   }
 
@@ -270,17 +279,22 @@ export default class Utils {
 
   createPlayerData(uuid) {
     return new Promise(async (resolve, reject) => {
+      const playerpath = path.join(this.config.BASEPATH, this.config.render.output, uuid.replace(/-/g, ''));
       let data;
       try {
-        data = await this.getPlayerTotalData(uuid);
+        if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
+          data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json')));
+        } else {
+          data = await this.getPlayerTotalData(uuid);
+        }
       } catch (error) {
-        console.log(error);
         return reject(error);
       }
-      if (data && data.stats && data.data) {
-        const playerpath = path.join(this.config.BASEPATH, this.config.render.output, data.data.uuid_short);
+      if (fs.existsSync(path.join(playerpath, 'avatar.png') && path.join(playerpath, 'body.png'))) {
+        return resolve(data);
+      } else if (data && data.stats && data.data) {
         try {
-          await this.getPlayerAssets(data.data.uuid_short, playerpath);
+          await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath);
         } catch (error) {
           console.log(error);
         }

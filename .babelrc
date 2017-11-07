@@ -1,5 +1,7 @@
 {
-  "presets": [
-    "node8"
+  "plugins": [
+    "transform-es2015-modules-commonjs",
+    "transform-object-rest-spread",
+    "transform-export-extensions"
   ]
 }

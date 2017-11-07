@@ -1,11 +1,16 @@
 import fs from 'fs-extra';
 import path from 'path';
 import async from 'async';
+import ProgressBar from 'ascii-progress';
+import Confirm from 'prompt-confirm';
 
 import Utils from './utils';
 
 const utils = new Utils();
 const config = utils.getConfig();
+
+// Clear the terminal
+process.stdout.write('\x1Bc');
 
 let playerlist = [];
 if (config.render.whitelist) {
@@ -27,37 +32,55 @@ if (config.render.advancements) {
 const output = path.join(config.BASEPATH, config.render.output);
 console.log('[INFO] CREATE:', output);
 
-try {
-  fs.emptyDirSync(output);
-} catch (err) {
-  throw new Error(err);
-}
+(async () => {
+  const prompt = new Confirm('Do you want to clean the output folder?');
 
-let banlist = [];
-const players = [];
-if (config.render['banned-players']) {
-  banlist = utils.getBannedPlayers();
-}
-if (!config.render['render-banned']) {
-  playerlist = playerlist.filter(player => banlist.indexOf(player) === -1);
-}
-
-async.eachSeries(playerlist, async (uuid, callback) => {
-  let data;
-  try {
-    data = await utils.createPlayerData(uuid);
-  } catch (error) {
-    return callback();
+  if (await prompt.run()) {
+    try {
+      fs.emptyDirSync(output);
+    } catch (err) {
+      throw new Error(err);
+    }
   }
-  players.push({
-    uuid: data.data.uuid_short,
-    playername: data.data.playername,
-    names: data.data.names,
-    seen: data.data._seen, // eslint-disable-line
+
+  let banlist = [];
+  const players = [];
+  if (config.render['banned-players']) {
+    banlist = utils.getBannedPlayers();
+  }
+  if (!config.render['render-banned']) {
+    playerlist = playerlist.filter(player => banlist.indexOf(player) === -1);
+  }
+  playerlist = playerlist.sort(() => 0.5 - Math.random());
+
+  const totalTasks = playerlist.length;
+  const bar = new ProgressBar({
+    schema: '[:bar] :current/:total :percent :etas',
+    width: 0.95,
+    total: totalTasks,
   });
-  return callback();
-}, async () => {
-  players.sort((a, b) => b.data._seen - a.data._seen); // eslint-disable-line
+
+  for (const uuid of playerlist) {
+    let data;
+    try {
+      data = await utils.createPlayerData(uuid); // eslint-disable-line
+    } catch (error) {
+      bar.tick();
+      continue;
+    }
+    if (!data.data) {
+      console.log(data);
+    }
+    players.push({
+      uuid: data.data.uuid_short,
+      playername: data.data.playername,
+      names: data.data.names,
+      seen: data.data._seen, // eslint-disable-line
+    });
+    bar.tick();
+  }
+
+  players.sort((a, b) => b.seen - a.seen); // eslint-disable-line
   Utils.writeJSON(
     path.join(config.BASEPATH, config.render.output, 'players.json'),
     players,
@@ -78,5 +101,4 @@ async.eachSeries(playerlist, async (uuid, callback) => {
       ...config.web,
     },
   );
-});
-
+})();
