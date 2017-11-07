@@ -23,7 +23,7 @@ export default {
       info: {},
     };
   },
-  async beforeMount() {
+  async mounted() {
     let data;
     try {
       data = await axios.get('/static/data/info.json');

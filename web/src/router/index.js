@@ -18,11 +18,6 @@ export default new Router({
         footer: Footer,
         welcome: Welcome,
       },
-      props: {
-        navbar: {
-          search: true,
-        },
-      },
     },
     {
       path: '/player/:uuid',
@@ -30,11 +25,6 @@ export default new Router({
         navbar: Navbar,
         container: PlayerPage,
         footer: Footer,
-      },
-      props: {
-        navbar: {
-          search: false,
-        },
       },
     },
   ],
