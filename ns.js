@@ -98,6 +98,7 @@ console.log('[INFO] CREATE:', output);
       worldTime,
       timeFormat: config.render['time-format'],
       lastUpdate: (new Date()).valueOf(),
+      advancementsProgress: config['advancements-progress'],
       ...config.web,
     },
   );

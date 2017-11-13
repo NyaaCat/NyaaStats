@@ -20,8 +20,8 @@
         </div>
         <div class="col-sm-12 col-md-9 col-lg-10">
           <div class="row">
-            <membership :info="info" :player="player"></membership>
-            <namehistory :info="info" :player="player"></namehistory>
+            <Membership :info="info" :player="player"></Membership>
+            <NameHistory :info="info" :player="player"></NameHistory>
           </div>
         </div>
       </div>
@@ -34,6 +34,9 @@
         </ol>
       </div>
 
+      <PlayerAdvancement :player="player" :info="info" />
+
+
     </div>
   </div>
 </template>
@@ -43,6 +46,7 @@ import axios from 'axios';
 
 import NameHistory from './NameHistory';
 import Membership from './Membership';
+import PlayerAdvancement from './PlayerAdvancement';
 
 export default {
   name: 'PlayerPage',
@@ -102,8 +106,9 @@ export default {
     }, 100);
   },
   components: {
-    namehistory: NameHistory,
-    membership: Membership,
+    NameHistory,
+    Membership,
+    PlayerAdvancement,
   },
 };
 </script>
