@@ -11,7 +11,7 @@
       <b-col sm="12"><b-form-input id="input-none" type="text" v-model="keyword" placeholder="Search User Name"></b-form-input></b-col>
     </b-row>
     <lazy-component class="row">
-      <playerblock v-for="(player, key, index) in players" :key="index" v-bind:player="player" v-show="search(player)"></playerblock>
+      <playerblock v-for="(player, key, index) in players" :key="index" :player="player" v-show="search(player)"></playerblock>
     </lazy-component>
     <hr/>
   </div>
@@ -26,7 +26,6 @@ export default {
   data() {
     return {
       players: [],
-      result: [],
       showNetworkErrorAlert: false,
       keyword: '',
       searchTimer: null,
@@ -42,26 +41,26 @@ export default {
       return;
     }
     this.players = data.data;
-    this.result = data.data.slice(0, 100);
     this.loading = false;
-  },
-  watch: {
-    keyword: 'search',
   },
   methods: {
     search(player) {
       if (this.keyword.length < 1) {
         return true;
       }
-      if (player.playername.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1) {
+      const keyword = this.keyword.toLowerCase();
+      if (player.uuid.indexOf(keyword) !== -1) {
         return true;
       }
-      for (let i = 0; i < player.names.length; i += 1) {
-        if (player.names[i].name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1) {
+      if (player.playername.toLowerCase().indexOf(keyword) !== -1) {
+        return true;
+      }
+      return player.names.some((name) => {
+        if (name.name.toLowerCase().indexOf(keyword) !== -1) {
           return true;
         }
-      }
-      return false;
+        return false;
+      });
     },
   },
   components: {
