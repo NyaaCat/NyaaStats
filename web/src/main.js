@@ -13,9 +13,7 @@ import router from './router';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
-Vue.use(VueLazyload, {
-  lazyComponent: true,
-});
+Vue.use(VueLazyload);
 
 /* eslint-disable no-new */
 new Vue({

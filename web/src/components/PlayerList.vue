@@ -30,6 +30,7 @@ export default {
       keyword: '',
       searchTimer: null,
       loading: true,
+      timer: null,
     };
   },
   async mounted() {
@@ -43,7 +44,16 @@ export default {
     this.players = data.data;
     this.loading = false;
   },
+  watch: {
+    keyword: 'lazyload',
+  },
   methods: {
+    lazyload() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.$Lazyload.lazyLoadHandler();
+      }, 200);
+    },
     search(player) {
       if (this.keyword.length < 1) {
         return true;
