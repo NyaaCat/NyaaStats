@@ -26,14 +26,14 @@
       </div>
       <div class="row" v-if="advAdventure.length > 0">
         <div class="col-md-12">
-          <h4>The End</h4>
+          <h4>Adventure</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advAdventure" :key="adv.advId" :adv="adv"></AdvancementBlock>
         </div>
       </div>
       <div class="row" v-if="advHusbandry.length > 0">
         <div class="col-md-12">
-          <h4>The End</h4>
+          <h4>Husbandry</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advHusbandry" :key="adv.advId" :adv="adv"></AdvancementBlock>
         </div>
@@ -44,7 +44,7 @@
   <div class="row" v-else>
     <h3>Achievements</h3>
     <hr/>
-    <AchievementBlock v-for="(prop, index) in player.stats" :key="index" :player="player" :prop="prop" />
+    <AchievementBlock v-for="(prop, index) in Object.keys(player.stats)" :key="index" :player="player" :prop="prop" />
   </div>
 </template>
 
