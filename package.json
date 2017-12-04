@@ -26,7 +26,6 @@
   "homepage": "https://github.com/NyaaCat/NyaaStats#readme",
   "dependencies": {
     "ascii-progress": "^1.0.5",
-    "async": "^2.5.0",
     "bignum": "^0.12.5",
     "fs-extra": "^2.0.0",
     "js-yaml": "^3.8.1",

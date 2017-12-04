@@ -1,6 +1,5 @@
 import fs from 'fs-extra';
 import path from 'path';
-import async from 'async';
 import ProgressBar from 'ascii-progress';
 import Confirm from 'prompt-confirm';
 
