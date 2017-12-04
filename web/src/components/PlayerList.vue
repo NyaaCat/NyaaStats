@@ -14,15 +14,18 @@
       <playerblock v-for="(player, key, index) in players" :key="index" :player="player" v-show="search(player)"></playerblock>
     </lazy-component>
     <hr/>
+    <nyaa-footer :info="info"></nyaa-footer>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import PlayerBlock from './PlayerBlock';
+import Footer from './Footer';
 
 export default {
   name: 'PlayerList',
+  props: ['info'],
   data() {
     return {
       players: [],
@@ -75,6 +78,7 @@ export default {
   },
   components: {
     playerblock: PlayerBlock,
+    nyaaFooter: Footer,
   },
 };
 </script>

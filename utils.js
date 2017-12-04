@@ -136,13 +136,14 @@ export default class Utils {
           const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber();
           const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber();
           const pdata = {
-            _seen: timeLast,
+            seen: timeLast,
             time_start: timeStart,
             time_last: timeLast,
             time_lived: lived,
             playername: history[0].name,
             names: history,
             uuid_short: uuidShort,
+            lastUpdate: (new Date()).valueOf(),
             uuid,
           };
           return resolve(pdata);
@@ -277,7 +278,7 @@ export default class Utils {
     });
   }
 
-  createPlayerData(uuid) {
+  createPlayerData(uuid, banned = false) {
     return new Promise(async (resolve, reject) => {
       const playerpath = path.join(this.config.BASEPATH, this.config.render.output, uuid.replace(/-/g, ''));
       let data;
@@ -285,7 +286,7 @@ export default class Utils {
         if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
           data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json')));
         } else {
-          data = await this.getPlayerTotalData(uuid);
+          data = await this.getPlayerTotalData(uuid, banned);
         }
       } catch (error) {
         return reject(error);
@@ -298,6 +299,10 @@ export default class Utils {
         } catch (error) {
           console.log(error);
         }
+        data.data = {
+          ...data.data,
+          banned,
+        };
         Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
         return resolve(data);
       }

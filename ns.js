@@ -49,7 +49,8 @@ console.log('[INFO] CREATE:', output);
     banlist = utils.getBannedPlayers();
   }
   if (!config.render['render-banned']) {
-    playerlist = playerlist.filter(player => banlist.indexOf(player) === -1);
+    console.log(playerlist, banlist);
+    playerlist = playerlist.filter(uuid => !banlist.some(ban => ban === uuid));
   }
   playerlist = playerlist.sort(() => 0.5 - Math.random());
 
@@ -61,9 +62,13 @@ console.log('[INFO] CREATE:', output);
   });
 
   for (const uuid of playerlist) {
+    let banned = false;
+    if (config.render['render-banned']) {
+      banned = banlist.some(ban => ban === uuid);
+    }
     let data;
     try {
-      data = await utils.createPlayerData(uuid); // eslint-disable-line
+      data = await utils.createPlayerData(uuid, banned); // eslint-disable-line
     } catch (error) {
       bar.tick();
       continue;
@@ -75,7 +80,7 @@ console.log('[INFO] CREATE:', output);
       uuid: data.data.uuid_short,
       playername: data.data.playername,
       names: data.data.names,
-      seen: data.data._seen, // eslint-disable-line
+      seen: data.data.seen,
     });
     bar.tick();
   }

@@ -39,6 +39,7 @@
 
       <hr/>
 
+      <nyaa-footer :info="info"></nyaa-footer>
     </div>
   </div>
 </template>
@@ -50,6 +51,7 @@ import NameHistory from './NameHistory';
 import Membership from './Membership';
 import PlayerAdvancement from './PlayerAdvancement';
 import PlayerStatistic from './PlayerStatistic';
+import Footer from './Footer';
 
 export default {
   name: 'PlayerPage',
@@ -113,6 +115,7 @@ export default {
     Membership,
     PlayerAdvancement,
     PlayerStatistic,
+    nyaaFooter: Footer,
   },
 };
 </script>
