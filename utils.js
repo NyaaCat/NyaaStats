@@ -198,9 +198,6 @@ export default class Utils {
     }
     this.apiLimited = true;
     console.log('[INFO] API REQUEST:', apiPath);
-    setTimeout(() => {
-      this.apiLimited = false;
-    }, this.config.api.ratelimit * 1000);
 
     let body;
     try {
@@ -216,45 +213,59 @@ export default class Utils {
       throw new Error(err);
     }
 
+    setTimeout(() => {
+      this.apiLimited = false;
+    }, this.config.api.ratelimit * 1000);
+
+
     return JSON.parse(body);
   }
 
-  async getPlayerAssets(uuid, playerpath) {
+  static defaultSkin(uuid) {
+    // great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
+    // https://git.io/xJpV
+    // MC uses `uuid.hashCode() & 1` for alex
+    // that can be compacted to counting the LSBs of every 4th byte in the UUID
+    // an odd sum means alex, an even sum means steve
+    // XOR-ing all the LSBs gives us 1 for alex and 0 for steve
+    const isEven = (c) => {
+      if (c >= '0' && c <= '9') {
+        return (c & 1) === 0; // eslint-disable-line
+      } else if (c >= 'a' && c <= 'f') {
+        return (c & 1) === 1; // eslint-disable-line
+      }
+      console.log('Invalid digit', c);
+      return null;
+    };
+    const lsbsEven =
+      (isEven(uuid[7]) !== isEven(uuid[23])) !== (isEven(uuid[15]) !== isEven(uuid[31]));
+    return lsbsEven ? 'Alex' : 'Steve';
+  }
+
+  static async getPlayerAssets(uuid, playerpath) {
     try {
       fs.ensureDirSync(playerpath);
     } catch (error) {
       throw new Error(error);
     }
-    const skinapipath = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`;
 
-    let res;
-    try {
-      res = await this.getMojangAPI(skinapipath);
-    } catch (err) {
-      console.error('[ERROR] SKIN API', skinapipath, err);
-      throw new Error(err);
-    }
-    const apiprefixAvatar = 'https://crafatar.com/avatars/';
-    const apiprefixBody = 'https://crafatar.com/renders/body/';
-    let slim = '';
-    res.properties.forEach((t) => {
-      if (t.name === 'textures') {
-        const texture = JSON.parse(Buffer.from(t.value, 'base64').toString('ascii'));
-        if (texture.textures.SKIN) {
-          if (texture.textures.SKIN.metadata && texture.textures.SKIN.metadata.model === 'slim') {
-            // Alex model
-            slim = '&default=MHF_Alex';
-          }
-        }
-      }
-    });
+    const apiPrefixAvatar = 'https://crafatar.com/avatars/';
+    const apiPrefixBody = 'https://crafatar.com/renders/body/';
+    const apiPrefixSkin = 'https://crafatar.com/skins/';
+
+    const slim = `&default=MHF_${Utils.defaultSkin(uuid)}`;
+
     Utils.download(
-      `${apiprefixAvatar}${uuid}?size=64&overlay${slim}`,
+      `${apiPrefixAvatar}${uuid}?size=64&overlay${slim}`,
       path.join(playerpath, 'avatar.png'),
     );
     Utils.download(
-      `${apiprefixBody}${uuid}?size=128&overlay${slim}`,
+      `${apiPrefixBody}${uuid}?size=128&overlay${slim}`,
       path.join(playerpath, 'body.png'),
+    );
+    Utils.download(
+      `${apiPrefixSkin}${uuid}?${slim}`,
+      path.join(playerpath, 'skin.png'),
     );
   }
 
@@ -295,7 +306,7 @@ export default class Utils {
         return resolve(data);
       } else if (data && data.stats && data.data) {
         try {
-          await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath);
+          await Utils.getPlayerAssets(uuid.replace(/-/g, ''), playerpath);
         } catch (error) {
           console.log(error);
         }
