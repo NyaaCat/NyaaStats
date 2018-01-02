@@ -26,7 +26,7 @@ var ncpOpts = {
 try {
     var config = yaml.safeLoad(fs.readFileSync('./config.yml'), 'utf8');
 } catch (e) {
-    console.error('[ERROR] CONFIGURATION:', e.code);
+    console.error('[ERROR][LoadConfig] CONFIGURATION:', e.code);
     process.exit(1);
 }
 config.BASEPATH = path.parse(path.resolve('./config.yml')).dir;
@@ -49,7 +49,7 @@ if (config['render'].advancements) {
 }
 
 var output = path.join(config.BASEPATH, config['render'].output);
-console.log('[INFO] CREATE:', output);
+console.log('[INFO] CREATE OUTPUT DIR:', output);
 
 fs.emptyDir(output, function (err) {
     if (err) throw err;
@@ -189,8 +189,10 @@ function getPlayerData(uuid, extdata, callback) {
         stats: function (cb) {
             fs.readFile(statsfile, function (error, data) {
                 if (error) {
-                    console.log('[ERROR] READ:', statsfile, error);
+                    console.error('[ERROR][PlayerData] READ:', statsfile, error);
                     return cb(null, []);
+                } else {
+                    console.log('[INFO][PlayerData] READ:', statsfile);
                 }
                 cb(null, JSON.parse(data));
             });
@@ -200,8 +202,10 @@ function getPlayerData(uuid, extdata, callback) {
             if (!config['render'].advancements) return cb();
             fs.readFile(advancementsfile, function (error, data) {
                 if (error) {
-                    console.log('[ERROR] READ:', advancementsfile, error);
+                    console.error('[ERROR][PlayerData] READ:', advancementsfile, error);
                     return cb(null, {});
+                } else {
+                    console.log('[INFO][PlayerData] READ:', statsfile);
                 }
                 cb(null, JSON.parse(data));
             });
@@ -210,10 +214,11 @@ function getPlayerData(uuid, extdata, callback) {
             var nbt = new NBT();
             nbt.loadFromZlibCompressedFile(datafile, function (err) {
                 if (err) {
-                    console.error('[ERROR] READ:', datafile, err);
+                    console.error('[ERROR][PlayerData] READ:', datafile, err);
                     return cb();
+                } else {
+                    console.log('[INFO][PlayerData] PARSE NBT:', statsfile);
                 }
-                console.log('[INFO] PARSE:', datafile);
                 var uuid_short = uuid.replace(/-/g, '');
                 getNameHistory(uuid_short, function (history) {
                     if (history && history[0]) {
@@ -269,12 +274,12 @@ function getMojangAPI(path, callback) {
     if (config['api'].ratelimit) {
         timeout = 1000;
     }
-    console.log('[INFO] API REQUEST:', path);
+    console.log('[INFO][MojangAPI] API REQUEST:', path);
     setTimeout(request, timeout, path, reqOpts, function (err, res, body) {
         if (!err && res.statusCode == 200) {
             callback(null, JSON.parse(body));
         } else {
-            console.error('[ERROR] API REQUEST:', path, err);
+            console.error('[ERROR][MojangAPI] API REQUEST:', path, err);
             callback(err);
         }
     });
@@ -285,7 +290,7 @@ function getPlayerAssets(uuid, playerpath, callback) {
         var skinapipath = 'https://sessionserver.mojang.com/session/minecraft/profile/' + uuid;
         getMojangAPI(skinapipath, function (err, res) {
             if (err || !res) {
-                console.error('[ERROR] SKIN API', skinapipath, err);
+                console.error('[ERROR][MojangAPI] SKIN API', skinapipath, err);
             } else {
                 var apiprefix_avatar = 'https://crafatar.com/avatars/';
                 var apiprefix_body = 'https://crafatar.com/renders/body/';
@@ -328,18 +333,18 @@ function download(path, dest) {
 function render(template, dest, data) {
     fs.writeFile(dest, template(data), function (err) {
         if (err) {
-            return console.error('[ERROR] CREATE:', dest, err);
+            return console.error('[ERROR][Render] CREATE:', dest, err);
         }
-        console.log('[INFO] CREATE:', dest);
+        console.log('[INFO][Render] CREATE:', dest);
     });
 }
 
 function writeJSON(dest, data) {
     fs.writeFile(dest, JSON.stringify(data), function (err) {
         if (err) {
-            console.log('[ERROR] CREATE:', dest);
+            console.error('[ERROR][WriteJSON] CREATE:', dest, err);
         } else {
-            console.log('[INFO] CREATE:', dest);
+            console.log('[INFO][WriteJSON] CREATE:', dest);
         }
     });
 }
