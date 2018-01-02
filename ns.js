@@ -210,7 +210,7 @@ function getPlayerData(uuid, extdata, callback) {
                     console.error('[ERROR][PlayerData] READ:', advancementsfile, error);
                     return cb(null, {});
                 } else {
-                    console.log('[INFO][PlayerData] READ:', statsfile);
+                    console.log('[INFO][PlayerData] READ:', advancementsfile);
                 }
                 cb(null, JSON.parse(data));
             });
@@ -222,7 +222,7 @@ function getPlayerData(uuid, extdata, callback) {
                     console.error('[ERROR][PlayerData] READ:', datafile, err);
                     return cb();
                 } else {
-                    console.log('[INFO][PlayerData] PARSE NBT:', statsfile);
+                    console.log('[INFO][PlayerData] PARSE NBT:', datafile);
                 }
                 var uuid_short = uuid.replace(/-/g, '');
                 getNameHistory(uuid_short, function (history) {
