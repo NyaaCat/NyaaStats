@@ -29,7 +29,7 @@ export default class Utils {
     try {
       config = yaml.safeLoad(fs.readFileSync('./config.yml'), 'utf8');
     } catch (e) {
-      console.error('[ERROR] CONFIGURATION:', e.code);
+      console.error('[ERROR][LoadConfig] CONFIGURATION:', e.code);
       process.exit(1);
     }
     config.BASEPATH = path.parse(path.resolve('./config.yml')).dir;
@@ -87,9 +87,10 @@ export default class Utils {
       try {
         data = fs.readFileSync(statsfile);
       } catch (error) {
-        console.log('[ERROR] READ:', statsfile);
+        console.error('[ERROR][PlayerData] READ:', statsfile, error);
         return reject();
       }
+      console.log('[INFO][PlayerData] READ:', statsfile);
       return resolve(JSON.parse(data));
     });
   }
@@ -104,9 +105,10 @@ export default class Utils {
       try {
         data = fs.readFileSync(advancementsfile);
       } catch (error) {
-        console.log('[ERROR] READ:', advancementsfile);
+        console.error('[ERROR][PlayerData] READ:', advancementsfile, error);
         return reject();
       }
+      console.log('[INFO][PlayerData] READ:', advancementsfile);
       return resolve(JSON.parse(data));
     });
   }
@@ -117,10 +119,10 @@ export default class Utils {
       const nbt = new NBT();
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
         if (err) {
-          console.error('[ERROR] READ:', datafile);
+          console.error('[ERROR][PlayerData] READ:', datafile, err);
           return reject();
         }
-        console.log('[INFO] PARSE:', datafile);
+        console.log('[INFO][PlayerData] PARSE NBT:', datafile);
         const uuidShort = uuid.replace(/-/g, '');
         let history;
         try {
@@ -197,7 +199,7 @@ export default class Utils {
       return this.getMojangAPI(apiPath);
     }
     this.apiLimited = true;
-    console.log('[INFO] API REQUEST:', apiPath);
+    console.log('[INFO][MojangAPI] API REQUEST:', path);
 
     let body;
     try {
@@ -206,7 +208,7 @@ export default class Utils {
         ...reqOpts,
       });
     } catch (err) {
-      console.error('[ERROR] API REQUEST:', apiPath, err);
+      console.error('[ERROR][MojangAPI] API REQUEST:', path, err);
       setTimeout(() => {
         this.apiLimited = false;
       }, this.config.api.ratelimit * 3000);
@@ -270,11 +272,11 @@ export default class Utils {
   }
 
   static download(apiPath, dest) {
-    console.log('[INFO] DOWNLOAD:', apiPath);
+    console.log('[INFO][ASSETS] DOWNLOAD:', path);
     request
       .get(apiPath)
       .on('error', (err) => {
-        console.error('[ERROR] DOWNLOAD:', apiPath, err);
+        console.error('[ERROR][ASSETS] DOWNLOAD:', path, err);
       })
       .pipe(fs.createWriteStream(dest));
   }
@@ -282,9 +284,9 @@ export default class Utils {
   static writeJSON(dest, data) {
     fs.writeFile(dest, JSON.stringify(data), (err) => {
       if (err) {
-        console.log('[ERROR] CREATE:', dest);
+        console.error('[ERROR][WriteJSON] CREATE:', dest, err);
       } else {
-        console.log('[INFO] CREATE:', dest);
+        console.log('[INFO][WriteJSON] CREATE:', dest);
       }
     });
   }

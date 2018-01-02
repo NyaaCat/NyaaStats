@@ -29,7 +29,7 @@ if (config.render.advancements) {
 }
 
 const output = path.join(config.BASEPATH, config.render.output);
-console.log('[INFO] CREATE:', output);
+console.log('[INFO] CREATE OUTPUT DIR:', output);
 
 (async () => {
   const prompt = new Confirm('Do you want to clean the output folder?');
