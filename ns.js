@@ -321,11 +321,11 @@ function getPlayerAssets(uuid, playerpath, callback) {
 }
 
 function download(path, dest) {
-    console.log('[INFO] DOWNLOAD:', path);
+    console.log('[INFO][ASSETS] DOWNLOAD:', path);
     request
         .get(path)
         .on('error', function (err) {
-            console.error('[ERROR] DOWNLOAD:', path, err);
+            console.error('[ERROR][ASSETS] DOWNLOAD:', path, err);
         })
         .pipe(fs.createWriteStream(dest));
 }
