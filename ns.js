@@ -2,6 +2,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
+var mkdirp = require('mkdirp');
 var NBT = require('mcnbt');
 var yaml = require('js-yaml');
 var ejs = require('ejs');
@@ -87,6 +88,10 @@ fs.emptyDir(output, function (err) {
                     indexdata.push(data);
                     playeruuids.push(data.data.uuid);
                     var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
+                    mkdirp(playerpath, function (err) {
+                        if (err) console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
+                        else console.log('[INFO][MKDIR] CREATE:', playerpath);
+                    });
                     getPlayerAssets(data.data.uuid_short, playerpath, function () {
                         render(
                             template.player,
