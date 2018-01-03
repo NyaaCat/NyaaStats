@@ -88,10 +88,11 @@ fs.emptyDir(output, function (err) {
                     indexdata.push(data);
                     playeruuids.push(data.data.uuid);
                     var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
-                    mkdirp(playerpath, function (err) {
-                        if (err) console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
-                        else console.log('[INFO][MKDIR] CREATE:', playerpath);
-                    });
+                    try {
+                        mkdirp.sync(playerpath);
+                    } catch (err) {
+                        console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
+                    }
                     getPlayerAssets(data.data.uuid_short, playerpath, function () {
                         render(
                             template.player,
@@ -210,7 +211,7 @@ function getPlayerData(uuid, extdata, callback) {
                     console.error('[ERROR][PlayerData] READ:', advancementsfile, error);
                     return cb(null, {});
                 } else {
-                    console.log('[INFO][PlayerData] READ:', advancementsfile);
+                    console.log('[INFO][PlayerData] READ:', statsfile);
                 }
                 cb(null, JSON.parse(data));
             });
@@ -222,7 +223,7 @@ function getPlayerData(uuid, extdata, callback) {
                     console.error('[ERROR][PlayerData] READ:', datafile, err);
                     return cb();
                 } else {
-                    console.log('[INFO][PlayerData] PARSE NBT:', datafile);
+                    console.log('[INFO][PlayerData] PARSE NBT:', statsfile);
                 }
                 var uuid_short = uuid.replace(/-/g, '');
                 getNameHistory(uuid_short, function (history) {
