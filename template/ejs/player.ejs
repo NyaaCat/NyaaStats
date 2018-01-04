@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><%= config['web'].title %></title>
+    <title><%= playerdata.data.playername %> - <%= config['web'].title %></title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
@@ -294,7 +294,7 @@
     </div>
     <hr/>
     <footer>
-        <p><%= config['web'].servername %></p>
+        <p>Powered by <a href="https://github.com/NyaaCat/NyaaStats">NyaaStats</a> & <%= config['web'].servername %></p>
         <p class="text-muted">
             Last Update <%= moment().format(config['render']['time-format'].full) %>
         </p>

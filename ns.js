@@ -88,10 +88,11 @@ fs.emptyDir(output, function (err) {
                     indexdata.push(data);
                     playeruuids.push(data.data.uuid);
                     var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
-                    mkdirp(playerpath, function (err) {
-                        if (err) console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
-                        else console.log('[INFO][MKDIR] CREATE:', playerpath);
-                    });
+                    try {
+                        mkdirp.sync(playerpath);
+                    } catch (err) {
+                        console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
+                    }
                     getPlayerAssets(data.data.uuid_short, playerpath, function () {
                         render(
                             template.player,
