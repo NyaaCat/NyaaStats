@@ -20,3 +20,7 @@ You can simply build your own web pages, just following this instruction.
 
 ## That's all
 Now you can find all the files you need in the `web/dist` folder. Upload them to you server.
+
+
+# Credits
+The skin render is almost a copy from [NameMC](https://namemc.com). Thanks for their excellent work.
