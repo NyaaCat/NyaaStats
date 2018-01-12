@@ -3,6 +3,8 @@ const utils = require('./utils');
 const webpack = require('webpack');
 const config = require('../config');
 const merge = require('webpack-merge');
+const fs = require('fs-extra');
+const jsYaml = require('js-yaml');
 const baseWebpackConfig = require('./webpack.base.conf');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,6 +12,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
 const env = config.build.env;
+
+let webConfig;
+try {
+  webConfig = jsYaml.safeLoad(fs.readFileSync('../config.yml'), 'utf8').web;
+} catch (e) {
+  console.error('[ERROR][LoadConfig] CONFIGURATION:', e);
+  process.exit(1);
+}
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -51,8 +61,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
+      title: webConfig.title,
       filename: config.build.index,
-      template: 'index.html',
+      template: 'index.ejs',
       inject: true,
       minify: {
         removeComments: true,
