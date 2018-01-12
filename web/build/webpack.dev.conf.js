@@ -26,8 +26,9 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
+      title: 'nyaa-stat-web',
       filename: 'index.html',
-      template: 'index.html',
+      template: 'index.ejs',
       inject: true,
     }),
     new FriendlyErrorsPlugin(),
