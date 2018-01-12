@@ -11,10 +11,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 col-md-3 col-lg-2">
+        <div class="col-sm-12 col-md-3 col-lg-2 skin-container">
           <div class="panel panel-default">
             <div class="panel-body">
-              <img :src="`/static/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`" class="img-rounded">
+              <img v-if="!isCanvasSupported" :src="`/static/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`" class="img-rounded">
+              <iframe v-if="isCanvasSupported" :src="`/static/skin/index.html?uuid=${uuid}`" class="skin" />
             </div>
           </div>
         </div>
@@ -102,6 +103,12 @@ export default {
       this.uuid = uuid;
     },
   },
+  computed: {
+    isCanvasSupported() {
+      const elem = document.createElement('canvas');
+      return !!(elem.getContext && elem.getContext('2d'));
+    },
+  },
   mounted() {
     const timer = setInterval(() => {
       this.progress += 20;
@@ -119,3 +126,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.skin {
+  width: 100%;
+  height: 285px;
+  border: none;
+}
+.panel-body {
+  padding: 0;
+}
+</style>
