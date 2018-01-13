@@ -64,84 +64,85 @@ fs.emptyDir(output, function (err) {
             } else {
                 console.log('[INFO] ASSETS: Synced');
             }
-        });
-    var banlist = [];
-    var indexdata = [];
-    var playeruuids = [];
-    var template = {
-        index: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'), {
-            filename: path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs')
-        }),
-        player: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8'), {
-            filename: path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs')
-        })
-    };
-    if (config['render']['banned-players']) {
-        banlist = getBannedPlayers();
-    }
-    async.eachSeries(playerlist, function (uuid, callback) {
-        if (banlist.indexOf(uuid) === -1 || config['render']['render-banned']) {
-            getPlayerData(uuid, {
-                banlist: banlist
-            }, function (data) {
-                if (data && data.stats && data.data) {
-                    indexdata.push(data);
-                    playeruuids.push(data.data.uuid);
-                    var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
-                    try {
-                        mkdirp.sync(playerpath);
-                    } catch (err) {
-                        console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
-                    }
-                    getPlayerAssets(data.data.uuid_short, playerpath, function () {
-                        render(
-                            template.player,
-                            path.join(playerpath, 'index.html'),
-                            {
-                                playerdata: data,
-                                config: config,
-                                moment: moment,
-                                numAbbr: numAbbr,
-                                lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json')))
+            var banlist = [];
+            var indexdata = [];
+            var playeruuids = [];
+            var template = {
+                index: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs'), 'utf8'), {
+                    filename: path.join(config.BASEPATH, 'template', 'ejs', 'index.ejs')
+                }),
+                player: ejs.compile(fs.readFileSync(path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs'), 'utf8'), {
+                    filename: path.join(config.BASEPATH, 'template', 'ejs', 'player.ejs')
+                })
+            };
+            if (config['render']['banned-players']) {
+                banlist = getBannedPlayers();
+            }
+            async.eachSeries(playerlist, function (uuid, callback) {
+                if (banlist.indexOf(uuid) === -1 || config['render']['render-banned']) {
+                    getPlayerData(uuid, {
+                        banlist: banlist
+                    }, function (data) {
+                        if (data && data.stats && data.data) {
+                            indexdata.push(data);
+                            playeruuids.push(data.data.uuid);
+                            var playerpath = path.join(config.BASEPATH, config['render'].output, data.data.uuid_short);
+                            try {
+                                mkdirp.sync(playerpath);
+                            } catch (err) {
+                                console.error('[ERROR][MKDIR] CREATE:', playerpath, err);
                             }
-                        );
+                            getPlayerAssets(data.data.uuid_short, playerpath, function () {
+                                render(
+                                    template.player,
+                                    path.join(playerpath, 'index.html'),
+                                    {
+                                        playerdata: data,
+                                        config: config,
+                                        moment: moment,
+                                        numAbbr: numAbbr,
+                                        lang: JSON.parse(fs.readFileSync(path.join(config.BASEPATH, 'template', 'lang.json')))
+                                    }
+                                );
+                            });
+                            if (config['render'].json) {
+                                writeJSON(path.join(playerpath, 'stats.json'), data);
+                            }
+                        }
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            }, function (err) {
+                getWorldTime(function (wtime) {
+                    indexdata.sort(function (a, b) {
+                        return b.data._seen - a.data._seen; // sort by activity
                     });
                     if (config['render'].json) {
-                        writeJSON(path.join(playerpath, 'stats.json'), data);
+                        writeJSON(
+                            path.join(config.BASEPATH, config['render'].output, 'players.json'),
+                            {
+                                update: new Date().getTime(),
+                                world_lived: wtime,
+                                players: playeruuids
+                            }
+                        );
                     }
-                }
-                callback();
+                    render(
+                        template.index,
+                        path.join(config.BASEPATH, config['render'].output, 'index.html'),
+                        {
+                            playerdata: indexdata,
+                            wtime: wtime,
+                            config: config,
+                            moment: moment
+                        }
+                    );
+                });
             });
-        } else {
-            callback();
         }
-    }, function (err) {
-        getWorldTime(function (wtime) {
-            indexdata.sort(function (a, b) {
-                return b.data._seen - a.data._seen; // sort by activity
-            });
-            if (config['render'].json) {
-                writeJSON(
-                    path.join(config.BASEPATH, config['render'].output, 'players.json'),
-                    {
-                        update: new Date().getTime(),
-                        world_lived: wtime,
-                        players: playeruuids
-                    }
-                );
-            }
-            render(
-                template.index,
-                path.join(config.BASEPATH, config['render'].output, 'index.html'),
-                {
-                    playerdata: indexdata,
-                    wtime: wtime,
-                    config: config,
-                    moment: moment
-                }
-            );
-        });
-    });
+    );
 });
 
 function getWorldTime(callback) {

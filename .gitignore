@@ -3,4 +3,4 @@ test
 config.yml
 node_modules
 npm-debug.log
-
+.DS_Store
