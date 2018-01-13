@@ -53,6 +53,9 @@ export const store = new Vuex.Store({
     setScrollOffset(state, payload) {
       state.scrollOffset = payload.uuid;
     },
+    setKeyword(state, keyword) {
+      state.keyword = keyword;
+    },
   },
 });
 
