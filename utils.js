@@ -5,14 +5,13 @@ import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
 
+import { writeJSON, defaultSkin, download, delay } from './helper';
+import * as logger from './logger';
+
 const reqOpts = {
   timeout: 30000, // 30 secs
   pool: false,
 };
-
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export default class Utils {
   constructor() {
@@ -29,7 +28,7 @@ export default class Utils {
     try {
       config = yaml.safeLoad(fs.readFileSync('./config.yml'), 'utf8');
     } catch (e) {
-      console.error('[ERROR][LoadConfig] CONFIGURATION:', e.code);
+      logger.Config.error(e);
       process.exit(1);
     }
     config.BASEPATH = path.parse(path.resolve('./config.yml')).dir;
@@ -40,7 +39,7 @@ export default class Utils {
     const nbt = new NBT();
     return new Promise((resolve, reject) => {
       nbt.loadFromZlibCompressedFile(
-        path.join(this.config.BASEPATH, this.config.render.level),
+        path.join(this.config.render.level),
         (err) => {
           if (err) return reject(err);
           return resolve(bignum(nbt.select('').select('Data').select('Time').getValue()).toNumber() / 20);
@@ -52,7 +51,7 @@ export default class Utils {
   getAllPlayers() {
     const uuids = [];
     const r = new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
-    fs.readdirSync(path.join(this.config.BASEPATH, this.config.render.playerdata)).forEach((f) => {
+    fs.readdirSync(path.join(this.config.render.playerdata)).forEach((f) => {
       const uuid = path.basename(f, '.dat');
       // filter out old player usernames.
       if (r.test(uuid)) {
@@ -72,7 +71,7 @@ export default class Utils {
 
   getBannedPlayers() {
     const banlist = [];
-    const banned = JSON.parse(fs.readFileSync(path.join(this.config.BASEPATH, this.config.render['banned-players']), 'utf8'));
+    const banned = JSON.parse(fs.readFileSync(path.join(this.config.render['banned-players']), 'utf8'));
     banned.forEach((ban) => {
       banlist.push(ban.uuid);
     });
@@ -82,15 +81,15 @@ export default class Utils {
   getPlayerState(uuid) {
     return new Promise((resolve, reject) => {
       if (!this.config.render.stats) return reject();
-      const statsfile = path.join(this.config.BASEPATH, this.config.render.stats, `${uuid}.json`);
+      const statsfile = path.join(this.config.render.stats, `${uuid}.json`);
       let data;
       try {
         data = fs.readFileSync(statsfile);
       } catch (error) {
-        console.error('[ERROR][PlayerData] READ:', statsfile, error);
+        logger.PlayerData.warn('READ', statsfile, error);
         return reject();
       }
-      console.log('[INFO][PlayerData] READ:', statsfile);
+      logger.PlayerData.info('READ', statsfile);
       return resolve(JSON.parse(data));
     });
   }
@@ -99,30 +98,30 @@ export default class Utils {
     return new Promise((resolve, reject) => {
       // compatible to 1.11
       if (!this.config.render.advancements) return reject();
-      const advancementsfile = path.join(this.config.BASEPATH, this.config.render.advancements, `${uuid}.json`);
+      const advancementsfile = path.join(this.config.render.advancements, `${uuid}.json`);
 
       let data;
       try {
         data = fs.readFileSync(advancementsfile);
       } catch (error) {
-        console.error('[ERROR][PlayerData] READ:', advancementsfile, error);
+        logger.PlayerData.warn('READ', advancementsfile, error);
         return reject();
       }
-      console.log('[INFO][PlayerData] READ:', advancementsfile);
+      logger.PlayerData.info('READ', advancementsfile);
       return resolve(JSON.parse(data));
     });
   }
 
   getPlayerData(uuid) {
-    const datafile = path.join(this.config.BASEPATH, this.config.render.playerdata, `${uuid}.dat`);
+    const datafile = path.join(this.config.render.playerdata, `${uuid}.dat`);
     return new Promise((resolve, reject) => {
       const nbt = new NBT();
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
         if (err) {
-          console.error('[ERROR][PlayerData] READ:', datafile, err);
+          logger.PlayerData.warn('READ', datafile, err);
           return reject();
         }
-        console.log('[INFO][PlayerData] PARSE NBT:', datafile);
+        logger.PlayerData.info('READ', datafile);
         const uuidShort = uuid.replace(/-/g, '');
         let history;
         try {
@@ -199,7 +198,7 @@ export default class Utils {
       return this.getMojangAPI(apiPath);
     }
     this.apiLimited = true;
-    console.log('[INFO][MojangAPI] API REQUEST:', path);
+    logger.MojangAPI.info('REQUEST', apiPath);
 
     let body;
     try {
@@ -208,7 +207,7 @@ export default class Utils {
         ...reqOpts,
       });
     } catch (err) {
-      console.error('[ERROR][MojangAPI] API REQUEST:', path, err);
+      logger.MojangAPI.error('REQUEST', apiPath, err);
       setTimeout(() => {
         this.apiLimited = false;
       }, this.config.api.ratelimit * 3000);
@@ -219,32 +218,10 @@ export default class Utils {
       this.apiLimited = false;
     }, this.config.api.ratelimit * 1000);
 
-
     return JSON.parse(body);
   }
 
-  static defaultSkin(uuid) {
-    // great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
-    // https://git.io/xJpV
-    // MC uses `uuid.hashCode() & 1` for alex
-    // that can be compacted to counting the LSBs of every 4th byte in the UUID
-    // an odd sum means alex, an even sum means steve
-    // XOR-ing all the LSBs gives us 1 for alex and 0 for steve
-    const isEven = (c) => {
-      if (c >= '0' && c <= '9') {
-        return (c & 1) === 0; // eslint-disable-line
-      } else if (c >= 'a' && c <= 'f') {
-        return (c & 1) === 1; // eslint-disable-line
-      }
-      console.log('Invalid digit', c);
-      return null;
-    };
-    const lsbsEven =
-      (isEven(uuid[7]) !== isEven(uuid[23])) !== (isEven(uuid[15]) !== isEven(uuid[31]));
-    return lsbsEven ? 'Alex' : 'Steve';
-  }
-
-  static async getPlayerAssets(uuid, playerpath) {
+  static getPlayerAssets(uuid, playerpath) {
     try {
       fs.ensureDirSync(playerpath);
     } catch (error) {
@@ -255,45 +232,25 @@ export default class Utils {
     const apiPrefixBody = 'https://crafatar.com/renders/body/';
     const apiPrefixSkin = 'https://crafatar.com/skins/';
 
-    const slim = `&default=MHF_${Utils.defaultSkin(uuid)}`;
+    const slim = `&default=MHF_${defaultSkin(uuid)}`;
 
-    Utils.download(
+    download(
       `${apiPrefixAvatar}${uuid}?size=64&overlay${slim}`,
       path.join(playerpath, 'avatar.png'),
     );
-    Utils.download(
+    download(
       `${apiPrefixBody}${uuid}?size=128&overlay${slim}`,
       path.join(playerpath, 'body.png'),
     );
-    Utils.download(
+    download(
       `${apiPrefixSkin}${uuid}?${slim}`,
       path.join(playerpath, 'skin.png'),
     );
   }
 
-  static download(apiPath, dest) {
-    console.log('[INFO][ASSETS] DOWNLOAD:', path);
-    request
-      .get(apiPath)
-      .on('error', (err) => {
-        console.error('[ERROR][ASSETS] DOWNLOAD:', path, err);
-      })
-      .pipe(fs.createWriteStream(dest));
-  }
-
-  static writeJSON(dest, data) {
-    fs.writeFile(dest, JSON.stringify(data), (err) => {
-      if (err) {
-        console.error('[ERROR][WriteJSON] CREATE:', dest, err);
-      } else {
-        console.log('[INFO][WriteJSON] CREATE:', dest);
-      }
-    });
-  }
-
   createPlayerData(uuid, banned = false) {
     return new Promise(async (resolve, reject) => {
-      const playerpath = path.join(this.config.BASEPATH, this.config.render.output, uuid.replace(/-/g, ''));
+      const playerpath = path.join(this.config.render.output, uuid.replace(/-/g, ''));
       let data;
       try {
         if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
@@ -310,13 +267,13 @@ export default class Utils {
         try {
           await Utils.getPlayerAssets(uuid.replace(/-/g, ''), playerpath);
         } catch (error) {
-          console.log(error);
+          logger.PlayerData.error('ASSETS', error);
         }
         data.data = {
           ...data.data,
           banned,
         };
-        Utils.writeJSON(path.join(playerpath, 'stats.json'), data);
+        writeJSON(path.join(playerpath, 'stats.json'), data);
         return resolve(data);
       }
       return reject();

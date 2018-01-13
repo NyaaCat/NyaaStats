@@ -1,15 +1,18 @@
 import fs from 'fs-extra';
 import path from 'path';
-import ProgressBar from 'ascii-progress';
-import Confirm from 'prompt-confirm';
 
 import Utils from './utils';
+import { writeJSON, confirm } from './helper';
+import * as logger from './logger';
+
+process.on('SIGINT', () => {
+  process.exit();
+});
+
+process.stdout.write('\x1Bc');
 
 const utils = new Utils();
 const config = utils.getConfig();
-
-// Clear the terminal
-process.stdout.write('\x1Bc');
 
 let playerlist = [];
 if (config.render.whitelist) {
@@ -17,24 +20,23 @@ if (config.render.whitelist) {
 } else {
   playerlist = utils.getAllPlayers();
 }
-console.log('[INFO] Players found:', playerlist.length);
+logger.Default.info('Players found', playerlist.length);
 
 if (config.render.advancements) {
-  console.log('[INFO] Advancements is set: Render mode set to 1.12+');
+  logger.Default.info('Advancements is set: Render mode set to 1.12+');
   if (!config['advancements-progress']) {
-    console.log('[WARN] You do not have advancements progresses defined. Please visit github.com/NyaaCat/NyaaStats for a new version of config file.');
+    logger.Default.warn('You do not have advancements progresses defined. Please visit github.com/NyaaCat/NyaaStats for a new version of config file.');
   }
 } else {
-  console.log('[INFO] Advancements not set: Render mode set to 1.11');
+  logger.Default.info('Advancements not set: Render mode set to 1.11');
 }
 
 const output = path.join(config.BASEPATH, config.render.output);
-console.log('[INFO] CREATE OUTPUT DIR:', output);
+logger.Default.info('CREATE OUTPUT DIR', output);
 
 (async () => {
-  const prompt = new Confirm('Do you want to clean the output folder?');
-
-  if (await prompt.run()) {
+  const prompt = await confirm('Do you want to clean the output folder?');
+  if (prompt) {
     try {
       fs.emptyDirSync(output);
     } catch (err) {
@@ -48,17 +50,9 @@ console.log('[INFO] CREATE OUTPUT DIR:', output);
     banlist = utils.getBannedPlayers();
   }
   if (!config.render['render-banned']) {
-    console.log(playerlist, banlist);
     playerlist = playerlist.filter(uuid => !banlist.some(ban => ban === uuid));
   }
   playerlist = playerlist.sort(() => 0.5 - Math.random());
-
-  const totalTasks = playerlist.length;
-  const bar = new ProgressBar({
-    schema: '[:bar] :current/:total :percent :etas',
-    width: 0.95,
-    total: totalTasks,
-  });
 
   for (const uuid of playerlist) {
     let banned = false;
@@ -69,7 +63,6 @@ console.log('[INFO] CREATE OUTPUT DIR:', output);
     try {
       data = await utils.createPlayerData(uuid, banned); // eslint-disable-line
     } catch (error) {
-      bar.tick();
       continue;
     }
     if (!data.data) {
@@ -81,11 +74,10 @@ console.log('[INFO] CREATE OUTPUT DIR:', output);
       names: data.data.names,
       seen: data.data.seen,
     });
-    bar.tick();
   }
 
   players.sort((a, b) => b.seen - a.seen); // eslint-disable-line
-  Utils.writeJSON(
+  writeJSON(
     path.join(config.BASEPATH, config.render.output, 'players.json'),
     players,
   );
@@ -96,7 +88,7 @@ console.log('[INFO] CREATE OUTPUT DIR:', output);
   } catch (error) {
     throw new Error(error);
   }
-  Utils.writeJSON(
+  writeJSON(
     path.join(config.BASEPATH, config.render.output, 'info.json'),
     {
       worldTime,

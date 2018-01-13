@@ -137,6 +137,7 @@ export default {
   width: 100%;
   height: 285px;
   border: none;
+  overflow: hidden;
 }
 .panel-body {
   padding: 0;
