@@ -21,8 +21,8 @@
         </div>
         <div class="col-sm-12 col-md-9 col-lg-10">
           <div class="row">
-            <membership :info="info" :player="player"></membership>
-            <name-history :info="info" :player="player"></name-history>
+            <membership :player="player"></membership>
+            <name-history :player="player"></name-history>
           </div>
         </div>
       </div>
@@ -35,19 +35,21 @@
         </ol>
       </div>
 
-      <player-advancement :player="player" :info="info" />
+      <player-advancement :player="player" />
       <player-statistic :player="player" />
 
       <hr/>
 
-      <nyaa-footer :info="info"></nyaa-footer>
+      <nyaa-footer></nyaa-footer>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapMutations } from 'vuex';
 
+import { store } from '../main';
 import NameHistory from './NameHistory';
 import Membership from './Membership';
 import PlayerAdvancement from './PlayerAdvancement';
@@ -56,9 +58,9 @@ import Footer from './Footer';
 
 export default {
   name: 'PlayerPage',
-  props: ['info'],
   data() {
     return {
+      mutableInfo: null,
       player: null,
       uuid: '',
       showNetworkErrorAlert: false,
@@ -67,40 +69,38 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     const uuid = to.params.uuid;
-    let data;
-    try {
-      data = await axios.get(`/static/data/${uuid}/stats.json`);
-    } catch (error) {
-      this.showNetworkErrorAlert = true;
-      return;
+    let player;
+    if (!store.state.players[uuid]) {
+      let data;
+      try {
+        data = await axios.get(`/static/data/${uuid}/stats.json`);
+      } catch (error) {
+        this.showNetworkErrorAlert = true;
+        return;
+      }
+      player = data.data;
+    } else {
+      player = store.state.players[uuid];
     }
     next((vm) => {
-      vm.setPlayerData(data.data);
-      vm.setUUID(uuid);
+      vm.setPlayerData(uuid, player);
     });
   },
-  async beforeRouteUpdate(to, from, next) {
-    this.player = null;
-    this.progress = 0;
-    const uuid = to.params.uuid;
-    let data;
-    try {
-      data = await axios.get(`/static/data/${uuid}/stats.json`);
-    } catch (error) {
-      this.showNetworkErrorAlert = true;
-      return;
-    }
-    this.setPlayerData(data.data);
-    this.setUUID(uuid);
-    next();
-  },
   methods: {
-    setPlayerData(data) {
+    ...mapMutations([
+      'setPlayer',
+    ]),
+    setPlayerData(uuid, data) {
       this.progress = 100;
-      this.player = data;
-    },
-    setUUID(uuid) {
       this.uuid = uuid;
+      this.player = data;
+      this.setPlayer({
+        uuid,
+        player: data,
+      });
+    },
+    setInfoData(data) {
+      this.mutableInfo = data;
     },
   },
   computed: {

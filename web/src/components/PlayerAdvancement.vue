@@ -49,12 +49,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import AdvancementBlock from './AdvancementBlock';
 import AchievementBlock from './AchievementBlock';
 
 export default {
   name: 'PlayerAdvancement',
-  props: ['player', 'info'],
+  props: ['player'],
   data() {
     return {
       advTotal: 0,
@@ -67,6 +68,11 @@ export default {
   },
   mounted() {
     this.dealWithAdvancements(this.player.advancements);
+  },
+  computed: {
+    ...mapState([
+      'info',
+    ]),
   },
   methods: {
     dealWithAdvancements(advancements) {

@@ -11,24 +11,24 @@
       <b-col sm="12"><b-form-input id="input-none" type="text" v-model="keyword" placeholder="Search User Name"></b-form-input></b-col>
     </b-row>
     <lazy-component class="row">
-      <playerblock v-for="(player, key, index) in players" :key="index" :player="player" v-show="search(player)"></playerblock>
+      <playerblock v-for="(player, key, index) in playerList" :key="index" :player="player" v-show="search(player)"></playerblock>
     </lazy-component>
     <hr/>
-    <nyaa-footer :info="info"></nyaa-footer>
+    <nyaa-footer></nyaa-footer>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapState, mapMutations } from 'vuex';
+
 import PlayerBlock from './PlayerBlock';
 import Footer from './Footer';
 
 export default {
   name: 'PlayerList',
-  props: ['info'],
   data() {
     return {
-      players: [],
       showNetworkErrorAlert: false,
       keyword: '',
       searchTimer: null,
@@ -37,20 +37,30 @@ export default {
     };
   },
   async mounted() {
-    let data;
-    try {
-      data = await axios.get('/static/data/players.json');
-    } catch (error) {
-      this.showNetworkErrorAlert = true;
-      return;
+    if (this.playerList.length < 1) {
+      let data;
+      try {
+        data = await axios.get('/static/data/players.json');
+      } catch (error) {
+        this.showNetworkErrorAlert = true;
+        return;
+      }
+      this.setPlayerList({
+        playerList: data.data,
+      });
     }
-    this.players = data.data;
     this.loading = false;
   },
   watch: {
     keyword: 'lazyload',
   },
+  computed: mapState([
+    'playerList',
+  ]),
   methods: {
+    ...mapMutations([
+      'setPlayerList',
+    ]),
     lazyload() {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {

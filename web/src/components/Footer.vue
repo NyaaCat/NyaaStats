@@ -9,11 +9,15 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Footer',
-  props: ['info', 'player'],
+  props: ['player'],
   computed: {
+    ...mapState([
+      'info',
+    ]),
     lastUpdate() {
       if (this.player && this.info) {
         return moment(this.player.lastUpdate || 0).format(this.info.timeFormat ? this.info.timeFormat.full : '');

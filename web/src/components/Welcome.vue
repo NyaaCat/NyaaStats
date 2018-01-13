@@ -12,11 +12,14 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Welcome',
-  props: ['info'],
   computed: {
+    ...mapState([
+      'info',
+    ]),
     worldTime() {
       return moment.duration(this.info.worldTime || 0, 'seconds').humanize();
     },

@@ -35,11 +35,15 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Membership',
-  props: ['player', 'info'],
+  props: ['player'],
   computed: {
+    ...mapState([
+      'info',
+    ]),
     timeStart() {
       return moment(this.player.data.time_start).format(this.info.timeFormat ? this.info.timeFormat.full : '');
     },

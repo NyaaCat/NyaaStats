@@ -1,27 +1,29 @@
 <template>
   <div id="app">
     <nav>
-      <router-view name="navbar" :info="info"></router-view>
+      <router-view name="navbar"></router-view>
     </nav>
 
-    <router-view name="welcome" :info="info"></router-view>
+    <router-view name="welcome"></router-view>
 
     <div class="container">
-      <router-view name="container" :info="info"></router-view>
+      <router-view name="container"></router-view>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'app',
-  data() {
-    return {
-      info: {},
-    };
-  },
+  methods: mapMutations([
+    'setInfo',
+  ]),
+  computed: mapState([
+    'info',
+  ]),
   async mounted() {
     let data;
     try {
@@ -30,7 +32,9 @@ export default {
       this.showNetworkErrorAlert = true;
       return;
     }
-    this.info = data.data;
+    this.setInfo({
+      info: data.data,
+    });
   },
 };
 </script>

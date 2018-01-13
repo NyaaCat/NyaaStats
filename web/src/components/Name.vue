@@ -10,11 +10,15 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Name',
-  props: ['name', 'info'],
+  props: ['name'],
   computed: {
+    ...mapState([
+      'info',
+    ]),
     changedToAt() {
       return moment(name.changedToAt).format(this.info.timeFormat ? this.info.timeFormat.compact : '');
     },

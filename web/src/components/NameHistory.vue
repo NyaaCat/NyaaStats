@@ -9,7 +9,7 @@
       </div>
       <div class="panel-body">
         <ul class="list-group">
-          <name v-for="(name, key, index) in player.data.names" :key="index" :name="name" :info="info"></name>
+          <name v-for="(name, key, index) in player.data.names" :key="index" :name="name"></name>
         </ul>
       </div>
     </div>
@@ -21,7 +21,7 @@ import Name from './Name';
 
 export default {
   name: 'NameHistory',
-  props: ['player', 'info'],
+  props: ['player'],
   components: {
     name: Name,
   },

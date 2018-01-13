@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import 'babel-polyfill';
 import Vue from 'vue';
+import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
 import VueLazyload from 'vue-lazyload';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -16,11 +17,45 @@ Vue.use(BootstrapVue);
 Vue.use(VueLazyload, {
   lazyComponent: true,
 });
+Vue.use(Vuex);
+
+export const store = new Vuex.Store({
+  state: {
+    info: {
+      title: 'NyaaStats',
+      servername: 'Minecraft Server',
+      lastUpdate: 0,
+      worldTime: 0,
+    },
+    players: {},
+    playerList: [],
+  },
+  mutations: {
+    setInfo(state, payload) {
+      state.info = {
+        ...payload.info,
+      };
+    },
+    setPlayer(state, payload) {
+      state.players[payload.uuid] = {
+        ...payload.player,
+      };
+    },
+    setPlayerList(state, payload) {
+      state.playerList = [
+        ...payload.playerList,
+      ];
+    },
+  },
+});
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App },
 });
+
+export default store;
