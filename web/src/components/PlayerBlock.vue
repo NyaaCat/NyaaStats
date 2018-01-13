@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`player/${uuid}`">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 searchbox">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 searchbox" :data-uuid="uuid">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="media">

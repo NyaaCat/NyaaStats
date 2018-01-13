@@ -116,6 +116,9 @@ export default {
         clearInterval(timer);
       }
     }, 100);
+    this.$el.scrollTop = 0;
+  },
+  updated() {
   },
   components: {
     NameHistory,

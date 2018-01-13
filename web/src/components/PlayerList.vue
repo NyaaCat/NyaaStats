@@ -21,6 +21,7 @@
 <script>
 import axios from 'axios';
 import { mapState, mapMutations } from 'vuex';
+import VueScrollTo from 'vue-scrollto';
 
 import PlayerBlock from './PlayerBlock';
 import Footer from './Footer';
@@ -56,10 +57,12 @@ export default {
   },
   computed: mapState([
     'playerList',
+    'scrollOffset',
   ]),
   methods: {
     ...mapMutations([
       'setPlayerList',
+      'setScrollOffset',
     ]),
     lazyload() {
       clearTimeout(this.timer);
@@ -85,6 +88,27 @@ export default {
         return false;
       });
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    const uuid = to.params.uuid;
+    this.setScrollOffset({
+      uuid,
+    });
+    next();
+  },
+  updated() {
+    this.$nextTick(function () {
+      if (this.scrollOffset.length === 32) {
+        setTimeout(() => {
+          VueScrollTo.scrollTo(`[data-uuid="${this.scrollOffset}"]`, 500, {
+            duration: 500,
+            easing: 'ease-in',
+            offset: -65,
+            cancelable: false,
+          });
+        }, 100);
+      }
+    });
   },
   components: {
     playerblock: PlayerBlock,

@@ -5,6 +5,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
 import VueLazyload from 'vue-lazyload';
+import VueScrollTo from 'vue-scrollto';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -17,6 +18,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueLazyload, {
   lazyComponent: true,
 });
+Vue.use(VueScrollTo);
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -29,6 +31,7 @@ export const store = new Vuex.Store({
     },
     players: {},
     playerList: [],
+    scrollOffset: '',
   },
   mutations: {
     setInfo(state, payload) {
@@ -45,6 +48,9 @@ export const store = new Vuex.Store({
       state.playerList = [
         ...payload.playerList,
       ];
+    },
+    setScrollOffset(state, payload) {
+      state.scrollOffset = payload.uuid;
     },
   },
 });
