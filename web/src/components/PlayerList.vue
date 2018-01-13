@@ -78,7 +78,7 @@ export default {
         return true;
       }
       const keyword = this.keyword.toLowerCase();
-      if (player.uuid.indexOf(keyword) !== -1) {
+      if (player.uuid === keyword) {
         return true;
       }
       if (player.playername.toLowerCase().indexOf(keyword) !== -1) {
