@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
     players: {},
     playerList: [],
     scrollOffset: '',
+    keyword: '',
   },
   mutations: {
     setInfo(state, payload) {

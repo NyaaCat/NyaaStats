@@ -35,6 +35,7 @@ export default {
       searchTimer: null,
       loading: true,
       timer: null,
+      isScrolled: false,
     };
   },
   async mounted() {
@@ -98,8 +99,8 @@ export default {
     next();
   },
   updated() {
-    this.$nextTick(function () {
-      if (this.scrollOffset.length === 32) {
+    this.$nextTick(() => {
+      if (this.scrollOffset.length === 32 && !this.isScrolled) {
         setTimeout(() => {
           VueScrollTo.scrollTo(`[data-uuid="${this.scrollOffset}"]`, 500, {
             duration: 500,
@@ -109,6 +110,7 @@ export default {
           });
         }, 100);
       }
+      this.isScrolled = true;
     });
   },
   beforeRouteEnter(to, from, next) {
