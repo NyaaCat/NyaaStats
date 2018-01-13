@@ -38,5 +38,6 @@ module.exports = {
     'no-param-reassign': [2, {
       'props': false
     }],
+    'global-require': 0,
   }
 }

@@ -4,7 +4,7 @@
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
-            <img class="media-object achievements" :src="`/static/img/advancements/${adv.type}/${adv.adv}.png`" />
+            <img class="media-object achievements" :src="getImg" />
           </div>
           <div class="media-body text-middle">
             <h4 class="media-heading">
@@ -30,6 +30,7 @@
 
 <script>
 import lang from '../assets/lang.json';
+import { advancements } from '../assets/advancements';
 
 export default {
   name: 'AdvancementBlock',
@@ -38,6 +39,11 @@ export default {
     return {
       lang,
     };
+  },
+  computed: {
+    getImg() {
+      return advancements[this.adv.type][this.adv.adv];
+    },
   },
 };
 

@@ -4,7 +4,7 @@
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
-            <img class="media-object achievements" v-src="`./assets/img/achievements/${ac[1]}.png`" />
+            <img class="media-object achievements" v-src="getImg" />
           </div>
           <div class="media-body text-middle">
             <h4 class="media-heading">{{ lang.achievement[ac[1]] }}</h4>
@@ -18,7 +18,7 @@
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
-            <img class="media-object achievements" v-src="`/static/img/achievements/${ac[1]}.png`">
+            <img class="media-object achievements" v-src="img">
           </div>
           <div class="media-body text-middle">
             <h4 class="media-heading">{{ lang.achievement[ac[1]] }}</h4>
@@ -31,6 +31,7 @@
 
 <script>
 import lang from '../assets/lang.json';
+import * as achievements from '../assets/achievements';
 
 export default {
   name: 'AchievementBlock',
@@ -40,6 +41,11 @@ export default {
       ac: [],
       lang,
     };
+  },
+  computed: {
+    getImg() {
+      return achievements[this.ac[1]];
+    },
   },
   mounted() {
     this.ac = this.prop.split('.');
