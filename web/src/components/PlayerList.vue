@@ -58,6 +58,7 @@ export default {
   computed: mapState([
     'playerList',
     'scrollOffset',
+    'info',
   ]),
   methods: {
     ...mapMutations([
@@ -108,6 +109,11 @@ export default {
           });
         }, 100);
       }
+    });
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      document.title = vm.info.title;
     });
   },
   components: {

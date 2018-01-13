@@ -47,7 +47,7 @@
 
 <script>
 import axios from 'axios';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 import { store } from '../main';
 import NameHistory from './NameHistory';
@@ -98,12 +98,16 @@ export default {
         uuid,
         player: data,
       });
+      document.title = `${this.info.title} - ${this.player.data.playername}`;
     },
     setInfoData(data) {
       this.mutableInfo = data;
     },
   },
   computed: {
+    ...mapState([
+      'info',
+    ]),
     isCanvasSupported() {
       const elem = document.createElement('canvas');
       return !!(elem.getContext && elem.getContext('2d'));
@@ -117,8 +121,6 @@ export default {
       }
     }, 100);
     this.$el.scrollTop = 0;
-  },
-  updated() {
   },
   components: {
     NameHistory,
