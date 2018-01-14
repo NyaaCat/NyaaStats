@@ -17,9 +17,34 @@ You can simply build your own web pages, just following this instruction.
 ## Build web pages
 1. Go into `web` folder.
 2. `npm install && npm run build`.
-
 ## That's all
-Now you can find all the files you need in the `web/dist` folder. Upload them to you server.
+Now you can find all the files you need in the `web/dist` folder. Upload them to you server, and configure your nginx server like this:
+
+```
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  root /your/root/path;
+
+  index index.html;
+
+  server_name example.com;
+
+  location / {
+    try_files $uri $uri/ @rewrites;
+  }
+
+  location @rewrites {
+    rewrite ^(.+)$ /index.html last;
+  }
+
+}
+```
+
+> Notice:
+
+>If you want to deploy without nignx, you will need to change the router mode from `history` to `hash` [here](https://github.com/NyaaCat/NyaaStats/blob/713303de573ac36b9cd7ef8f20100aa3eb993273/web/src/router/index.js#L11). Remember to rebuild web pages.
 
 
 # Credits

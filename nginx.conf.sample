@@ -1,0 +1,19 @@
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  root /your/root/path;
+
+  index index.html;
+
+  server_name example.com;
+
+  location / {
+    try_files $uri $uri/ @rewrites;
+  }
+
+  location @rewrites {
+    rewrite ^(.+)$ /index.html last;
+  }
+
+}

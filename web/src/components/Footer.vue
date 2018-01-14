@@ -20,7 +20,7 @@ export default {
     ]),
     lastUpdate() {
       if (this.player && this.info) {
-        return moment(this.player.lastUpdate || 0).format(this.info.timeFormat ? this.info.timeFormat.full : '');
+       return moment(this.player.data.lastUpdate || 0).format(this.info.timeFormat ? this.info.timeFormat.full : '');
       } else if (this.info) {
         return moment(this.info.lastUpdate || 0).format(this.info.timeFormat ? this.info.timeFormat.full : '');
       }

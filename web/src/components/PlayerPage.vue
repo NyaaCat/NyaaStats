@@ -40,7 +40,7 @@
 
       <hr/>
 
-      <nyaa-footer></nyaa-footer>
+      <nyaa-footer :player="player"></nyaa-footer>
     </div>
   </div>
 </template>
