@@ -15,7 +15,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <img v-if="!isCanvasSupported" :src="`/static/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`" class="img-rounded">
-              <iframe v-if="isCanvasSupported" :src="`/static/skin/index.html?uuid=${uuid}`" class="skin" />
+              <iframe v-if="isCanvasSupported" :src="`/static/skin/index.html?uuid=${uuid}`" class="skin" scrolling="no" />
             </div>
           </div>
         </div>

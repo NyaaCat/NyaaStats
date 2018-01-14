@@ -1,8 +1,18 @@
 import drawSkin3D from './namemc-skins';
 
+function findGetParameter(parameterName) {
+  let result = null;
+  let tmp = [];
+  const items = window.location.search.substr(1).split('&');
+  for (let index = 0; index < items.length; index += 1) {
+    tmp = items[index].split('=');
+    if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+  }
+  return result;
+}
+
 const canvas = document.getElementById('skin');
-const url = new URL(window.location.href);
-const uuid = url.searchParams.get('uuid');
+const uuid = findGetParameter('uuid');
 
 if (uuid && uuid.length === 32) {
   const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
