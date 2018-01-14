@@ -4,6 +4,7 @@ import path from 'path';
 import Utils from './utils';
 import { writeJSON, confirm } from './helper';
 import * as logger from './logger';
+import ProgressBar from './progressbar';
 
 process.on('SIGINT', () => {
   process.exit();
@@ -34,6 +35,7 @@ if (config.render.advancements) {
 const output = path.join(config.BASEPATH, config.render.output);
 logger.Default.info('CREATE OUTPUT DIR', output);
 
+
 (async () => {
   const prompt = await confirm('Do you want to clean the output folder?');
   if (prompt) {
@@ -54,6 +56,9 @@ logger.Default.info('CREATE OUTPUT DIR', output);
   }
   playerlist = playerlist.sort(() => 0.5 - Math.random());
 
+  const totalTasks = playerlist.length;
+  const progress = new ProgressBar(totalTasks);
+  progress.start();
   for (const uuid of playerlist) {
     let banned = false;
     if (config.render['render-banned']) {
@@ -63,10 +68,8 @@ logger.Default.info('CREATE OUTPUT DIR', output);
     try {
       data = await utils.createPlayerData(uuid, banned); // eslint-disable-line
     } catch (error) {
+      progress.tick(uuid);
       continue;
-    }
-    if (!data.data) {
-      console.log(data);
     }
     players.push({
       uuid: data.data.uuid_short,
@@ -74,7 +77,9 @@ logger.Default.info('CREATE OUTPUT DIR', output);
       names: data.data.names,
       seen: data.data.seen,
     });
+    progress.tick(uuid);
   }
+  progress.stop();
 
   players.sort((a, b) => b.seen - a.seen); // eslint-disable-line
   writeJSON(

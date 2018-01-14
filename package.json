@@ -27,6 +27,7 @@
   "dependencies": {
     "bignum": "^0.12.5",
     "fs-extra": "^2.0.0",
+    "gauge": "^2.7.4",
     "inquirer": "^5.0.0",
     "js-yaml": "^3.8.1",
     "log4js": "^2.4.1",
