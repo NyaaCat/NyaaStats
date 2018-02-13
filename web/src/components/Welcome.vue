@@ -4,7 +4,7 @@
       <h1>{{info.servername}}</h1>
       <p>Server time elapsed {{worldTime}}</p>
 
-      <p><a class="btn btn-primary btn-lg" href="https://www.craft.moe" role="button">Learn more &raquo;</a></p>
+      <p><a class="btn btn-primary btn-lg" href="{{homepage}}" role="button">Learn more &raquo;</a></p>
 
     </div>
   </div>
@@ -23,6 +23,9 @@ export default {
     worldTime() {
       return moment.duration(this.info.worldTime || 0, 'seconds').humanize();
     },
+	homePage() {
+	  return this.info.homepage;
+	},
   },
 };
 
