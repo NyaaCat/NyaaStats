@@ -23,9 +23,9 @@ export default {
     worldTime() {
       return moment.duration(this.info.worldTime || 0, 'seconds').humanize();
     },
-	  homePage() {
-	    return this.info.homepage;
-	  },
+    homePage() {
+      return this.info.homepage;
+    },
   },
 };
 
