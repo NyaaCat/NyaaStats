@@ -2,13 +2,15 @@
 A user state page buider for Minecraft.
 
 # How to use
-You can simply build your own web pages, just following this instruction.
+You can simply build your own web pages, just follow this instruction.
+
+_You need to do these command in a series._
 
 ## First grab user data from map folder
 1. Clone the project.
 2. `npm install`.
 3. Rename config.example.yml to config.yml and modify it.
-4. Run `npm start`. This will take long time to grab the informations for each user, be patient.
+4. Run `npm start`. This will take long time to grab the informations for each user, be patient. Your data will be written to your `output` directory defined in config file.
 
 ## Build skin render
 1. Go into `skin` folder.
@@ -17,8 +19,33 @@ You can simply build your own web pages, just following this instruction.
 ## Build web pages
 1. Go into `web` folder.
 2. `npm install && npm run build`.
+
 ## That's all
-Now you can find all the files you need in the `web/dist` folder. Upload them to you server, and configure your nginx server like this:
+Now you can find all the files you need in the `web/dist` folder.
+
+Move files in place:
+
+* Move `web/dist` to your webroot
+* Move the output directory you defined to `webroot/static/data`
+
+### Final File Structures
+
+```
+- webroot
+  + index.html
+  - static
+    + css
+    - data  # here's the data that main application produces
+      + info.json
+      + players.json
+      + (...) Player UUID directories
+    + fonts
+    + img
+    + js
+    + skin
+```
+
+Upload webroot to you server, and configure your nginx server like this:
 
 ```
 server {
