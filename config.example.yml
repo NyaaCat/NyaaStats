@@ -17,6 +17,11 @@ render:
     full: dddd, MMMM Do, YYYY HH:mm:ss ZZ
     short: MMMM Do, YYYY
     compact: YYYY-M-D HH:mm:ss
+  # prompt confirmation to remove old data.
+  # Set to false if you are using cronjob,
+  # true when you run it manually.
+  # data directory will be cleared when manipulating new data.
+  confirm-clear-data: false
 
 api:
   ratelimit: 2 # set to 1 request per sec as per mojang api rate limit
