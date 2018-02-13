@@ -21,7 +21,7 @@ render:
   # Set to false if you are using cronjob,
   # true when you run it manually.
   # data directory will be cleared when manipulating new data.
-  confirm-clear-data: false
+  confirm-clear-data: true
 
 api:
   ratelimit: 2 # set to 1 request per sec as per mojang api rate limit
