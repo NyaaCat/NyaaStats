@@ -4,7 +4,7 @@
       <h1>{{info.servername}}</h1>
       <p>Server time elapsed {{worldTime}}</p>
 
-      <p><a class="btn btn-primary btn-lg" href="{{homePage}}" role="button">Learn more &raquo;</a></p>
+      <p><a class="btn btn-primary btn-lg" v-bind:href="homePage" role="button">Learn more &raquo;</a></p>
 
     </div>
   </div>
