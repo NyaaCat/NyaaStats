@@ -8,7 +8,7 @@
     </b-alert>
     <b-progress v-show="loading" :value="100" :max="100" animated class="mb-3"></b-progress>
     <b-row class="searchbox">
-      <b-col sm="12"><b-form-input id="input-none" type="text" :value="keyword" @input="updateKeyword" placeholder="Search user by Name/UUID"></b-form-input></b-col>
+      <b-col sm="12"><b-form-input id="input-none" type="text" :value="keyword" @input="updateKeyword" placeholder="Search user by Name / UUID"></b-form-input></b-col>
     </b-row>
     <lazy-component class="row">
       <playerblock v-for="(player, key, index) in playerList" :key="index" :player="player" v-show="search(player)"></playerblock>
@@ -78,7 +78,7 @@ export default {
         return true;
       }
       const keyword = this.keyword.toLowerCase();
-      if (player.uuid === keyword) {
+      if (player.uuid.indexOf(keyword.replace('-', '')) !== -1) {
         return true;
       }
       if (player.playername.toLowerCase().indexOf(keyword) !== -1) {
