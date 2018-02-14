@@ -20,7 +20,7 @@ export default {
       'info',
     ]),
     changedToAt() {
-      return moment(name.changedToAt).format(this.info.timeFormat ? this.info.timeFormat.compact : '');
+      return moment(this.name.changedToAt).format(this.info.timeFormat ? this.info.timeFormat.compact : '');
     },
   },
 };
