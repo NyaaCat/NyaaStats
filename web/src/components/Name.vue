@@ -3,7 +3,7 @@
     <h5>
       {{name.name}}
       <small v-if="name.changedToAt">Changed at {{changedToAt}}</small>
-      <small v-if="!name.changedToAt">Initial</small>
+      <small v-if="!name.changedToAt"></small>
     </h5>
   </li>
 </template>
