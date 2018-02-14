@@ -73,6 +73,12 @@ server {
 
 >If you want to deploy without nignx, you will need to change the router mode from `history` to `hash` [here](https://github.com/NyaaCat/NyaaStats/blob/713303de573ac36b9cd7ef8f20100aa3eb993273/web/src/router/index.js#L11). Remember to rebuild web pages.
 
+## Update player data
+
+Run `npm start` in the root folder of this project which means recreate the data folder and upload it to your web root. You don't need to run other commands everytime you update players' data but needed when we upgrade the code of our web client.
+
+
+
 
 # Credits
 The skin render is almost a copy from [NameMC](https://namemc.com). Thanks for their excellent work.
