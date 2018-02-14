@@ -11,7 +11,8 @@
       "no-console": 0,
       "no-mixed-operators": 0,
       "no-continue": 0,
-      "no-nested-ternary": 0
+      "no-nested-ternary": 0,
+      "no-await-in-loop": 0
     },
     "env": {
       "node": true

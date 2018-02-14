@@ -68,7 +68,7 @@ logger.Default.info('CREATE OUTPUT DIR', output);
     }
     let data;
     try {
-      data = await utils.createPlayerData(uuid, banned); // eslint-disable-line
+      data = await utils.createPlayerData(uuid, banned);
     } catch (error) {
       progress.tick(uuid);
       continue;

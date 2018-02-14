@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node -- index.js"
+    "start": "babel-node -- index.js",
+    "prod": "node dist/index.js",
+    "build": "rm -rf dist && babel *.js --out-dir dist"
   },
   "repository": {
     "type": "git",

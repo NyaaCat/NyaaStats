@@ -6,3 +6,4 @@ npm-debug.log
 public
 data
 .DS_Store
+dist
