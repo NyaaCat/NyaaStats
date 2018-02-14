@@ -37,7 +37,7 @@ logger.Default.info('CREATE OUTPUT DIR', output);
 
 
 (async () => {
-  if (config.render['confirm-clear-data']) {
+  if (config.render['confirm-clear-data'] || config.render['confirm-clear-data'] === undefined) {
     const prompt = await confirm('Do you want to clean the output folder?');
     if (prompt) {
       try {
