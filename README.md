@@ -1,5 +1,5 @@
 # NyaaStats
-A user state page buider for Minecraft.
+A user state page builder for Minecraft.
 
 # How to use
 You can simply build your own web pages, just follow this instruction.
