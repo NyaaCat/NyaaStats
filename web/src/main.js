@@ -6,6 +6,7 @@ import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
 import VueLazyload from 'vue-lazyload';
 import VueScrollTo from 'vue-scrollto';
+import VueI18n from 'vue-i18n';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -20,6 +21,7 @@ Vue.use(VueLazyload, {
 });
 Vue.use(VueScrollTo);
 Vue.use(Vuex);
+Vue.use(VueI18n);
 
 export const store = new Vuex.Store({
   state: {
@@ -59,13 +61,22 @@ export const store = new Vuex.Store({
   },
 });
 
+const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   template: '<App/>',
   components: { App },
+  created() {
+    this.$i18n.locale = (window.navigator.language || window.navigator.userLanguage).toLowerCase();
+  },
 });
 
 export default store;

@@ -29,8 +29,8 @@
 
       <div class="row">
         <ol class="breadcrumb">
-          <li><router-link to="/">Home</router-link></li>
-          <li>Player</li>
+          <li><router-link to="/">{{$t('home')}}</router-link></li>
+          <li>{{$t('player')}}</li>
           <li class="active">{{player.data.playername}}</li>
         </ol>
       </div>
@@ -143,3 +143,12 @@ export default {
   padding: 0;
 }
 </style>
+
+<i18n>
+en:
+  home: Home
+  player: Player
+zh-cn:
+  home: 首页
+  player: 玩家
+</i18n>

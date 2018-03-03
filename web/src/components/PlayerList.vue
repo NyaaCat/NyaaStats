@@ -8,7 +8,7 @@
     </b-alert>
     <b-progress v-show="loading" :value="100" :max="100" animated class="mb-3"></b-progress>
     <b-row class="searchbox">
-      <b-col sm="12"><b-form-input id="input-none" type="text" :value="keyword" @input="updateKeyword" placeholder="Search user by Name / UUID"></b-form-input></b-col>
+      <b-col sm="12"><b-form-input id="input-none" type="text" :value="keyword" @input="updateKeyword" :placeholder="$t('search-placeholder')"></b-form-input></b-col>
     </b-row>
     <lazy-component class="row">
       <playerblock v-for="(player, key, index) in playerList" :key="index" :player="player" v-show="search(player)"></playerblock>
@@ -135,3 +135,9 @@ export default {
 }
 </style>
 
+<i18n>
+en:
+  search-placeholder: Search user by Name / UUID
+zh-cn:
+  search-placeholder: 按名称/UUID查询
+</i18n>

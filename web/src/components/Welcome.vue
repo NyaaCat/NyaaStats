@@ -2,9 +2,9 @@
   <div class="jumbotron">
     <div class="container">
       <h1>{{info.servername}}</h1>
-      <p>Server time elapsed {{worldTime}}</p>
+      <p>{{$t('server-time-elapsed')}} {{worldTime}}</p>
 
-      <p><a class="btn btn-primary btn-lg" v-bind:href="homePage" role="button">Learn more &raquo;</a></p>
+      <p><a class="btn btn-primary btn-lg" v-bind:href="homePage" role="button">{{$t('learn-more')}} &raquo;</a></p>
 
     </div>
   </div>
@@ -28,5 +28,13 @@ export default {
     },
   },
 };
-
 </script>
+
+<i18n>
+en:
+  server-time-elapsed: Server time elapsed
+  learn-more: Learn more
+zh-cn:
+  server-time-elapsed: 服务器时间已经过
+  learn-more: 了解更多
+</i18n>

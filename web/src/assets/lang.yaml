@@ -1,0 +1,189 @@
+en:
+  advancement:
+    minecraft:story/root: Minecraft
+    minecraft:story/mine_stone: Stone Age
+    minecraft:story/upgrade_tools: Getting an Upgrade
+    minecraft:story/smelt_iron: Acquire Hardware
+    minecraft:story/obtain_armor: Suit Up
+    minecraft:story/lava_bucket: Hot Stuff
+    minecraft:story/iron_tools: Isn't It Iron Pick
+    minecraft:story/deflect_arrow: Not Today, Thank You
+    minecraft:story/form_obsidian: Ice Bucket Challenge
+    minecraft:story/mine_diamond: Diamonds!
+    minecraft:story/enter_the_nether: We Need to Go Deeper
+    minecraft:story/shiny_gear: Cover Me With Diamonds
+    minecraft:story/enchant_item: Enchanter
+    minecraft:story/cure_zombie_villager: Zombie Doctor
+    minecraft:story/follow_ender_eye: Eye Spy
+    minecraft:story/enter_the_end: The End?
+    minecraft:nether/root: Nether
+    minecraft:nether/fast_travel: Subspace Bubble
+    minecraft:nether/find_fortress: A Terrible Fortress
+    minecraft:nether/return_to_sender: Return to Sender
+    minecraft:nether/obtain_blaze_rod: Into Fire
+    minecraft:nether/get_wither_skull: Spooky Scary Skeleton
+    minecraft:nether/uneasy_alliance: Uneasy Alliance
+    minecraft:nether/brew_potion: Local Brewery
+    minecraft:nether/summon_wither: Withering Heights
+    minecraft:nether/all_potions: A Furious Cocktail
+    minecraft:nether/create_beacon: Bring Home the Beacon
+    minecraft:nether/all_effects: How Did We Get Here?
+    minecraft:nether/create_full_beacon: Beaconator
+    minecraft:end/root: The End
+    minecraft:end/kill_dragon: Free the End
+    minecraft:end/dragon_egg: The Next Generation
+    minecraft:end/enter_end_gateway: Remote Getaway
+    minecraft:end/respawn_dragon: The End... Again...
+    minecraft:end/dragon_breath: You Need a Mint
+    minecraft:end/find_end_city: The City at the End of the Game
+    minecraft:end/elytra: Sky's the Limit
+    minecraft:end/levitate: Great View From Up Here
+    minecraft:adventure/root: Adventure
+    minecraft:adventure/kill_a_mob: Monster Hunter
+    minecraft:adventure/trade: What a Deal!
+    minecraft:adventure/sleep_in_bed: Sweet dreams
+    minecraft:adventure/shoot_arrow: Take Aim
+    minecraft:adventure/kill_all_mobs: Monsters Hunted
+    minecraft:adventure/totem_of_undying: Postmortal
+    minecraft:adventure/summon_iron_golem: Hired Help
+    minecraft:adventure/adventuring_time: Adventuring Time
+    minecraft:adventure/sniper_duel: Sniper duel
+    minecraft:husbandry/root: Husbandry
+    minecraft:husbandry/breed_an_animal: The Parrots and the Bats
+    minecraft:husbandry/tame_an_animal: Best Friends Forever
+    minecraft:husbandry/plant_seed: A Seedy Place
+    minecraft:husbandry/bred_all_animals: Two by Two
+    minecraft:husbandry/balanced_diet: A Balanced Diet
+    minecraft:husbandry/break_diamond_hoe: Serious Dedication
+  achievement:
+    openInventory: Taking Inventory
+    mineWood: Getting Wood
+    buildWorkBench: Benchmarking
+    buildPickaxe: Time to Mine!
+    buildFurnace: Hot Topic
+    acquireIron: Acquire Hardware
+    buildHoe: Time to Farm!
+    makeBread: Bake Bread
+    bakeCake: The Lie
+    buildBetterPickaxe: Getting an Upgrade
+    cookFish: Delicious Fish
+    onARail: On A Rail
+    buildSword: Time to Strike!
+    killEnemy: Monster Hunter
+    killCow: Cow Tipper
+    flyPig: When Pigs Fly
+    snipeSkeleton: Sniper Duel
+    diamonds: DIAMONDS!
+    portal: We Need to Go Deeper
+    ghast: Return to Sender
+    blazeRod: Into Fire
+    potion: Local Brewery
+    theEnd: The End?
+    theEnd2: The End.
+    enchantments: Enchanter
+    overkill: Overkill
+    bookcase: Librarian
+    exploreAllBiomes: Adventuring Time
+    spawnWither: The Beginning?
+    killWither: The Beginning.
+    fullBeacon: Beaconator
+    breedCow: Repopulation
+    diamondsToYou: Diamonds to you!
+    overpowered: Overpowered
+  stat:
+    walkOneCm: meters walked
+    crouchOneCm: meters crouched
+    sprintOneCm: meters sprinted
+    swimOneCm: meters swum
+    fallOneCm: meters fallen
+    climbOneCm: meters climbed
+    diveOneCm: meters dove
+    minecartOneCm: meters in minecart
+    boatOneCm: meters on boat
+    horseOneCm: meters with Horse
+    aviateOneCm: meters gliding with elytra
+    jump: jumps
+    damageDealt: damage dealt
+    damageTaken: damage taken
+    deaths: deaths
+    mobKills: mob killed
+    playerKills: player killed
+    fishCaught: fish caught
+    tradedWithVillager: traded with villagers
+zh-cn:
+  advancement:
+    minecraft:story/root: Minecraft
+    minecraft:story/mine_stone: 石器时代
+    minecraft:story/upgrade_tools: 获得升级
+    minecraft:story/smelt_iron: 来硬的
+    minecraft:story/obtain_armor: 整装上阵
+    minecraft:story/lava_bucket: 热腾腾的
+    minecraft:story/iron_tools: 这不是铁镐么
+    minecraft:story/deflect_arrow: 抱歉，今天不行
+    minecraft:story/form_obsidian: 冰桶挑战
+    minecraft:story/mine_diamond: 钻石！
+    minecraft:story/enter_the_nether: 我们需要再深入些
+    minecraft:story/shiny_gear: 用钻石包裹我
+    minecraft:story/enchant_item: 附魔师
+    minecraft:story/cure_zombie_villager: 僵尸科医生
+    minecraft:story/follow_ender_eye: 隔墙有眼
+    minecraft:story/enter_the_end: 结束了？
+    minecraft:nether/root: 下界
+    minecraft:nether/fast_travel: 子空间泡泡
+    minecraft:nether/find_fortress: 可怕的要塞
+    minecraft:nether/return_to_sender: 见鬼去吧
+    minecraft:nether/obtain_blaze_rod: 与火共舞
+    minecraft:nether/get_wither_skull: 诡异又可怕的骷髅
+    minecraft:nether/uneasy_alliance: 不稳定的同盟
+    minecraft:nether/brew_potion: 本地的酿造厂
+    minecraft:nether/summon_wither: 凋零山庄
+    minecraft:nether/all_potions: 狂乱的鸡尾酒
+    minecraft:nether/create_beacon: 带信标回家
+    minecraft:nether/all_effects: 为什么会变成这样呢？
+    minecraft:nether/create_full_beacon: 信标工程师
+    minecraft:end/root: 末地
+    minecraft:end/kill_dragon: 解放末地
+    minecraft:end/dragon_egg: 下一世代
+    minecraft:end/enter_end_gateway: 远程折跃
+    minecraft:end/respawn_dragon: 结束了…再一次…
+    minecraft:end/dragon_breath: 你需要来点薄荷糖
+    minecraft:end/find_end_city: 在游戏尽头的城市
+    minecraft:end/elytra: 天空即为极限
+    minecraft:end/levitate: 这上面的风景不错
+    minecraft:adventure/root: 冒险
+    minecraft:adventure/kill_a_mob: 怪物猎人
+    minecraft:adventure/trade: 这交易不错！
+    minecraft:adventure/sleep_in_bed: 甜蜜的梦
+    minecraft:adventure/shoot_arrow: 瞄准目标
+    minecraft:adventure/kill_all_mobs: 怪物狩猎完成
+    minecraft:adventure/totem_of_undying: 超越生死
+    minecraft:adventure/summon_iron_golem: 招募援兵
+    minecraft:adventure/adventuring_time: 探索的时光
+    minecraft:adventure/sniper_duel: 狙击手间的对决
+    minecraft:husbandry/root: 农牧业
+    minecraft:husbandry/breed_an_animal: 我从哪儿来？
+    minecraft:husbandry/tame_an_animal: 永恒的伙伴
+    minecraft:husbandry/plant_seed: 开荒垦地
+    minecraft:husbandry/bred_all_animals: 成双成对
+    minecraft:husbandry/balanced_diet: 均衡饮食
+    minecraft:husbandry/break_diamond_hoe: 终极奉献
+  stat:
+    walkOneCm: 米行走距离
+    crouchOneCm: 米潜行距离
+    sprintOneCm: 米疾跑距离
+    swimOneCm: 米有用距离
+    fallOneCm: 米下落距离
+    climbOneCm: 米攀爬距离
+    diveOneCm: 米潜水距离
+    minecartOneCm: 米矿车行驶距离
+    boatOneCm: 米划船距离
+    horseOneCm: 米骑马距离
+    aviateOneCm: 米鞘翅滑翔距离
+    jump: 次跳跃
+    damageDealt: 点造成伤害
+    damageTaken: 点承受伤害
+    deaths: 次死亡
+    mobKills: 次生物击杀
+    playerKills: 次玩家击杀
+    fishCaught: 次鱼获
+    tradedWithVillager: 次村民交易

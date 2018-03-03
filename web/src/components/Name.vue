@@ -2,7 +2,7 @@
   <li class="list-group-item">
     <h5>
       {{name.name}}
-      <small v-if="name.changedToAt">Changed at {{changedToAt}}</small>
+      <small v-if="name.changedToAt">{{$t('changed-at')}} {{changedToAt}}</small>
       <small v-if="!name.changedToAt"></small>
     </h5>
   </li>
@@ -25,3 +25,10 @@ export default {
   },
 };
 </script>
+
+<i18n>
+en:
+  changed-at: Changed at
+zh-cn:
+  changed-at: 变更于
+</i18n>

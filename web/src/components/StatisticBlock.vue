@@ -5,9 +5,7 @@
         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
         &nbsp;
         <span class="text-primary">{{ numAbbr(player.stats[prop]) }}</span>
-        <span class="text-muted">
-        {{ lang.stat[ac[1]] }}
-      </span>
+        <span class="text-muted">{{$t('stat.' + ac[1])}}</span>
       </div>
     </div>
   </div>
@@ -56,3 +54,4 @@ export default {
 };
 </script>
 
+<i18n src="@/assets/lang.yaml"></i18n>

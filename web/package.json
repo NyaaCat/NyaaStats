@@ -17,12 +17,14 @@
     "bootstrap-vue": "^1.0.0",
     "moment": "^2.19.1",
     "vue": "^2.5.2",
+    "vue-i18n": "^7.4.2",
     "vue-lazyload": "^1.1.4",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.8.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.2.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
@@ -67,7 +69,8 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "yaml-loader": "^0.5.0"
   },
   "engines": {
     "node": ">= 4.0.0",

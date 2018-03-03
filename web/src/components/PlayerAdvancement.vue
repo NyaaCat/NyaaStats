@@ -1,39 +1,39 @@
 <template>
   <div v-if="player.advancements">
     <div class="row" v-if="advTotal > 0">
-      <h3>Advancements</h3>
+      <h3>{{$t('advancements')}}</h3>
       <hr/>
       <div class="row" v-if="advStory.length > 0">
         <div class="col-md-12">
-          <h4>Story</h4>
+          <h4>{{$t('advancement["minecraft:story/root"]')}}</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advStory" :key="adv.advId" :adv="adv"></AdvancementBlock>
         </div>
       </div>
       <div class="row" v-if="advNether.length > 0">
         <div class="col-md-12">
-          <h4>Nether</h4>
+          <h4>{{$t('advancement["minecraft:nether/root"]')}}</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advNether" :key="adv.advId" :adv="adv"></AdvancementBlock>
           </div>
       </div>
       <div class="row" v-if="advEnd.length > 0">
         <div class="col-md-12">
-          <h4>The End</h4>
+          <h4>{{$t('advancement["minecraft:end/root"]')}}</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advEnd" :key="adv.advId" :adv="adv"></AdvancementBlock>
         </div>
       </div>
       <div class="row" v-if="advAdventure.length > 0">
         <div class="col-md-12">
-          <h4>Adventure</h4>
+          <h4>{{$t('advancement["minecraft:adventure/root"]')}}</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advAdventure" :key="adv.advId" :adv="adv"></AdvancementBlock>
         </div>
       </div>
       <div class="row" v-if="advHusbandry.length > 0">
         <div class="col-md-12">
-          <h4>Husbandry</h4>
+          <h4>{{$t('advancement["minecraft:husbandry/root"]')}}</h4>
           <hr/>
           <AdvancementBlock v-for="adv in advHusbandry" :key="adv.advId" :adv="adv"></AdvancementBlock>
         </div>
@@ -42,7 +42,7 @@
   </div>
 
   <div class="row" v-else>
-    <h3>Achievements</h3>
+    <h3>{{$t('achievements')}}</h3>
     <hr/>
     <AchievementBlock v-for="(prop, index) in Object.keys(player.stats)" :key="index" :player="player" :prop="prop" />
   </div>
@@ -127,3 +127,22 @@ export default {
   },
 };
 </script>
+
+<i18n src="@/assets/lang.yaml"></i18n>
+
+<i18n>
+en:
+  advancements: Advancements
+  nether: Nether
+  the_end: The End
+  adventure: Adventure
+  husbandry: Husbandry
+  achievements: Achievements
+zh-cn:
+  advancements: 进度
+  nether: 下界
+  the_end: 末地
+  adventure: 冒险
+  husbandry: 农牧业
+  achievements: 成就
+</i18n>

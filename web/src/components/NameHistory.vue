@@ -4,7 +4,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
-          Name History
+          {{$t('title')}}
         </h3>
       </div>
       <div class="panel-body">
@@ -27,3 +27,10 @@ export default {
   },
 };
 </script>
+
+<i18n>
+  en:
+    title: Name History
+  zh-cn:
+    title: 名称历史
+</i18n>
