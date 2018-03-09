@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     numAbbr(val) {
-      const value = Math.round(val);
+      // If it is a *OneCm stat, convert it into meters
+      const value = Math.round(/OneCm$/.test(this.ac[1]) ? val / 100 : val);
       let newValue = value;
       if (value >= 1000) {
         const suffixes = ['', 'k', 'M', 'b'];
