@@ -32,7 +32,6 @@ export function mergeStats(data) {
         merged[key + '/' + s] = data.stats[key][s]
       }
     }
-    merged['source'] = data.stats;
     return merged;
   }
   return data;
