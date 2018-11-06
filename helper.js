@@ -29,7 +29,7 @@ export function mergeStats(data) {
   if (data.hasOwnProperty('stats')) {
     for (let key in data.stats) {
       for (let s in data.stats[key]) {
-        merged[s] = data.stats[key][s]
+        merged[key + '/' + s] = data.stats[key][s]
       }
     }
     merged['source'] = data.stats;

@@ -6,7 +6,7 @@
         &nbsp;
         <span class="text-primary">{{ numAbbr(player.stats[prop]) }}</span>
         <span class="text-muted">
-        {{ lang.stat[ac[1]] }}
+        {{ lang.stat[ac] }}
       </span>
       </div>
     </div>
@@ -26,7 +26,7 @@ export default {
     };
   },
   mounted() {
-    this.ac = this.prop.split(':');
+    this.ac = this.prop; // this.prop.split(':')
   },
   methods: {
     numAbbr(val) {
