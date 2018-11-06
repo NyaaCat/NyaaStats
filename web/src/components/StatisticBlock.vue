@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-12 col-md-4 col-lg-3" v-if="ac[0] === 'stat' && lang.stat[ac[1]]">
+  <div class="col-sm-12 col-md-4 col-lg-3" v-if="lang.stat[ac]">
     <div class="panel panel-default">
       <div class="panel-body">
         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
