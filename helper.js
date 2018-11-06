@@ -35,7 +35,7 @@ export function mergeStats(data) {
     merged['source'] = data.stats;
     return merged;
   }
-  return {};
+  return data;
 }
 
 export function defaultSkin(uuid) {
