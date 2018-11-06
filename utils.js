@@ -5,7 +5,7 @@ import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
 
-import { writeJSON, defaultSkin, download, delay } from './helper';
+import { writeJSON, mergeStats, defaultSkin, download, delay } from './helper';
 import * as logger from './logger';
 
 const reqOpts = {
@@ -90,7 +90,11 @@ export default class Utils {
         return reject();
       }
       logger.PlayerData.info('READ', statsfile);
-      return resolve(JSON.parse(data));
+      data = JSON.parse(data);
+      return resolve({
+        merged: mergeStats(data),
+        source: data
+      });
     });
   }
 
@@ -155,11 +159,15 @@ export default class Utils {
   }
 
   async getPlayerTotalData(uuid) {
+    let s;
     let stats;
+    let stats_source;
     let advancements;
     let data;
     try {
-      stats = await this.getPlayerState(uuid);
+      s = await this.getPlayerState(uuid);
+      stats = s['merged'];
+      stats_source = s['source'];
       advancements = await this.getPlayerAdvancements(uuid);
       data = await this.getPlayerData(uuid);
     } catch (error) {
@@ -167,6 +175,7 @@ export default class Utils {
     }
     return {
       stats,
+      stats_source,
       advancements,
       data,
     };

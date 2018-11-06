@@ -24,6 +24,20 @@ export function writeJSON(dest, data) {
   });
 }
 
+export function mergeStats(data) {
+  let merged = {};
+  if (data.hasOwnProperty('stats')) {
+    for (let key in data.stats) {
+      for (let s in data.stats[key]) {
+        merged[s] = data.stats[key][s]
+      }
+    }
+    merged['source'] = data.stats;
+    return merged;
+  }
+  return {};
+}
+
 export function defaultSkin(uuid) {
   // great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
   // https://git.io/xJpV

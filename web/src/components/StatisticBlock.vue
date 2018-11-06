@@ -26,7 +26,7 @@ export default {
     };
   },
   mounted() {
-    this.ac = this.prop.split('.');
+    this.ac = this.prop.split(':');
   },
   methods: {
     numAbbr(val) {
