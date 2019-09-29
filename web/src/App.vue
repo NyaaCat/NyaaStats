@@ -27,7 +27,7 @@ export default {
   async mounted() {
     let data;
     try {
-      data = await axios.get('/static/data/info.json');
+      data = await axios.get('/data/info.json');
     } catch (error) {
       this.showNetworkErrorAlert = true;
       return;
@@ -73,3 +73,4 @@ body {
   margin-bottom: 0;
 }
 </style>
+

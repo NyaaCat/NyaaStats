@@ -14,8 +14,8 @@
         <div class="col-sm-12 col-md-3 col-lg-2 skin-container">
           <div class="panel panel-default">
             <div class="panel-body">
-              <img v-if="!isCanvasSupported" :src="`/static/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`" class="img-rounded">
-              <iframe v-if="isCanvasSupported" :src="`/static/skin/index.html?uuid=${uuid}`" class="skin" scrolling="no" />
+              <img v-if="!isCanvasSupported" :src="`/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`" class="img-rounded">
+              <iframe v-if="isCanvasSupported" :src="`/skin/index.html?uuid=${uuid}`" class="skin" scrolling="no" />
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default {
     if (!store.state.players[uuid]) {
       let data;
       try {
-        data = await axios.get(`/static/data/${uuid}/stats.json`);
+        data = await axios.get(`/data/${uuid}/stats.json`);
       } catch (error) {
         this.showNetworkErrorAlert = true;
         return;

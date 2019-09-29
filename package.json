@@ -2,7 +2,7 @@
   "name": "nyaa-stats",
   "version": "0.0.1",
   "description": "Web Stats for NyaaCat",
-  "main": "ns.js",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
@@ -27,30 +27,31 @@
   },
   "homepage": "https://github.com/NyaaCat/NyaaStats#readme",
   "dependencies": {
-    "bignum": "^0.12.5",
+    "bignum": "^0.13.0",
     "fs-extra": "^2.0.0",
     "gauge": "^2.7.4",
-    "inquirer": "^5.0.0",
-    "js-yaml": "^3.8.1",
-    "log4js": "^2.4.1",
-    "mcnbt": "0.0.7",
-    "moment": "^2.19.1",
-    "request": "^2.79.0",
-    "request-promise": "^4.2.2"
+    "inquirer": "^5.2.0",
+    "js-yaml": "^3.13.1",
+    "log4js": "^2.11.0",
+    "mcnbt": "github:ITJesse/mcnbt#b5a6b83",
+    "moment": "^2.24.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
-    "eslint": "^4.9.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-es-beautifier": "^1.0.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0"
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3"
   }
 }

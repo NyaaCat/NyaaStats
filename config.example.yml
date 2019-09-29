@@ -12,7 +12,7 @@ render:
   whitelist: whitelist.json # file path here, leave blank to disable
   banned-players: banned-players.json # file path here, leave blank to disable
   render-banned: false  # do not render banned players
-  output: web/static/data # directory path here, required
+  output: web/public/data # directory path here, required
   time-format: # time format on display, details http://momentjs.com/docs/#/displaying/format/
     full: dddd, MMMM Do, YYYY HH:mm:ss ZZ
     short: MMMM Do, YYYY

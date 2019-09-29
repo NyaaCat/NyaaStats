@@ -237,22 +237,20 @@ export default class Utils {
       throw new Error(error);
     }
 
-    const apiPrefixAvatar = 'https://crafatar.com/avatars/';
-    const apiPrefixBody = 'https://crafatar.com/renders/body/';
-    const apiPrefixSkin = 'https://crafatar.com/skins/';
-
-    const slim = `&default=MHF_${defaultSkin(uuid)}`;
+    const apiPrefixAvatar = 'https://minotar.net/avatar/';
+    const apiPrefixBody = 'https://minotar.net/body/';
+    const apiPrefixSkin = 'https://minotar.net/skin/';
 
     download(
-      `${apiPrefixAvatar}${uuid}?size=64&overlay${slim}`,
+      `${apiPrefixAvatar}${uuid}/64.jpg`,
       path.join(playerpath, 'avatar.png'),
     );
     download(
-      `${apiPrefixBody}${uuid}?size=128&overlay${slim}`,
+      `${apiPrefixBody}${uuid}/128.png`,
       path.join(playerpath, 'body.png'),
     );
     download(
-      `${apiPrefixSkin}${uuid}?${slim}`,
+      `${apiPrefixSkin}${uuid}.png`,
       path.join(playerpath, 'skin.png'),
     );
   }

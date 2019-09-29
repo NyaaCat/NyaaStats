@@ -79,6 +79,9 @@ export default {
       Object.keys(advancements).forEach((k) => {
         const adv = k.split('/');
         const type = adv[0].split(':')[1];
+        if (!advancements[k].criteria) {
+          return
+        }
         const prog = Object.keys(advancements[k].criteria).length;
         let progTotal = 0;
         if (this.info.advancementsProgress && this.info.advancementsProgress.type) {

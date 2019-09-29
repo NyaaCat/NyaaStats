@@ -41,7 +41,7 @@ export default {
     if (this.playerList.length < 1) {
       let data;
       try {
-        data = await axios.get('/static/data/players.json');
+        data = await axios.get('/data/players.json');
       } catch (error) {
         this.showNetworkErrorAlert = true;
         return;

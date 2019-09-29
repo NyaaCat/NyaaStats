@@ -316,7 +316,7 @@ function renderSkinHelper(canvas, theta, phi, model) {
 function renderSkin(canvas, slim, theta, phi, uuid, callback) {
   const skinImage = new Image();
   skinImage.crossOrigin = '';
-  skinImage.src = `/static/data/${uuid}/skin.png`;
+  skinImage.src = `/data/${uuid}/skin.png`;
   skinImage.onload = function () {
     const model = buildMinecraftModel(skinImage, slim);
     if (model) {
