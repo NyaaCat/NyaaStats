@@ -13,36 +13,32 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { mapState, mapMutations } from 'vuex';
+import axios from 'axios'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'app',
-  methods: mapMutations([
-    'setInfo',
-  ]),
-  computed: mapState([
-    'info',
-  ]),
+  methods: mapMutations(['setInfo']),
+  computed: mapState(['info']),
   async mounted() {
-    let data;
+    let data
     try {
-      data = await axios.get('/data/info.json');
+      data = await axios.get('/data/info.json')
     } catch (error) {
-      this.showNetworkErrorAlert = true;
-      return;
+      this.showNetworkErrorAlert = true
+      return
     }
     this.setInfo({
       info: data.data,
-    });
+    })
   },
-};
+}
 </script>
 
 <style>
 #app {
-  font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei", "微软雅黑", STXihei,
-    "华文细黑", sans-serif;
+  font-family: Tahoma, Helvetica, Arial, 'Microsoft Yahei', '微软雅黑', STXihei,
+    '华文细黑', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -73,4 +69,3 @@ body {
   margin-bottom: 0;
 }
 </style>
-

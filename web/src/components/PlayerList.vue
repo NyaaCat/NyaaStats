@@ -79,27 +79,29 @@ export default {
     ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
     filteredPlayerList() {
       if (this.keyword.length < 1) {
-        return this.playerList.slice(0, 1000)
+        return this.playerList.slice(0, 400)
       } else {
         const keyword = this.keyword.toLowerCase()
-        return this.playerList.filter(player => {
-          if (
-            keyword.length >= 32 &&
-            keyword.length <= 36 &&
-            player.uuid.indexOf(keyword.replace('-', '')) !== -1
-          ) {
-            return true
-          }
-          if (player.playername.toLowerCase().indexOf(keyword) !== -1) {
-            return true
-          }
-          return player.names.some(name => {
-            if (name.name.toLowerCase().indexOf(keyword) !== -1) {
+        return this.playerList
+          .filter(player => {
+            if (
+              keyword.length >= 32 &&
+              keyword.length <= 36 &&
+              player.uuid.indexOf(keyword.replace('-', '')) !== -1
+            ) {
               return true
             }
-            return false
+            if (player.playername.toLowerCase().indexOf(keyword) !== -1) {
+              return true
+            }
+            return player.names.some(name => {
+              if (name.name.toLowerCase().indexOf(keyword) !== -1) {
+                return true
+              }
+              return false
+            })
           })
-        })
+          .slice(0, 200)
       }
     },
   },
@@ -111,7 +113,6 @@ export default {
         this.$Lazyload.lazyLoadHandler()
       }, 200)
     },
-    search(player) {},
     updateKeyword(e) {
       this.setKeyword(e)
     },
@@ -155,4 +156,3 @@ export default {
   margin-bottom: 16px;
 }
 </style>
-
