@@ -12,12 +12,12 @@ _You need to do these command in a series._
 3. Rename config.example.yml to config.yml and modify it.
 4. Run `npm start`. This will take long time to grab the informations for each user, be patient. Your data will be written to your `output` directory defined in config file.
 
-## Build skin render
-1. Go into `skin` folder.
-2. `npm install && npm run build`.
-
 ## Build web pages
 1. Go into `web` folder.
+2. `npm install && npm run build`.
+
+## Build skin render
+1. Go into `skin` folder.
 2. `npm install && npm run build`.
 
 ## That's all
