@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "move": "rm -rf ../web/public/skin; mkdir ../web/public/skin; cp index.html main.js ../web/public/skin/",
+    "move": "rm -rf ../web/public/skin; mkdir -p ../web/public/skin; cp index.html main.js ../web/public/skin/",
     "build-js": "browserify src/index.js -t babelify | ./node_modules/.bin/uglifyjs -m -c > main.js",
     "build": "npm run build-js && npm run move"
   },
