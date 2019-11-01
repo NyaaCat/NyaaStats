@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-12 col-md-6 col-lg-4">
+  <div class="advancement-block col-sm-12 col-md-6 col-lg-4">
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="media">
@@ -9,7 +9,7 @@
             </div>
           </div>
           <div class="media-body text-middle">
-            <h4 class="media-heading">
+            <h4 class="my-0">
               {{ lang.advancement[adv.advId] }}<br/>
               <small>
                 <span v-if="adv.progTotal !== 0">
@@ -57,6 +57,11 @@ export default {
 </script>
 
 <style>
+  .advancement-block .my-0 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .advancement-frame {
     width: 52px;
     height: 52px;
