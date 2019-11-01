@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import advancementsData from '../assets/advancements.json';
+import advancementsData from '../assets/advancements-data.json';
 import lang from '../assets/lang.json';
 import { advancements } from '../assets/advancements';
 import * as frames from '../assets/frames';
