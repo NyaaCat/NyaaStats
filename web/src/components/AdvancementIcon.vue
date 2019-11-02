@@ -1,7 +1,7 @@
 <template>
   <span class="advancement-icon">
-    <img :src="frames[advancementType]" :alt="advancementType | frameAltText" class="frame">
-    <img :src="advancementItemIcons[advancementGroup][advancementName]" :alt="advancementName" class="icon">
+    <img :src="frame" :alt="advancementType | frameAltText" class="frame">
+    <img :src="itemIcon" :alt="advancementName" class="icon">
   </span>
 </template>
 
@@ -29,11 +29,25 @@ export default {
   },
 
   computed: {
-    frames: () => frames,
-
     advancementItemIcons: () => advancementItemIcons,
 
     advancementData: () => advancementData,
+
+    uuid() {
+      return this.$route.params.uuid;
+    },
+
+    advancementType() {
+      return advancementData[this.advancementId].type;
+    },
+
+    isAdvancementDone() {
+      return this.$store.state.players[this.uuid].advancements[this.advancementId].done;
+    },
+
+    frame() {
+      return frames[this.advancementType + (this.isAdvancementDone ? '_complete' : '')]
+    },
 
     advancementIdTokens() {
       return /^minecraft:(\w+)\/(\w+)$/.exec(this.advancementId).slice(1);
@@ -47,8 +61,8 @@ export default {
       return this.advancementIdTokens[1];
     },
 
-    advancementType() {
-      return advancementData[this.advancementId].type;
+    itemIcon() {
+      return advancementItemIcons[this.advancementGroup][this.advancementName];
     },
   },
 };
