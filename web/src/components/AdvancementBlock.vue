@@ -4,9 +4,7 @@
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
-            <div class="advancement-frame" :style="{backgroundImage: `url(${frame})`}">
-              <img class="media-object achievements" :src="icon">
-            </div>
+            <AdvancementIcon :advancement-id="adv.advId"/>
           </div>
           <div class="media-body text-middle">
             <h4 class="my-0">
@@ -31,49 +29,27 @@
 </template>
 
 <script>
-import advancementsData from '../assets/advancements-data.json';
 import lang from '../assets/lang.json';
-import { advancements } from '../assets/advancements';
-import * as frames from '../assets/frames';
+import AdvancementIcon from './AdvancementIcon';
 
 export default {
   name: 'AdvancementBlock',
+  components: {
+    AdvancementIcon,
+  },
   props: ['adv'],
   data() {
     return {
       lang,
     };
   },
-  computed: {
-    frame() {
-      return frames[advancementsData[this.adv.advId].type]
-    },
-    icon() {
-      return advancements[this.adv.type][this.adv.adv];
-    },
-  },
 };
 
 </script>
 
 <style>
-  .advancement-block .my-0 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  .advancement-frame {
-    width: 52px;
-    height: 52px;
-    position: relative;
-  }
-
-  .advancement-frame img {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
+.advancement-block .my-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 </style>
