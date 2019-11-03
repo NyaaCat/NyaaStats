@@ -7,17 +7,11 @@
 </template>
 
 <script>
-import lang from '../assets/lang.json';
 import StatisticBlock from './StatisticBlock';
 
 export default {
   name: 'PlayerStatistic',
   props: ['player'],
-  data() {
-    return {
-      lang,
-    };
-  },
   components: {
     StatisticBlock,
   },

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import langData from '@/assets/lang.json'
+
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     info: {
       title: 'NyaaStats',
@@ -15,7 +17,12 @@ export default new Vuex.Store({
     playerList: [],
     scrollOffset: '',
     keyword: '',
+
+    lang: 'zh_cn',
   },
+
+  getters: {},
+
   mutations: {
     setInfo(state, payload) {
       state.info = {
@@ -36,5 +43,20 @@ export default new Vuex.Store({
     setKeyword(state, keyword) {
       state.keyword = keyword
     },
+
+    setLang(state, value) {
+      state.lang = value
+    },
   },
 })
+
+Vue.mixin({
+  computed: {
+    lang() {
+      const lang = this.$store.state.lang
+      return key => langData[lang][key]
+    },
+  },
+})
+
+export default store

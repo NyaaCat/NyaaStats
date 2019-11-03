@@ -8,7 +8,7 @@
           </div>
           <div class="media-body text-middle">
             <h4 class="my-0">
-              {{ lang.advancement[adv.advId] }}<br/>
+              {{ lang(titleLangKey) }}<br/>
               <small>
                 <span v-if="adv.progTotal !== 0">
                   Completed {{ adv.prog }} / {{ adv.progTotal }}
@@ -29,19 +29,22 @@
 </template>
 
 <script>
-import lang from '../assets/lang.json';
 import AdvancementIcon from './AdvancementIcon';
 
 export default {
   name: 'AdvancementBlock',
+
   components: {
     AdvancementIcon,
   },
+
   props: ['adv'],
-  data() {
-    return {
-      lang,
-    };
+
+  computed: {
+    titleLangKey() {
+      const [, group, name] = this.adv.advId.split(/[:\/]/)
+      return `advancements.${group}.${name}.title`
+    },
   },
 };
 

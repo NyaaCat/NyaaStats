@@ -1,12 +1,12 @@
 <template>
-  <div class="col-sm-12 col-md-4 col-lg-3" v-if="lang.stat[ac]">
+  <div class="col-sm-12 col-md-4 col-lg-3" v-if="langData.stat[ac]">
     <div class="panel panel-default">
       <div class="panel-body">
         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
         &nbsp;
         <span class="text-primary">{{ numAbbr(player.stats[prop]) }}</span>
         <span class="text-muted">
-        {{ lang.stat[ac] }}
+        {{ langData.stat[ac] }}
       </span>
       </div>
     </div>
@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import lang from '../assets/lang.json';
+import langData from '../assets/lang.json';
 
 export default {
   name: 'StatisticBlock',
   props: ['player', 'prop'],
   data() {
     return {
-      lang,
+      langData,
       ac: '',
     };
   },
