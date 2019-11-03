@@ -7,35 +7,35 @@
         <div class="col-md-12">
           <h4>Story</h4>
           <hr>
-          <AdvancementBlock v-for="adv in advStory" :key="adv.advId" :adv="adv"/>
+          <AdvancementBlock v-for="adv in advStory.slice().sort((a, b) => b.updateTime - a.updateTime)" :key="adv.advId" :adv="adv"/>
         </div>
       </div>
       <div class="row" v-if="advNether.length > 0">
         <div class="col-md-12">
           <h4>Nether</h4>
           <hr>
-          <AdvancementBlock v-for="adv in advNether" :key="adv.advId" :adv="adv"/>
+          <AdvancementBlock v-for="adv in advNether.slice().sort((a, b) => b.updateTime - a.updateTime)" :key="adv.advId" :adv="adv"/>
         </div>
       </div>
       <div class="row" v-if="advEnd.length > 0">
         <div class="col-md-12">
           <h4>The End</h4>
           <hr>
-          <AdvancementBlock v-for="adv in advEnd" :key="adv.advId" :adv="adv"/>
+          <AdvancementBlock v-for="adv in advEnd.slice().sort((a, b) => b.updateTime - a.updateTime)" :key="adv.advId" :adv="adv"/>
         </div>
       </div>
       <div class="row" v-if="advAdventure.length > 0">
         <div class="col-md-12">
           <h4>Adventure</h4>
           <hr>
-          <AdvancementBlock v-for="adv in advAdventure" :key="adv.advId" :adv="adv"/>
+          <AdvancementBlock v-for="adv in advAdventure.slice().sort((a, b) => b.updateTime - a.updateTime)" :key="adv.advId" :adv="adv"/>
         </div>
       </div>
       <div class="row" v-if="advHusbandry.length > 0">
         <div class="col-md-12">
           <h4>Husbandry</h4>
           <hr>
-          <AdvancementBlock v-for="adv in advHusbandry" :key="adv.advId" :adv="adv"/>
+          <AdvancementBlock v-for="adv in advHusbandry.slice().sort((a, b) => b.updateTime - a.updateTime)" :key="adv.advId" :adv="adv"/>
         </div>
       </div>
     </div>
@@ -133,6 +133,7 @@ export default {
           type: group,
           prog,
           progTotal,
+          updateTime: Math.max(...Object.values(criteria).map(s => new Date(s))),
         })
       }
     },
