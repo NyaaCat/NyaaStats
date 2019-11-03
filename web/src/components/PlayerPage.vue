@@ -67,7 +67,7 @@
 import axios from 'axios'
 import { mapMutations, mapState } from 'vuex'
 
-import { store } from '../main'
+import store from '../store'
 import NameHistory from './NameHistory'
 import Membership from './Membership'
 import PlayerAdvancement from './PlayerAdvancement'

@@ -25,7 +25,7 @@ export default {
     try {
       data = await axios.get('/data/info.json')
     } catch (error) {
-      this.showNetworkErrorAlert = true
+      // TODO: show something
       return
     }
     this.setInfo({
@@ -37,8 +37,7 @@ export default {
 
 <style>
 #app {
-  font-family: Tahoma, Helvetica, Arial, 'Microsoft Yahei', '微软雅黑', STXihei,
-    '华文细黑', sans-serif;
+  font-family: Tahoma, Helvetica, Arial, 'Microsoft Yahei', '微软雅黑', STXihei, '华文细黑', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Navbar from './components/Navbar'
 import PlayerList from './components/PlayerList'
 import PlayerPage from './components/PlayerPage'

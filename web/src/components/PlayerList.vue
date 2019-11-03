@@ -27,14 +27,10 @@
       ></b-col>
     </b-row>
     <vue-lazy-component class="row">
-      <playerblock
-        v-for="(player, key, index) in filteredPlayerList"
-        :key="index"
-        :player="player"
-      ></playerblock>
+      <PlayerBlock v-for="(player, key, index) in filteredPlayerList" :key="index" :player="player"/>
     </vue-lazy-component>
     <hr />
-    <nyaa-footer></nyaa-footer>
+    <NyaaFooter/>
   </div>
 </template>
 
@@ -44,7 +40,7 @@ import { mapState, mapMutations } from 'vuex'
 import VueScrollTo from 'vue-scrollto'
 
 import PlayerBlock from './PlayerBlock'
-import Footer from './Footer'
+import NyaaFooter from './Footer'
 
 export default {
   name: 'PlayerList',
@@ -145,8 +141,8 @@ export default {
     })
   },
   components: {
-    playerblock: PlayerBlock,
-    nyaaFooter: Footer,
+    PlayerBlock,
+    NyaaFooter,
   },
 }
 </script>
