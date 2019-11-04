@@ -28,17 +28,3 @@ export default {
   computed: mapState(['info']),
 }
 </script>
-
-<style scoped>
-.flex {
-  display: flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-</style>

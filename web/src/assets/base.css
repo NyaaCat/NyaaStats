@@ -1,0 +1,15 @@
+/*
+ * A small collection of Tailwind CSS utility classes
+ */
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.ml-auto {
+  margin-left: auto;
+}

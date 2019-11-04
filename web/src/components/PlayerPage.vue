@@ -1,23 +1,18 @@
 <template>
-  <div>
+  <div class="player-page">
     <b-progress
       v-if="!player"
       :value="progress"
       :max="100"
       show-progress
       animated
-    ></b-progress>
-    <div v-if="player">
-      <div class="row">
-        <div class="col-md-12">
-          <h3>
-            {{ player.data.playername }}
-            <span v-if="player.data.banned" class="label label-danger"
-              >BANNED</span
-            >
-          </h3>
-        </div>
+    />
+    <template v-else>
+      <div class="player-page-header flex items-center">
+        <strong class="player-name">{{ player.data.playername }}</strong>
+        <span v-if="player.data.banned" class="player-banned">BANNED</span>
       </div>
+
       <div class="row">
         <div class="col-sm-12 col-md-3 col-lg-2 skin-container">
           <div class="panel panel-default">
@@ -45,21 +40,13 @@
         </div>
       </div>
 
-      <div class="row">
-        <ol class="breadcrumb">
-          <li><router-link to="/">Home</router-link></li>
-          <li>Player</li>
-          <li class="active">{{ player.data.playername }}</li>
-        </ol>
-      </div>
-
       <player-advancement :player="player" />
       <player-statistic :player="player" />
 
       <hr />
 
-      <nyaa-footer :player="player"></nyaa-footer>
-    </div>
+      <NyaaFooter :player="player" />
+    </template>
   </div>
 </template>
 
@@ -72,7 +59,7 @@ import NameHistory from './NameHistory'
 import Membership from './Membership'
 import PlayerAdvancement from './PlayerAdvancement'
 import PlayerStatistic from './PlayerStatistic'
-import Footer from './Footer'
+import NyaaFooter from './Footer'
 
 export default {
   name: 'PlayerPage',
@@ -141,7 +128,7 @@ export default {
     Membership,
     PlayerAdvancement,
     PlayerStatistic,
-    nyaaFooter: Footer,
+    NyaaFooter,
   },
 }
 </script>
@@ -153,7 +140,28 @@ export default {
   border: none;
   overflow: hidden;
 }
+
 .panel-body {
   padding: 0;
+}
+</style>
+
+<style>
+.player-page .player-page-header {
+  height: 50px;
+}
+
+.player-page .player-name {
+  font-size: 24px;
+}
+
+.player-page .player-banned {
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 3px;
+  background: #d9534f;
+  color: #fff;
+  margin-left: 10px;
 }
 </style>

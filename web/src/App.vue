@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <router-view name="navbar"></router-view>
+    <router-view name="navbar" />
 
-    <router-view name="welcome"></router-view>
+    <router-view name="welcome" />
 
     <div class="container">
-      <router-view name="container"></router-view>
+      <router-view name="container" />
     </div>
   </div>
 </template>
