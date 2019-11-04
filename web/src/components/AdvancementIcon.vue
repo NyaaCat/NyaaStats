@@ -1,24 +1,25 @@
 <template>
   <span class="advancement-icon">
-    <img :src="frame" :alt="advancementType | frameAltText" class="frame">
-    <img :src="itemIcon" :alt="advancementName" class="icon">
+    <img :src="frame" :alt="advancementType | frameAltText" class="frame" />
+    <img :src="itemIcon" :alt="advancementName" class="icon" />
   </span>
 </template>
 
 <script>
-import * as frames from '@/assets/frames';
-import advancementItemIcons from '@/assets/advancements';
-import advancementData from '@/assets/advancement-data.json';
+import * as frames from '@/assets/frames'
+import advancementItemIcons from '@/assets/advancements'
+import advancementData from '@/assets/advancement-data.json'
 
 export default {
   name: 'AdvancementIcon',
 
   filters: {
-    frameAltText: type => ({
-      normal: 'Normal Advancement',
-      goal: 'Goal',
-      challenge: 'Challenge',
-    }[type]),
+    frameAltText: type =>
+      ({
+        normal: 'Normal Advancement',
+        goal: 'Goal',
+        challenge: 'Challenge',
+      }[type]),
   },
 
   props: {
@@ -34,38 +35,42 @@ export default {
     advancementData: () => advancementData,
 
     uuid() {
-      return this.$route.params.uuid;
+      return this.$route.params.uuid
     },
 
     advancementType() {
-      return advancementData[this.advancementId].type;
+      return advancementData[this.advancementId].type
     },
 
     isAdvancementDone() {
-      return this.$store.state.players[this.uuid].advancements[this.advancementId].done;
+      return this.$store.state.players[this.uuid].advancements[
+        this.advancementId
+      ].done
     },
 
     frame() {
-      return frames[this.advancementType + (this.isAdvancementDone ? '_complete' : '')]
+      return frames[
+        this.advancementType + (this.isAdvancementDone ? '_complete' : '')
+      ]
     },
 
     advancementIdTokens() {
-      return /^minecraft:(\w+)\/(\w+)$/.exec(this.advancementId).slice(1);
+      return /^minecraft:(\w+)\/(\w+)$/.exec(this.advancementId).slice(1)
     },
 
     advancementGroup() {
-      return this.advancementIdTokens[0];
+      return this.advancementIdTokens[0]
     },
 
     advancementName() {
-      return this.advancementIdTokens[1];
+      return this.advancementIdTokens[1]
     },
 
     itemIcon() {
-      return advancementItemIcons[this.advancementGroup][this.advancementName];
+      return advancementItemIcons[this.advancementGroup][this.advancementName]
     },
   },
-};
+}
 </script>
 
 <style>

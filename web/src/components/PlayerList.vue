@@ -27,10 +27,14 @@
       ></b-col>
     </b-row>
     <vue-lazy-component class="row">
-      <PlayerBlock v-for="(player, key, index) in filteredPlayerList" :key="index" :player="player"/>
+      <PlayerBlock
+        v-for="(player, key, index) in filteredPlayerList"
+        :key="index"
+        :player="player"
+      />
     </vue-lazy-component>
     <hr />
-    <NyaaFooter/>
+    <NyaaFooter />
   </div>
 </template>
 

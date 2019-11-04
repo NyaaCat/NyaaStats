@@ -4,11 +4,11 @@
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
-            <AdvancementIcon :advancement-id="adv.advId"/>
+            <AdvancementIcon :advancement-id="adv.advId" />
           </div>
           <div class="media-body text-middle">
             <h4 class="my-0">
-              {{ lang(titleLangKey) }}<br/>
+              {{ lang(titleLangKey) }}<br />
               <small>
                 <span v-if="adv.progTotal !== 0">
                   Completed {{ adv.prog }} / {{ adv.progTotal }}
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import AdvancementIcon from './AdvancementIcon';
+import AdvancementIcon from './AdvancementIcon'
 
 export default {
   name: 'AdvancementBlock',
@@ -42,12 +42,11 @@ export default {
 
   computed: {
     titleLangKey() {
-      const [, group, name] = this.adv.advId.split(/[:\/]/)
+      const [, group, name] = this.adv.advId.split(/[:/]/)
       return `advancements.${group}.${name}.title`
     },
   },
-};
-
+}
 </script>
 
 <style>

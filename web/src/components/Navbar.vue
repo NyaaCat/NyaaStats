@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <div class="ml-auto">
-        <LangSelector/>
+        <LangSelector />
       </div>
     </div>
   </nav>
@@ -25,9 +25,7 @@ export default {
     LangSelector,
   },
 
-  computed: mapState([
-    'info',
-  ]),
+  computed: mapState(['info']),
 }
 </script>
 

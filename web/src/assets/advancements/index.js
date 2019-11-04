@@ -1,8 +1,8 @@
-import * as adventure from './adventure';
-import * as end from './end';
-import * as husbandry from './husbandry';
-import * as nether from './nether';
-import * as story from './story';
+import * as adventure from './adventure'
+import * as end from './end'
+import * as husbandry from './husbandry'
+import * as nether from './nether'
+import * as story from './story'
 
 export const advancements = {
   adventure,
@@ -10,6 +10,6 @@ export const advancements = {
   husbandry,
   nether,
   story,
-};
+}
 
-export default advancements;
+export default advancements
