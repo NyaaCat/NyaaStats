@@ -16,7 +16,7 @@ export default {
   filters: {
     frameAltText: type =>
       ({
-        normal: 'Normal Advancement',
+        task: 'Normal Advancement',
         goal: 'Goal',
         challenge: 'Challenge',
       }[type]),
@@ -84,6 +84,7 @@ export default {
 .advancement-icon .frame {
   width: 100%;
   height: 100%;
+  image-rendering: pixelated;
 }
 
 .advancement-icon .icon {

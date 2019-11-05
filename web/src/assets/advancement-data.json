@@ -1,54 +1,54 @@
 {
   "minecraft:story/root": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/mine_stone": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/upgrade_tools": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/smelt_iron": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/obtain_armor": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/lava_bucket": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/iron_tools": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/deflect_arrow": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/form_obsidian": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/mine_diamond": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/enter_the_nether": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/shiny_gear": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/enchant_item": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/cure_zombie_villager": {
     "type": "goal"
   },
   "minecraft:story/follow_ender_eye": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:story/enter_the_end": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/root": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/return_to_sender": {
     "type": "challenge"
@@ -57,25 +57,25 @@
     "type": "challenge"
   },
   "minecraft:nether/find_fortress": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/uneasy_alliance": {
     "type": "challenge"
   },
   "minecraft:nether/get_wither_skull": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/obtain_blaze_rod": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/summon_wither": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/brew_potion": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/create_beacon": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:nether/all_potions": {
     "type": "challenge"
@@ -87,16 +87,16 @@
     "type": "challenge"
   },
   "minecraft:end/root": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:end/kill_dragon": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:end/dragon_egg": {
     "type": "goal"
   },
   "minecraft:end/enter_end_gateway": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:end/respawn_dragon": {
     "type": "goal"
@@ -105,7 +105,7 @@
     "type": "goal"
   },
   "minecraft:end/find_end_city": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:end/elytra": {
     "type": "goal"
@@ -114,31 +114,31 @@
     "type": "challenge"
   },
   "minecraft:adventure/root": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/voluntary_exile": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/kill_a_mob": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/trade": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/ol_betsy": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/sleep_in_bed": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/hero_of_the_village": {
     "type": "challenge"
   },
   "minecraft:adventure/throw_trident": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/shoot_arrow": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/kill_all_mobs": {
     "type": "challenge"
@@ -153,7 +153,7 @@
     "type": "challenge"
   },
   "minecraft:adventure/whos_the_pillager_now": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/arbalistic": {
     "type": "challenge"
@@ -162,25 +162,25 @@
     "type": "challenge"
   },
   "minecraft:adventure/very_very_frightening": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:adventure/sniper_duel": {
     "type": "challenge"
   },
   "minecraft:husbandry/root": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:husbandry/breed_an_animal": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:husbandry/tame_an_animal": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:husbandry/fishy_business": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:husbandry/plant_seed": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:husbandry/bred_all_animals": {
     "type": "challenge"
@@ -189,7 +189,7 @@
     "type": "challenge"
   },
   "minecraft:husbandry/tactical_fishing": {
-    "type": "normal"
+    "type": "task"
   },
   "minecraft:husbandry/balanced_diet": {
     "type": "challenge"
