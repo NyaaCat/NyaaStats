@@ -29,17 +29,23 @@
         <img :src="titleBgMiddle" alt="" class="w-full" />
         <img :src="titleBgRight" alt="" />
       </div>
-      <div class="advancement-title__fg flex items-center">
+      <div class="advancement-title__fg relative flex items-center">
         <AdvancementIcon :advancement-id="adv.advId" />
-        <span class="advancement-title__text relative">{{
-          lang(titleLangKey)
-        }}</span>
+        <span class="advancement-title__text">{{ lang(titleLangKey) }}</span>
+        <span
+          v-if="advData.requirements && advData.requirements.length > 1"
+          class="advancement-title__progress"
+          >({{ Object.keys(playerData.criteria).length }}/{{
+            advData.requirements.length
+          }})</span
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import advancementData from '@/assets/advancement-data.json'
 import * as frames from '@/assets/frames'
 import AdvancementIcon from './AdvancementIcon'
 
@@ -53,30 +59,32 @@ export default {
   props: ['adv'],
 
   computed: {
+    advData() {
+      return advancementData[this.adv.advId]
+    },
+
     uuid() {
       return this.$route.params.uuid
     },
 
-    isAdvancementDone() {
-      return this.$store.state.players[this.uuid].advancements[
-        this.adv.advId
-      ].done
+    playerData() {
+      return this.$store.state.players[this.uuid].advancements[this.adv.advId]
     },
 
     titleBgLeft() {
-      return this.isAdvancementDone
+      return this.playerData.done
         ? frames.title_left_complete
         : frames.title_left
     },
 
     titleBgMiddle() {
-      return this.isAdvancementDone
+      return this.playerData.done
         ? frames.title_middle_complete
         : frames.title_middle
     },
 
     titleBgRight() {
-      return this.isAdvancementDone
+      return this.playerData.done
         ? frames.title_right_complete
         : frames.title_right
     },
@@ -111,14 +119,13 @@ export default {
   left: 100%;
 }
 
-.advancement-title__fg .advancement-icon {
-  margin: 0 2px;
-}
-
-.advancement-title__text {
+.advancement-title__fg {
   font-size: 17px;
   color: #fff;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+.advancement-title__fg > * {
   margin: 0 2px;
 }
 </style>

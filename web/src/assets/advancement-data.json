@@ -1,200 +1,538 @@
 {
-  "minecraft:story/root": {
-    "type": "task"
-  },
-  "minecraft:story/mine_stone": {
-    "type": "task"
-  },
-  "minecraft:story/upgrade_tools": {
-    "type": "task"
-  },
-  "minecraft:story/smelt_iron": {
-    "type": "task"
-  },
-  "minecraft:story/obtain_armor": {
-    "type": "task"
-  },
-  "minecraft:story/lava_bucket": {
-    "type": "task"
-  },
-  "minecraft:story/iron_tools": {
-    "type": "task"
-  },
-  "minecraft:story/deflect_arrow": {
-    "type": "task"
-  },
-  "minecraft:story/form_obsidian": {
-    "type": "task"
-  },
-  "minecraft:story/mine_diamond": {
-    "type": "task"
-  },
-  "minecraft:story/enter_the_nether": {
-    "type": "task"
-  },
-  "minecraft:story/shiny_gear": {
-    "type": "task"
-  },
-  "minecraft:story/enchant_item": {
-    "type": "task"
-  },
-  "minecraft:story/cure_zombie_villager": {
-    "type": "goal"
-  },
-  "minecraft:story/follow_ender_eye": {
-    "type": "task"
-  },
-  "minecraft:story/enter_the_end": {
-    "type": "task"
-  },
-  "minecraft:nether/root": {
-    "type": "task"
-  },
-  "minecraft:nether/return_to_sender": {
-    "type": "challenge"
-  },
-  "minecraft:nether/fast_travel": {
-    "type": "challenge"
-  },
-  "minecraft:nether/find_fortress": {
-    "type": "task"
-  },
-  "minecraft:nether/uneasy_alliance": {
-    "type": "challenge"
-  },
-  "minecraft:nether/get_wither_skull": {
-    "type": "task"
-  },
-  "minecraft:nether/obtain_blaze_rod": {
-    "type": "task"
-  },
-  "minecraft:nether/summon_wither": {
-    "type": "task"
-  },
-  "minecraft:nether/brew_potion": {
-    "type": "task"
-  },
-  "minecraft:nether/create_beacon": {
-    "type": "task"
-  },
-  "minecraft:nether/all_potions": {
-    "type": "challenge"
-  },
-  "minecraft:nether/create_full_beacon": {
-    "type": "goal"
-  },
-  "minecraft:nether/all_effects": {
-    "type": "challenge"
-  },
-  "minecraft:end/root": {
-    "type": "task"
-  },
-  "minecraft:end/kill_dragon": {
-    "type": "task"
-  },
-  "minecraft:end/dragon_egg": {
-    "type": "goal"
-  },
-  "minecraft:end/enter_end_gateway": {
-    "type": "task"
-  },
-  "minecraft:end/respawn_dragon": {
-    "type": "goal"
-  },
-  "minecraft:end/dragon_breath": {
-    "type": "goal"
-  },
-  "minecraft:end/find_end_city": {
-    "type": "task"
-  },
-  "minecraft:end/elytra": {
-    "type": "goal"
-  },
-  "minecraft:end/levitate": {
-    "type": "challenge"
-  },
-  "minecraft:adventure/root": {
-    "type": "task"
-  },
-  "minecraft:adventure/voluntary_exile": {
-    "type": "task"
-  },
-  "minecraft:adventure/kill_a_mob": {
-    "type": "task"
-  },
-  "minecraft:adventure/trade": {
-    "type": "task"
-  },
-  "minecraft:adventure/ol_betsy": {
-    "type": "task"
-  },
-  "minecraft:adventure/sleep_in_bed": {
-    "type": "task"
-  },
-  "minecraft:adventure/hero_of_the_village": {
-    "type": "challenge"
-  },
-  "minecraft:adventure/throw_trident": {
-    "type": "task"
-  },
-  "minecraft:adventure/shoot_arrow": {
-    "type": "task"
-  },
-  "minecraft:adventure/kill_all_mobs": {
-    "type": "challenge"
-  },
-  "minecraft:adventure/totem_of_undying": {
-    "type": "goal"
-  },
-  "minecraft:adventure/summon_iron_golem": {
-    "type": "goal"
-  },
-  "minecraft:adventure/two_birds_one_arrow": {
-    "type": "challenge"
-  },
-  "minecraft:adventure/whos_the_pillager_now": {
-    "type": "task"
+  "minecraft:adventure/adventuring_time": {
+    "type": "challenge",
+    "icon": "minecraft:diamond_boots",
+    "title": "advancements.adventure.adventuring_time.title",
+    "description": "advancements.adventure.adventuring_time.description",
+    "requirements": [
+      "minecraft:birch_forest_hills",
+      "minecraft:river",
+      "minecraft:swamp",
+      "minecraft:desert",
+      "minecraft:wooded_hills",
+      "minecraft:giant_tree_taiga_hills",
+      "minecraft:snowy_taiga",
+      "minecraft:badlands",
+      "minecraft:forest",
+      "minecraft:stone_shore",
+      "minecraft:snowy_tundra",
+      "minecraft:taiga_hills",
+      "minecraft:snowy_mountains",
+      "minecraft:wooded_badlands_plateau",
+      "minecraft:savanna",
+      "minecraft:plains",
+      "minecraft:frozen_river",
+      "minecraft:giant_tree_taiga",
+      "minecraft:snowy_beach",
+      "minecraft:jungle_hills",
+      "minecraft:jungle_edge",
+      "minecraft:mushroom_field_shore",
+      "minecraft:mountains",
+      "minecraft:desert_hills",
+      "minecraft:jungle",
+      "minecraft:beach",
+      "minecraft:savanna_plateau",
+      "minecraft:snowy_taiga_hills",
+      "minecraft:badlands_plateau",
+      "minecraft:dark_forest",
+      "minecraft:taiga",
+      "minecraft:birch_forest",
+      "minecraft:mushroom_fields",
+      "minecraft:wooded_mountains",
+      "minecraft:warm_ocean",
+      "minecraft:lukewarm_ocean",
+      "minecraft:cold_ocean",
+      "minecraft:deep_lukewarm_ocean",
+      "minecraft:deep_cold_ocean",
+      "minecraft:deep_frozen_ocean",
+      "minecraft:bamboo_jungle",
+      "minecraft:bamboo_jungle_hills"
+    ]
   },
   "minecraft:adventure/arbalistic": {
-    "type": "challenge"
+    "type": "challenge",
+    "icon": "minecraft:crossbow",
+    "title": "advancements.adventure.arbalistic.title",
+    "description": "advancements.adventure.arbalistic.description"
   },
-  "minecraft:adventure/adventuring_time": {
-    "type": "challenge"
+  "minecraft:adventure/hero_of_the_village": {
+    "type": "challenge",
+    "icon": "minecraft:white_banner",
+    "title": "advancements.adventure.hero_of_the_village.title",
+    "description": "advancements.adventure.hero_of_the_village.description"
   },
-  "minecraft:adventure/very_very_frightening": {
-    "type": "task"
+  "minecraft:adventure/kill_a_mob": {
+    "type": "task",
+    "icon": "minecraft:iron_sword",
+    "title": "advancements.adventure.kill_a_mob.title",
+    "description": "advancements.adventure.kill_a_mob.description"
+  },
+  "minecraft:adventure/kill_all_mobs": {
+    "type": "challenge",
+    "icon": "minecraft:diamond_sword",
+    "title": "advancements.adventure.kill_all_mobs.title",
+    "description": "advancements.adventure.kill_all_mobs.description",
+    "requirements": [
+      "minecraft:cave_spider",
+      "minecraft:spider",
+      "minecraft:zombie_pigman",
+      "minecraft:enderman",
+      "minecraft:blaze",
+      "minecraft:creeper",
+      "minecraft:evoker",
+      "minecraft:ghast",
+      "minecraft:guardian",
+      "minecraft:husk",
+      "minecraft:magma_cube",
+      "minecraft:shulker",
+      "minecraft:silverfish",
+      "minecraft:skeleton",
+      "minecraft:slime",
+      "minecraft:stray",
+      "minecraft:vindicator",
+      "minecraft:witch",
+      "minecraft:wither_skeleton",
+      "minecraft:zombie",
+      "minecraft:zombie_villager",
+      "minecraft:phantom",
+      "minecraft:drowned",
+      "minecraft:pillager",
+      "minecraft:ravager"
+    ]
+  },
+  "minecraft:adventure/ol_betsy": {
+    "type": "task",
+    "icon": "minecraft:crossbow",
+    "title": "advancements.adventure.ol_betsy.title",
+    "description": "advancements.adventure.ol_betsy.description"
+  },
+  "minecraft:adventure/root": {
+    "type": "task",
+    "icon": "minecraft:map",
+    "title": "advancements.adventure.root.title",
+    "description": "advancements.adventure.root.description"
+  },
+  "minecraft:adventure/shoot_arrow": {
+    "type": "task",
+    "icon": "minecraft:bow",
+    "title": "advancements.adventure.shoot_arrow.title",
+    "description": "advancements.adventure.shoot_arrow.description"
+  },
+  "minecraft:adventure/sleep_in_bed": {
+    "type": "task",
+    "icon": "minecraft:red_bed",
+    "title": "advancements.adventure.sleep_in_bed.title",
+    "description": "advancements.adventure.sleep_in_bed.description"
   },
   "minecraft:adventure/sniper_duel": {
-    "type": "challenge"
+    "type": "challenge",
+    "icon": "minecraft:arrow",
+    "title": "advancements.adventure.sniper_duel.title",
+    "description": "advancements.adventure.sniper_duel.description"
   },
-  "minecraft:husbandry/root": {
-    "type": "task"
+  "minecraft:adventure/summon_iron_golem": {
+    "type": "goal",
+    "icon": "minecraft:carved_pumpkin",
+    "title": "advancements.adventure.summon_iron_golem.title",
+    "description": "advancements.adventure.summon_iron_golem.description"
   },
-  "minecraft:husbandry/breed_an_animal": {
-    "type": "task"
+  "minecraft:adventure/throw_trident": {
+    "type": "task",
+    "icon": "minecraft:trident",
+    "title": "advancements.adventure.throw_trident.title",
+    "description": "advancements.adventure.throw_trident.description"
   },
-  "minecraft:husbandry/tame_an_animal": {
-    "type": "task"
+  "minecraft:adventure/totem_of_undying": {
+    "type": "goal",
+    "icon": "minecraft:totem_of_undying",
+    "title": "advancements.adventure.totem_of_undying.title",
+    "description": "advancements.adventure.totem_of_undying.description"
   },
-  "minecraft:husbandry/fishy_business": {
-    "type": "task"
+  "minecraft:adventure/trade": {
+    "type": "task",
+    "icon": "minecraft:emerald",
+    "title": "advancements.adventure.trade.title",
+    "description": "advancements.adventure.trade.description"
   },
-  "minecraft:husbandry/plant_seed": {
-    "type": "task"
+  "minecraft:adventure/two_birds_one_arrow": {
+    "type": "challenge",
+    "icon": "minecraft:crossbow",
+    "title": "advancements.adventure.two_birds_one_arrow.title",
+    "description": "advancements.adventure.two_birds_one_arrow.description"
   },
-  "minecraft:husbandry/bred_all_animals": {
-    "type": "challenge"
+  "minecraft:adventure/very_very_frightening": {
+    "type": "task",
+    "icon": "minecraft:trident",
+    "title": "advancements.adventure.very_very_frightening.title",
+    "description": "advancements.adventure.very_very_frightening.description"
   },
-  "minecraft:husbandry/complete_catalogue": {
-    "type": "challenge"
+  "minecraft:adventure/voluntary_exile": {
+    "type": "task",
+    "icon": "minecraft:white_banner",
+    "title": "advancements.adventure.voluntary_exile.title",
+    "description": "advancements.adventure.voluntary_exile.description"
   },
-  "minecraft:husbandry/tactical_fishing": {
-    "type": "task"
+  "minecraft:adventure/whos_the_pillager_now": {
+    "type": "task",
+    "icon": "minecraft:crossbow",
+    "title": "advancements.adventure.whos_the_pillager_now.title",
+    "description": "advancements.adventure.whos_the_pillager_now.description"
+  },
+  "minecraft:end/dragon_breath": {
+    "type": "goal",
+    "icon": "minecraft:dragon_breath",
+    "title": "advancements.end.dragon_breath.title",
+    "description": "advancements.end.dragon_breath.description"
+  },
+  "minecraft:end/dragon_egg": {
+    "type": "goal",
+    "icon": "minecraft:dragon_egg",
+    "title": "advancements.end.dragon_egg.title",
+    "description": "advancements.end.dragon_egg.description"
+  },
+  "minecraft:end/elytra": {
+    "type": "goal",
+    "icon": "minecraft:elytra",
+    "title": "advancements.end.elytra.title",
+    "description": "advancements.end.elytra.description"
+  },
+  "minecraft:end/enter_end_gateway": {
+    "type": "task",
+    "icon": "minecraft:ender_pearl",
+    "title": "advancements.end.enter_end_gateway.title",
+    "description": "advancements.end.enter_end_gateway.description"
+  },
+  "minecraft:end/find_end_city": {
+    "type": "task",
+    "icon": "minecraft:purpur_block",
+    "title": "advancements.end.find_end_city.title",
+    "description": "advancements.end.find_end_city.description"
+  },
+  "minecraft:end/kill_dragon": {
+    "type": "task",
+    "icon": "minecraft:dragon_head",
+    "title": "advancements.end.kill_dragon.title",
+    "description": "advancements.end.kill_dragon.description"
+  },
+  "minecraft:end/levitate": {
+    "type": "challenge",
+    "icon": "minecraft:shulker_shell",
+    "title": "advancements.end.levitate.title",
+    "description": "advancements.end.levitate.description"
+  },
+  "minecraft:end/respawn_dragon": {
+    "type": "goal",
+    "icon": "minecraft:end_crystal",
+    "title": "advancements.end.respawn_dragon.title",
+    "description": "advancements.end.respawn_dragon.description"
+  },
+  "minecraft:end/root": {
+    "type": "task",
+    "icon": "minecraft:end_stone",
+    "title": "advancements.end.root.title",
+    "description": "advancements.end.root.description"
   },
   "minecraft:husbandry/balanced_diet": {
-    "type": "challenge"
+    "type": "challenge",
+    "icon": "minecraft:apple",
+    "title": "advancements.husbandry.balanced_diet.title",
+    "description": "advancements.husbandry.balanced_diet.description",
+    "requirements": [
+      "apple",
+      "mushroom_stew",
+      "bread",
+      "porkchop",
+      "cooked_porkchop",
+      "golden_apple",
+      "enchanted_golden_apple",
+      "cod",
+      "salmon",
+      "tropical_fish",
+      "pufferfish",
+      "cooked_cod",
+      "cooked_salmon",
+      "cookie",
+      "melon_slice",
+      "beef",
+      "cooked_beef",
+      "chicken",
+      "cooked_chicken",
+      "rotten_flesh",
+      "spider_eye",
+      "carrot",
+      "potato",
+      "baked_potato",
+      "poisonous_potato",
+      "golden_carrot",
+      "pumpkin_pie",
+      "rabbit",
+      "cooked_rabbit",
+      "rabbit_stew",
+      "mutton",
+      "cooked_mutton",
+      "chorus_fruit",
+      "beetroot",
+      "beetroot_soup",
+      "dried_kelp",
+      "suspicious_stew",
+      "sweet_berries"
+    ]
   },
   "minecraft:husbandry/break_diamond_hoe": {
-    "type": "challenge"
+    "type": "challenge",
+    "icon": "minecraft:diamond_hoe",
+    "title": "advancements.husbandry.break_diamond_hoe.title",
+    "description": "advancements.husbandry.break_diamond_hoe.description"
+  },
+  "minecraft:husbandry/bred_all_animals": {
+    "type": "challenge",
+    "icon": "minecraft:golden_carrot",
+    "title": "advancements.husbandry.breed_all_animals.title",
+    "description": "advancements.husbandry.breed_all_animals.description",
+    "requirements": [
+      "minecraft:horse",
+      "minecraft:sheep",
+      "minecraft:cow",
+      "minecraft:mooshroom",
+      "minecraft:pig",
+      "minecraft:chicken",
+      "minecraft:wolf",
+      "minecraft:ocelot",
+      "minecraft:rabbit",
+      "minecraft:llama",
+      "minecraft:turtle",
+      "minecraft:cat",
+      "minecraft:panda",
+      "minecraft:fox"
+    ]
+  },
+  "minecraft:husbandry/breed_an_animal": {
+    "type": "task",
+    "icon": "minecraft:wheat",
+    "title": "advancements.husbandry.breed_an_animal.title",
+    "description": "advancements.husbandry.breed_an_animal.description"
+  },
+  "minecraft:husbandry/complete_catalogue": {
+    "type": "challenge",
+    "icon": "minecraft:cod",
+    "title": "advancements.husbandry.complete_catalogue.title",
+    "description": "advancements.husbandry.complete_catalogue.description",
+    "requirements": [
+      "textures/entity/cat/tabby.png",
+      "textures/entity/cat/black.png",
+      "textures/entity/cat/red.png",
+      "textures/entity/cat/siamese.png",
+      "textures/entity/cat/british_shorthair.png",
+      "textures/entity/cat/calico.png",
+      "textures/entity/cat/persian.png",
+      "textures/entity/cat/ragdoll.png",
+      "textures/entity/cat/white.png",
+      "textures/entity/cat/jellie.png",
+      "textures/entity/cat/all_black.png"
+    ]
+  },
+  "minecraft:husbandry/fishy_business": {
+    "type": "task",
+    "icon": "minecraft:fishing_rod",
+    "title": "advancements.husbandry.fishy_business.title",
+    "description": "advancements.husbandry.fishy_business.description"
+  },
+  "minecraft:husbandry/plant_seed": {
+    "type": "task",
+    "icon": "minecraft:wheat",
+    "title": "advancements.husbandry.plant_seed.title",
+    "description": "advancements.husbandry.plant_seed.description"
+  },
+  "minecraft:husbandry/root": {
+    "type": "task",
+    "icon": "minecraft:hay_block",
+    "title": "advancements.husbandry.root.title",
+    "description": "advancements.husbandry.root.description"
+  },
+  "minecraft:husbandry/tactical_fishing": {
+    "type": "task",
+    "icon": "minecraft:pufferfish_bucket",
+    "title": "advancements.husbandry.tactical_fishing.title",
+    "description": "advancements.husbandry.tactical_fishing.description"
+  },
+  "minecraft:husbandry/tame_an_animal": {
+    "type": "task",
+    "icon": "minecraft:lead",
+    "title": "advancements.husbandry.tame_an_animal.title",
+    "description": "advancements.husbandry.tame_an_animal.description"
+  },
+  "minecraft:nether/all_effects": {
+    "type": "challenge",
+    "icon": "minecraft:bucket",
+    "title": "advancements.nether.all_effects.title",
+    "description": "advancements.nether.all_effects.description"
+  },
+  "minecraft:nether/all_potions": {
+    "type": "challenge",
+    "icon": "minecraft:milk_bucket",
+    "title": "advancements.nether.all_potions.title",
+    "description": "advancements.nether.all_potions.description"
+  },
+  "minecraft:nether/brew_potion": {
+    "type": "task",
+    "icon": "minecraft:potion",
+    "title": "advancements.nether.brew_potion.title",
+    "description": "advancements.nether.brew_potion.description"
+  },
+  "minecraft:nether/create_beacon": {
+    "type": "task",
+    "icon": "minecraft:beacon",
+    "title": "advancements.nether.create_beacon.title",
+    "description": "advancements.nether.create_beacon.description"
+  },
+  "minecraft:nether/create_full_beacon": {
+    "type": "goal",
+    "icon": "minecraft:beacon",
+    "title": "advancements.nether.create_full_beacon.title",
+    "description": "advancements.nether.create_full_beacon.description"
+  },
+  "minecraft:nether/fast_travel": {
+    "type": "challenge",
+    "icon": "minecraft:map",
+    "title": "advancements.nether.fast_travel.title",
+    "description": "advancements.nether.fast_travel.description"
+  },
+  "minecraft:nether/find_fortress": {
+    "type": "task",
+    "icon": "minecraft:nether_bricks",
+    "title": "advancements.nether.find_fortress.title",
+    "description": "advancements.nether.find_fortress.description"
+  },
+  "minecraft:nether/get_wither_skull": {
+    "type": "task",
+    "icon": "minecraft:wither_skeleton_skull",
+    "title": "advancements.nether.get_wither_skull.title",
+    "description": "advancements.nether.get_wither_skull.description"
+  },
+  "minecraft:nether/obtain_blaze_rod": {
+    "type": "task",
+    "icon": "minecraft:blaze_rod",
+    "title": "advancements.nether.obtain_blaze_rod.title",
+    "description": "advancements.nether.obtain_blaze_rod.description"
+  },
+  "minecraft:nether/return_to_sender": {
+    "type": "challenge",
+    "icon": "minecraft:fire_charge",
+    "title": "advancements.nether.return_to_sender.title",
+    "description": "advancements.nether.return_to_sender.description"
+  },
+  "minecraft:nether/root": {
+    "type": "task",
+    "icon": "minecraft:red_nether_bricks",
+    "title": "advancements.nether.root.title",
+    "description": "advancements.nether.root.description"
+  },
+  "minecraft:nether/summon_wither": {
+    "type": "task",
+    "icon": "minecraft:nether_star",
+    "title": "advancements.nether.summon_wither.title",
+    "description": "advancements.nether.summon_wither.description"
+  },
+  "minecraft:nether/uneasy_alliance": {
+    "type": "challenge",
+    "icon": "minecraft:ghast_tear",
+    "title": "advancements.nether.uneasy_alliance.title",
+    "description": "advancements.nether.uneasy_alliance.description"
+  },
+  "minecraft:story/cure_zombie_villager": {
+    "type": "goal",
+    "icon": "minecraft:golden_apple",
+    "title": "advancements.story.cure_zombie_villager.title",
+    "description": "advancements.story.cure_zombie_villager.description"
+  },
+  "minecraft:story/deflect_arrow": {
+    "type": "task",
+    "icon": "minecraft:shield",
+    "title": "advancements.story.deflect_arrow.title",
+    "description": "advancements.story.deflect_arrow.description"
+  },
+  "minecraft:story/enchant_item": {
+    "type": "task",
+    "icon": "minecraft:enchanted_book",
+    "title": "advancements.story.enchant_item.title",
+    "description": "advancements.story.enchant_item.description"
+  },
+  "minecraft:story/enter_the_end": {
+    "type": "task",
+    "icon": "minecraft:end_stone",
+    "title": "advancements.story.enter_the_end.title",
+    "description": "advancements.story.enter_the_end.description"
+  },
+  "minecraft:story/enter_the_nether": {
+    "type": "task",
+    "icon": "minecraft:flint_and_steel",
+    "title": "advancements.story.enter_the_nether.title",
+    "description": "advancements.story.enter_the_nether.description"
+  },
+  "minecraft:story/follow_ender_eye": {
+    "type": "task",
+    "icon": "minecraft:ender_eye",
+    "title": "advancements.story.follow_ender_eye.title",
+    "description": "advancements.story.follow_ender_eye.description"
+  },
+  "minecraft:story/form_obsidian": {
+    "type": "task",
+    "icon": "minecraft:obsidian",
+    "title": "advancements.story.form_obsidian.title",
+    "description": "advancements.story.form_obsidian.description"
+  },
+  "minecraft:story/iron_tools": {
+    "type": "task",
+    "icon": "minecraft:iron_pickaxe",
+    "title": "advancements.story.iron_tools.title",
+    "description": "advancements.story.iron_tools.description"
+  },
+  "minecraft:story/lava_bucket": {
+    "type": "task",
+    "icon": "minecraft:lava_bucket",
+    "title": "advancements.story.lava_bucket.title",
+    "description": "advancements.story.lava_bucket.description"
+  },
+  "minecraft:story/mine_diamond": {
+    "type": "task",
+    "icon": "minecraft:diamond",
+    "title": "advancements.story.mine_diamond.title",
+    "description": "advancements.story.mine_diamond.description"
+  },
+  "minecraft:story/mine_stone": {
+    "type": "task",
+    "icon": "minecraft:wooden_pickaxe",
+    "title": "advancements.story.mine_stone.title",
+    "description": "advancements.story.mine_stone.description"
+  },
+  "minecraft:story/obtain_armor": {
+    "type": "task",
+    "icon": "minecraft:iron_chestplate",
+    "title": "advancements.story.obtain_armor.title",
+    "description": "advancements.story.obtain_armor.description"
+  },
+  "minecraft:story/root": {
+    "type": "task",
+    "icon": "minecraft:grass_block",
+    "title": "advancements.story.root.title",
+    "description": "advancements.story.root.description"
+  },
+  "minecraft:story/shiny_gear": {
+    "type": "task",
+    "icon": "minecraft:diamond_chestplate",
+    "title": "advancements.story.shiny_gear.title",
+    "description": "advancements.story.shiny_gear.description"
+  },
+  "minecraft:story/smelt_iron": {
+    "type": "task",
+    "icon": "minecraft:iron_ingot",
+    "title": "advancements.story.smelt_iron.title",
+    "description": "advancements.story.smelt_iron.description"
+  },
+  "minecraft:story/upgrade_tools": {
+    "type": "task",
+    "icon": "minecraft:stone_pickaxe",
+    "title": "advancements.story.upgrade_tools.title",
+    "description": "advancements.story.upgrade_tools.description"
   }
 }
