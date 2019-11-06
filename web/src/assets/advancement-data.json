@@ -287,8 +287,8 @@
   "minecraft:husbandry/bred_all_animals": {
     "type": "challenge",
     "icon": "minecraft:golden_carrot",
-    "title": "advancements.husbandry.breed_all_animals.title",
-    "description": "advancements.husbandry.breed_all_animals.description",
+    "title": "advancements.husbandry.bred_all_animals.title",
+    "description": "advancements.husbandry.bred_all_animals.description",
     "requirements": [
       "minecraft:horse",
       "minecraft:sheep",
