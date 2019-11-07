@@ -105,11 +105,11 @@ export default {
 }
 
 .advancement-requirements__inner p.done svg {
-  fill: green;
+  fill: #0a0;
 }
 
 .advancement-requirements__inner p:not(.done) svg {
-  fill: red;
+  fill: #f55;
 }
 
 .advancement-block:hover .advancement-title {
