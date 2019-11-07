@@ -7,7 +7,7 @@
         :src="bgProgress"
         alt=""
         class="w-full"
-        :style="{ width: progress / (total || 1) * 100 + '%' }"
+        :style="{ width: Math.min(progress / (total || 1), 1) * 100 + '%' }"
       />
       <img :src="bgRight" alt="" />
     </div>
