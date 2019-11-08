@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 import langData from '@/assets/lang.json'
 
@@ -24,19 +25,18 @@ const store = new Vuex.Store({
   getters: {},
 
   mutations: {
-    setInfo(state, payload) {
-      state.info = {
-        ...payload.info,
-      }
+    setInfo(state, data) {
+      state.info = data
     },
-    setPlayer(state, payload) {
-      state.players[payload.uuid] = {
-        ...payload.player,
-      }
+
+    setPlayer(state, [uuid, data]) {
+      state.players[uuid] = data
     },
-    setPlayerList(state, payload) {
-      state.playerList = [...payload.playerList]
+
+    setPlayerList(state, data) {
+      state.playerList = data
     },
+
     setScrollOffset(state, payload) {
       state.scrollOffset = payload.uuid
     },
@@ -46,6 +46,50 @@ const store = new Vuex.Store({
 
     setLang(state, value) {
       state.lang = value
+    },
+  },
+
+  actions: {
+    async fetchInfo({ commit }) {
+      let data
+
+      try {
+        data = (await axios.get('/data/info.json')).data
+      } catch (e) {
+        console.error(e)
+        return Promise.reject(e)
+      }
+
+      commit('setInfo', data)
+      return data
+    },
+
+    async fetchPlayers({ commit }) {
+      let data
+
+      try {
+        data = (await axios.get('/data/players.json')).data
+      } catch (e) {
+        console.error(e)
+        return Promise.reject(e)
+      }
+
+      commit('setPlayerList', data)
+      return data
+    },
+
+    async fetchStats({ commit }, uuid) {
+      let data
+
+      try {
+        data = (await axios.get(`/data/${uuid}/stats.json`)).data
+      } catch (e) {
+        console.error(e)
+        return Promise.reject(e)
+      }
+
+      commit('setPlayer', [uuid, data])
+      return data
     },
   },
 })

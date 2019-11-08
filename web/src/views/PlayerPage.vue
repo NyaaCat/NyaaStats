@@ -51,8 +51,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapMutations, mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 import store from '../store'
 import NameHistory from '../components/NameHistory'
@@ -63,6 +62,15 @@ import NyaaFooter from '../components/Footer'
 
 export default {
   name: 'PlayerPage',
+
+  components: {
+    NameHistory,
+    Membership,
+    PlayerAdvancement,
+    PlayerStatistic,
+    NyaaFooter,
+  },
+
   data() {
     return {
       mutableInfo: null,
@@ -72,41 +80,7 @@ export default {
       progress: 0,
     }
   },
-  async beforeRouteEnter(to, from, next) {
-    const uuid = to.params.uuid
-    let player
-    if (!store.state.players[uuid]) {
-      let data
-      try {
-        data = await axios.get(`/data/${uuid}/stats.json`)
-      } catch (error) {
-        this.showNetworkErrorAlert = true
-        return
-      }
-      player = data.data
-    } else {
-      player = store.state.players[uuid]
-    }
-    next(vm => {
-      vm.setPlayerData(uuid, player)
-    })
-  },
-  methods: {
-    ...mapMutations(['setPlayer']),
-    setPlayerData(uuid, data) {
-      this.progress = 100
-      this.uuid = uuid
-      this.player = data
-      this.setPlayer({
-        uuid,
-        player: data,
-      })
-      document.title = `${this.info.title} - ${this.player.data.playername}`
-    },
-    setInfoData(data) {
-      this.mutableInfo = data
-    },
-  },
+
   computed: {
     ...mapState(['info']),
     isCanvasSupported() {
@@ -114,6 +88,14 @@ export default {
       return !!(elem.getContext && elem.getContext('2d'))
     },
   },
+
+  async beforeRouteEnter(to, from, next) {
+    const uuid = to.params.uuid
+    const player =
+      store.state.players[uuid] || (await store.dispatch('fetchStats', uuid))
+    next(vm => void vm.setPlayerData(uuid, player))
+  },
+
   mounted() {
     const timer = setInterval(() => {
       this.progress += 20
@@ -123,12 +105,14 @@ export default {
     }, 100)
     this.$el.scrollTop = 0
   },
-  components: {
-    NameHistory,
-    Membership,
-    PlayerAdvancement,
-    PlayerStatistic,
-    NyaaFooter,
+
+  methods: {
+    setPlayerData(uuid, data) {
+      this.progress = 100
+      this.uuid = uuid
+      this.player = data
+      document.title = `${this.info.title} - ${this.player.data.playername}`
+    },
   },
 }
 </script>

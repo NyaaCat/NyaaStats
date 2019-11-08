@@ -11,31 +11,19 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapState, mapMutations } from 'vuex'
-
 import Navbar from '@/components/Navbar'
 import Welcome from '@/components/Welcome'
 
 export default {
   name: 'app',
+
   components: {
     Navbar,
     Welcome,
   },
-  methods: mapMutations(['setInfo']),
-  computed: mapState(['info']),
-  async mounted() {
-    let data
-    try {
-      data = await axios.get('/data/info.json')
-    } catch (error) {
-      // TODO: show something
-      return
-    }
-    this.setInfo({
-      info: data.data,
-    })
+
+  created() {
+    this.$store.dispatch('fetchInfo')
   },
 }
 </script>

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
 import VueScrollTo from 'vue-scrollto'
 
@@ -48,6 +47,12 @@ import NyaaFooter from '../components/Footer'
 
 export default {
   name: 'PlayerList',
+
+  components: {
+    PlayerBlock,
+    NyaaFooter,
+  },
+
   data() {
     return {
       showNetworkErrorAlert: false,
@@ -57,26 +62,10 @@ export default {
       isScrolled: false,
     }
   },
-  async mounted() {
-    if (this.playerList.length < 1) {
-      let data
-      try {
-        data = await axios.get('/data/players.json')
-      } catch (error) {
-        this.showNetworkErrorAlert = true
-        return
-      }
-      this.setPlayerList({
-        playerList: data.data,
-      })
-    }
-    this.loading = false
-  },
-  watch: {
-    keyword: 'lazyload',
-  },
+
   computed: {
     ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
+
     filteredPlayerList() {
       if (this.keyword.length < 1) {
         return this.playerList.slice(0, 400)
@@ -105,25 +94,28 @@ export default {
       }
     },
   },
-  methods: {
-    ...mapMutations(['setPlayerList', 'setScrollOffset', 'setKeyword']),
-    lazyload() {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.$Lazyload.lazyLoadHandler()
-      }, 200)
-    },
-    updateKeyword(e) {
-      this.setKeyword(e)
-    },
+
+  watch: {
+    keyword: 'lazyload',
   },
-  beforeRouteLeave(to, from, next) {
-    const uuid = to.params.uuid
-    this.setScrollOffset({
-      uuid,
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      document.title = vm.info.title
     })
-    next()
   },
+
+  async created() {
+    if (this.playerList.length === 0) {
+      try {
+        await this.$store.dispatch('fetchPlayers')
+      } catch (e) {
+        this.showNetworkErrorAlert = true
+      }
+    }
+    this.loading = false
+  },
+
   updated() {
     this.$nextTick(() => {
       if (this.scrollOffset.length === 32 && !this.isScrolled) {
@@ -139,14 +131,26 @@ export default {
       this.isScrolled = true
     })
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      document.title = vm.info.title
+
+  beforeRouteLeave(to, from, next) {
+    const uuid = to.params.uuid
+    this.setScrollOffset({
+      uuid,
     })
+    next()
   },
-  components: {
-    PlayerBlock,
-    NyaaFooter,
+
+  methods: {
+    ...mapMutations(['setScrollOffset', 'setKeyword']),
+    lazyload() {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.$Lazyload.lazyLoadHandler()
+      }, 200)
+    },
+    updateKeyword(e) {
+      this.setKeyword(e)
+    },
   },
 }
 </script>
