@@ -43,8 +43,8 @@ import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
 import VueScrollTo from 'vue-scrollto'
 
-import PlayerBlock from './PlayerBlock'
-import NyaaFooter from './Footer'
+import PlayerBlock from '../components/PlayerBlock'
+import NyaaFooter from '../components/Footer'
 
 export default {
   name: 'PlayerList',

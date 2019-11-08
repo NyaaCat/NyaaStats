@@ -14,7 +14,7 @@
     <div class="advancement-title__fg relative flex items-center">
       <AdvancementIcon :advancement-id="advancementId" class="flex-0" />
       <span class="advancement-title__text">{{ lang(titleLangKey) }}</span>
-      <span v-if="total" class="advancement-title__progress ml-auto"
+      <span v-if="total" class="advancement-title__progress"
         >{{ progress }}/{{ total }}</span
       >
     </div>
@@ -117,6 +117,7 @@ export default {
 }
 
 .advancement-title__progress {
+  margin-left: auto;
   margin-right: 8px;
 }
 </style>

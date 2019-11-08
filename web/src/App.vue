@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <router-view name="navbar" />
+    <Navbar />
 
-    <router-view name="welcome" />
+    <Welcome v-if="$route.path === '/'" />
 
     <div class="container">
-      <router-view name="container" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -14,8 +14,15 @@
 import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
 
+import Navbar from '@/components/Navbar'
+import Welcome from '@/components/Welcome'
+
 export default {
   name: 'app',
+  components: {
+    Navbar,
+    Welcome,
+  },
   methods: mapMutations(['setInfo']),
   computed: mapState(['info']),
   async mounted() {

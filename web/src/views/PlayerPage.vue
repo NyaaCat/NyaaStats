@@ -55,11 +55,11 @@ import axios from 'axios'
 import { mapMutations, mapState } from 'vuex'
 
 import store from '../store'
-import NameHistory from './NameHistory'
-import Membership from './Membership'
-import PlayerAdvancement from './PlayerAdvancement'
-import PlayerStatistic from './PlayerStatistic'
-import NyaaFooter from './Footer'
+import NameHistory from '../components/NameHistory'
+import Membership from '../components/Membership'
+import PlayerAdvancement from '../components/PlayerAdvancement'
+import PlayerStatistic from '../components/PlayerStatistic'
+import NyaaFooter from '../components/Footer'
 
 export default {
   name: 'PlayerPage',
