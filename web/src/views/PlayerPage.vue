@@ -111,7 +111,7 @@ export default {
       this.progress = 100
       this.uuid = uuid
       this.player = data
-      document.title = `${this.info.title} - ${this.player.data.playername}`
+      document.title = `${this.player.data.playername} | ${this.info.title}`
     },
   },
 }
