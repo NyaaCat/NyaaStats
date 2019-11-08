@@ -21,15 +21,15 @@
           id="input-none"
           type="text"
           :value="keyword"
-          @input="updateKeyword"
+          @input="val => setKeyword(val)"
           placeholder="Search user by Name / UUID"
         />
       </b-col>
     </b-row>
     <vue-lazy-component class="row">
       <PlayerBlock
-        v-for="(player, key, index) in filteredPlayerList"
-        :key="index"
+        v-for="(player, idx) of playerListProcessed"
+        :key="idx"
         :player="player"
       />
     </vue-lazy-component>
@@ -66,11 +66,17 @@ export default {
   computed: {
     ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
 
+    keywordTrimmed() {
+      return this.keyword.trim()
+    },
+
+    playerListCapped() {
+      return this.playerList.slice(0, 100)
+    },
+
     filteredPlayerList() {
-      if (this.keyword.length === 0) {
-        return this.playerList.slice(0, 400)
-      }
-      const keyword = this.keyword.trim().toLowerCase()
+      const keyword = this.keywordTrimmed.toLowerCase()
+      // TODO: cap the iteration in the first place
       return this.playerList
         .filter(
           player =>
@@ -85,7 +91,13 @@ export default {
               name.name.toLowerCase().includes(keyword),
             ),
         )
-        .slice(0, 200)
+        .slice(0, 100)
+    },
+
+    playerListProcessed() {
+      return this.keywordTrimmed
+        ? this.filteredPlayerList
+        : this.playerListCapped
     },
   },
 
@@ -141,9 +153,6 @@ export default {
       this.timer = setTimeout(() => {
         this.$Lazyload.lazyLoadHandler()
       }, 200)
-    },
-    updateKeyword(e) {
-      this.setKeyword(e)
     },
   },
 }
