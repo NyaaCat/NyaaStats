@@ -16,15 +16,15 @@
       class="mb-3"
     ></b-progress>
     <b-row class="searchbox">
-      <b-col sm="12"
-        ><b-form-input
+      <b-col sm="12">
+        <b-form-input
           id="input-none"
           type="text"
           :value="keyword"
           @input="updateKeyword"
           placeholder="Search user by Name / UUID"
-        ></b-form-input
-      ></b-col>
+        />
+      </b-col>
     </b-row>
     <vue-lazy-component class="row">
       <PlayerBlock
@@ -67,31 +67,25 @@ export default {
     ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
 
     filteredPlayerList() {
-      if (this.keyword.length < 1) {
+      if (this.keyword.length === 0) {
         return this.playerList.slice(0, 400)
-      } else {
-        const keyword = this.keyword.toLowerCase()
-        return this.playerList
-          .filter(player => {
-            if (
-              keyword.length >= 32 &&
-              keyword.length <= 36 &&
-              player.uuid.indexOf(keyword.replace('-', '')) !== -1
-            ) {
-              return true
-            }
-            if (player.playername.toLowerCase().indexOf(keyword) !== -1) {
-              return true
-            }
-            return player.names.some(name => {
-              if (name.name.toLowerCase().indexOf(keyword) !== -1) {
-                return true
-              }
-              return false
-            })
-          })
-          .slice(0, 200)
       }
+      const keyword = this.keyword.trim().toLowerCase()
+      return this.playerList
+        .filter(
+          player =>
+            // match #1: if keyword is an uuid
+            (32 <= keyword.length &&
+              keyword.length <= 36 &&
+              player.uuid.includes(keyword.replace(/-/g, ''))) ||
+            // match #2: if keyword is player's current name
+            player.playername.toLowerCase().includes(keyword) ||
+            // match #3: if keyword is player's used name
+            player.names.some(name =>
+              name.name.toLowerCase().includes(keyword),
+            ),
+        )
+        .slice(0, 200)
     },
   },
 

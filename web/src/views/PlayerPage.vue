@@ -34,14 +34,14 @@
         </div>
         <div class="col-sm-12 col-md-9 col-lg-10">
           <div class="row">
-            <membership :player="player"></membership>
-            <name-history :player="player"></name-history>
+            <Membership :player="player" />
+            <NameHistory :player="player" />
           </div>
         </div>
       </div>
 
-      <player-advancement :player="player" />
-      <player-statistic :player="player" />
+      <PlayerAdvancement :player="player" />
+      <PlayerStatistic :player="player" />
 
       <hr />
 
