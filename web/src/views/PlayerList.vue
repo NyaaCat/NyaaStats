@@ -32,6 +32,20 @@
         :key="idx"
         :player="player"
       />
+      <span v-if="!keywordTrimmed">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 searchbox">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div
+                class="flex items-center justify-center"
+                style="height: 64px;"
+              >
+                <h4>...and {{ playerList.length - 99 }} more</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </span>
     </vue-lazy-component>
     <hr />
     <NyaaFooter />
@@ -71,7 +85,7 @@ export default {
     },
 
     playerListCapped() {
-      return this.playerList.slice(0, 100)
+      return this.playerList.slice(0, 99)
     },
 
     filteredPlayerList() {
