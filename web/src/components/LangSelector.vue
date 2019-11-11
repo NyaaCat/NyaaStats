@@ -1,6 +1,11 @@
 <template>
-  <span class="lang-selector">
-    <select v-model="value">
+  <span class="lang-selector relative">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z"
+      />
+    </svg>
+    <select v-model="value" class="absolute">
       <option value="zh_cn">中文</option>
       <option value="en_us">English</option>
     </select>
@@ -26,6 +31,28 @@ export default {
 
 <style>
 .lang-selector {
-  color: #9d9d9d;
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.lang-selector svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: #9d9d9d;
+}
+
+.lang-selector select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  appearance: none;
 }
 </style>
