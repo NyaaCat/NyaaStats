@@ -3,6 +3,7 @@ export const root = require('./root.png');
 export const voluntary_exile = require('./voluntary_exile.png');
 export const kill_a_mob = require('./kill_a_mob.png');
 export const trade = require('./trade.png');
+export const honey_block_slide = require('./honey_block_slide.png');
 export const ol_betsy = require('./ol_betsy.png');
 export const sleep_in_bed = require('./sleep_in_bed.png');
 export const hero_of_the_village = require('./hero_of_the_village.png');

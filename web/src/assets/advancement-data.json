@@ -105,6 +105,12 @@
     "title": "advancements.adventure.hero_of_the_village.title",
     "description": "advancements.adventure.hero_of_the_village.description"
   },
+  "minecraft:adventure/honey_block_slide": {
+    "type": "task",
+    "icon": "minecraft:honey_block",
+    "title": "advancements.adventure.honey_block_slide.title",
+    "description": "advancements.adventure.honey_block_slide.description"
+  },
   "minecraft:adventure/kill_a_mob": {
     "type": "task",
     "icon": "minecraft:iron_sword",
@@ -346,7 +352,8 @@
       "beetroot_soup",
       "dried_kelp",
       "suspicious_stew",
-      "sweet_berries"
+      "sweet_berries",
+      "honey_bottle"
     ],
     "requirement_names": {
       "apple": "item.minecraft.apple",
@@ -386,7 +393,8 @@
       "beetroot_soup": "item.minecraft.beetroot_soup",
       "dried_kelp": "item.minecraft.dried_kelp",
       "suspicious_stew": "item.minecraft.suspicious_stew",
-      "sweet_berries": "item.minecraft.sweet_berries"
+      "sweet_berries": "item.minecraft.sweet_berries",
+      "honey_bottle": "item.minecraft.honey_bottle"
     }
   },
   "minecraft:husbandry/break_diamond_hoe": {
@@ -414,7 +422,8 @@
       "minecraft:turtle",
       "minecraft:cat",
       "minecraft:panda",
-      "minecraft:fox"
+      "minecraft:fox",
+      "minecraft:bee"
     ],
     "requirement_names": {
       "minecraft:horse": "entity.minecraft.horse",
@@ -430,7 +439,8 @@
       "minecraft:turtle": "entity.minecraft.turtle",
       "minecraft:cat": "entity.minecraft.cat",
       "minecraft:panda": "entity.minecraft.panda",
-      "minecraft:fox": "entity.minecraft.fox"
+      "minecraft:fox": "entity.minecraft.fox",
+      "minecraft:bee": "entity.minecraft.bee"
     }
   },
   "minecraft:husbandry/breed_an_animal": {
@@ -488,6 +498,18 @@
     "icon": "minecraft:hay_block",
     "title": "advancements.husbandry.root.title",
     "description": "advancements.husbandry.root.description"
+  },
+  "minecraft:husbandry/safely_harvest_honey": {
+    "type": "task",
+    "icon": "minecraft:honey_bottle",
+    "title": "advancements.husbandry.safely_harvest_honey.title",
+    "description": "advancements.husbandry.safely_harvest_honey.description"
+  },
+  "minecraft:husbandry/silk_touch_nest": {
+    "type": "task",
+    "icon": "minecraft:bee_nest",
+    "title": "advancements.husbandry.silk_touch_nest.title",
+    "description": "advancements.husbandry.silk_touch_nest.description"
   },
   "minecraft:husbandry/tactical_fishing": {
     "type": "task",
