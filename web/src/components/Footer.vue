@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+  import {format} from 'date-fns'
 
   export default {
     name: 'Footer',
@@ -21,15 +21,12 @@
 
     computed: {
       ...mapState(['info']),
-      lastUpdate() {
-        if (this.player && this.info) {
-          return moment(this.player.data.lastUpdate || 0).format(
-            this.info.timeFormat ? this.info.timeFormat.full : '',
-          )
+
+      lastUpdate () {
+        if (this.player) {
+          return format(new Date(this.player.data.lastUpdate), 'yyyy-MM-dd HH:mm:ss xx')
         } else if (this.info) {
-          return moment(this.info.lastUpdate || 0).format(
-            this.info.timeFormat ? this.info.timeFormat.full : '',
-          )
+          return format(new Date(this.info.lastUpdate), 'yyyy-MM-dd HH:mm:ss xx')
         }
         return ''
       },

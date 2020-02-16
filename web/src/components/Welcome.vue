@@ -27,8 +27,8 @@
 </template>
 
 <script>
-  import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+  import {add, formatDistanceStrict} from 'date-fns'
 
   export default {
     name: 'Welcome',
@@ -37,7 +37,13 @@
       ...mapState(['info']),
 
       worldTime () {
-        return this.info.worldTime ? moment.duration(this.info.worldTime, 'seconds').humanize() : '--'
+        if (this.info.worldTime) {
+          const date = new Date()
+          const baseDate = add(date, {seconds: -this.info.worldTime})
+          return formatDistanceStrict(date, baseDate)
+        } else {
+          return '--'
+        }
       },
 
       totalPlayers () {

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+  import {format} from 'date-fns'
 
   export default {
     name: 'Name',
@@ -24,10 +24,9 @@
 
     computed: {
       ...mapState(['info']),
-      changedToAt() {
-        return moment(this.name.changedToAt).format(
-          this.info.timeFormat ? this.info.timeFormat.compact : '',
-        )
+
+      changedToAt () {
+        return format(new Date(this.name.changedToAt), 'yyyy-MM-dd HH:mm:ss xx')
       },
     },
   }

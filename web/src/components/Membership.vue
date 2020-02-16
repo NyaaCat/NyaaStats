@@ -19,7 +19,7 @@
             <p class="list-group-item-text text-muted">Last Active</p>
           </li>
           <li v-if="player.data.time_lived" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ timeLived }} Hours</h4>
+            <h4 class="list-group-item-heading">{{ timeLived }}</h4>
             <p class="list-group-item-text text-muted">Total Online</p>
           </li>
         </div>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-  import moment from 'moment'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+  import {add, format, formatDistanceStrict} from 'date-fns'
 
   export default {
     name: 'Membership',
@@ -44,21 +44,17 @@
 
     computed: {
       ...mapState(['info']),
-      timeStart() {
-        return moment(this.player.data.time_start).format(
-          this.info.timeFormat ? this.info.timeFormat.full : '',
-        )
+
+      timeStart () {
+        return format(new Date(this.player.data.time_start), 'yyyy-MM-dd HH:mm:ss xx')
       },
-      timeLast() {
-        return moment(this.player.data.time_last).format(
-          this.info.timeFormat ? this.info.timeFormat.full : '',
-        )
+      timeLast () {
+        return format(new Date(this.player.data.time_last), 'yyyy-MM-dd HH:mm:ss xx')
       },
-      timeLived() {
-        return moment
-          .duration(this.player.data.time_lived, 'seconds')
-          .asHours()
-          .toFixed(1)
+      timeLived () {
+        const date = new Date()
+        const baseDate = add(date, {seconds: -this.player.data.time_lived})
+        return formatDistanceStrict(date, baseDate, {unit: 'hour'})
       },
     },
   }
