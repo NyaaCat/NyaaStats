@@ -13,20 +13,20 @@
 </template>
 
 <script>
-export default {
-  name: 'LangSelector',
+  export default {
+    name: 'LangSelector',
 
-  computed: {
-    value: {
-      get() {
-        return this.$store.state.lang
-      },
-      set(val) {
-        this.$store.commit('setLang', val)
+    computed: {
+      value: {
+        get() {
+          return this.$store.state.lang
+        },
+        set(val) {
+          this.$store.commit('setLang', val)
+        },
       },
     },
-  },
-}
+  }
 </script>
 
 <style>

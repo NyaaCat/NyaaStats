@@ -1,76 +1,76 @@
 <template>
   <span class="advancement-icon">
-    <img :src="frame" :alt="advancementType | frameAltText" class="frame" />
-    <img :src="itemIcon" :alt="advancementName" class="icon" />
+    <img :src="frame" :alt="advancementType | frameAltText" class="frame">
+    <img :src="itemIcon" :alt="advancementName" class="icon">
   </span>
 </template>
 
 <script>
-import * as frames from '@/assets/frames'
-import advancementItemIcons from '@/assets/advancements'
-import advancementData from '@/assets/advancement-data.json'
+  import * as frames from '@/assets/frames'
+  import advancementItemIcons from '@/assets/advancements'
+  import advancementData from '@/assets/advancement-data.json'
 
-export default {
-  name: 'AdvancementIcon',
+  export default {
+    name: 'AdvancementIcon',
 
-  filters: {
-    frameAltText: type =>
-      ({
-        task: 'Normal Advancement',
-        goal: 'Goal',
-        challenge: 'Challenge',
-      }[type]),
-  },
-
-  props: {
-    advancementId: {
-      type: String,
-      required: true,
-    },
-  },
-
-  computed: {
-    advancementItemIcons: () => advancementItemIcons,
-
-    advancementData: () => advancementData,
-
-    uuid() {
-      return this.$route.params.uuid
+    filters: {
+      frameAltText: type =>
+        ({
+          task: 'Normal Advancement',
+          goal: 'Goal',
+          challenge: 'Challenge',
+        }[type]),
     },
 
-    advancementType() {
-      return advancementData[this.advancementId].type
+    props: {
+      advancementId: {
+        type: String,
+        required: true,
+      },
     },
 
-    isAdvancementDone() {
-      return this.$store.state.players[this.uuid].advancements[
-        this.advancementId
-      ].done
-    },
+    computed: {
+      advancementItemIcons: () => advancementItemIcons,
 
-    frame() {
-      return frames[
-        this.advancementType + (this.isAdvancementDone ? '_complete' : '')
-      ]
-    },
+      advancementData: () => advancementData,
 
-    advancementIdTokens() {
-      return /^minecraft:(\w+)\/(\w+)$/.exec(this.advancementId).slice(1)
-    },
+      uuid() {
+        return this.$route.params.uuid
+      },
 
-    advancementGroup() {
-      return this.advancementIdTokens[0]
-    },
+      advancementType() {
+        return advancementData[this.advancementId].type
+      },
 
-    advancementName() {
-      return this.advancementIdTokens[1]
-    },
+      isAdvancementDone() {
+        return this.$store.state.players[this.uuid].advancements[
+          this.advancementId
+        ].done
+      },
 
-    itemIcon() {
-      return advancementItemIcons[this.advancementGroup][this.advancementName]
+      frame() {
+        return frames[
+          this.advancementType + (this.isAdvancementDone ? '_complete' : '')
+        ]
+      },
+
+      advancementIdTokens() {
+        return /^minecraft:(\w+)\/(\w+)$/.exec(this.advancementId).slice(1)
+      },
+
+      advancementGroup() {
+        return this.advancementIdTokens[0]
+      },
+
+      advancementName() {
+        return this.advancementIdTokens[1]
+      },
+
+      itemIcon() {
+        return advancementItemIcons[this.advancementGroup][this.advancementName]
+      },
     },
-  },
-}
+  }
 </script>
 
 <style>

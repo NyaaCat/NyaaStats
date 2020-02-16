@@ -14,15 +14,15 @@
       :max="100"
       animated
       class="mb-3"
-    ></b-progress>
+    />
     <b-row class="searchbox">
       <b-col sm="12">
         <b-form-input
           id="input-none"
           type="text"
           :value="keyword"
-          @input="val => setKeyword(val)"
           placeholder="Search user by Name / UUID"
+          @input="val => setKeyword(val)"
         />
       </b-col>
     </b-row>
@@ -47,131 +47,131 @@
         </div>
       </span>
     </vue-lazy-component>
-    <hr />
+    <hr>
     <NyaaFooter />
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import VueScrollTo from 'vue-scrollto'
+  import { mapState, mapMutations } from 'vuex'
+  import VueScrollTo from 'vue-scrollto'
 
-import PlayerBlock from '../components/PlayerBlock'
-import NyaaFooter from '../components/Footer'
+  import PlayerBlock from '../components/PlayerBlock'
+  import NyaaFooter from '../components/Footer'
 
-export default {
-  name: 'PlayerList',
+  export default {
+    name: 'PlayerList',
 
-  components: {
-    PlayerBlock,
-    NyaaFooter,
-  },
-
-  data() {
-    return {
-      showNetworkErrorAlert: false,
-      searchTimer: null,
-      loading: true,
-      timer: null,
-      isScrolled: false,
-    }
-  },
-
-  computed: {
-    ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
-
-    keywordTrimmed() {
-      return this.keyword.trim()
+    components: {
+      PlayerBlock,
+      NyaaFooter,
     },
 
-    playerListCapped() {
-      return this.playerList.slice(0, 99)
+    data() {
+      return {
+        showNetworkErrorAlert: false,
+        searchTimer: null,
+        loading: true,
+        timer: null,
+        isScrolled: false,
+      }
     },
 
-    filteredPlayerList() {
-      const keyword = this.keywordTrimmed.toLowerCase()
-      // [ matchCurrentName, matchUsedName, matchUUID ]
-      const result = [[], [], []]
-      for (const player of this.playerList) {
-        if (player.playername.toLowerCase().includes(keyword)) {
-          result[0].push(player)
-        } else if (
-          player.names.some(name => name.name.toLowerCase().includes(keyword))
-        ) {
-          result[1].push(player)
-        } else if (
-          player.uuid.includes(keyword.replace(/-/g, ''))
-        ) {
-          result[2].push(player)
+    computed: {
+      ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
+
+      keywordTrimmed() {
+        return this.keyword.trim()
+      },
+
+      playerListCapped() {
+        return this.playerList.slice(0, 99)
+      },
+
+      filteredPlayerList() {
+        const keyword = this.keywordTrimmed.toLowerCase()
+        // [ matchCurrentName, matchUsedName, matchUUID ]
+        const result = [[], [], []]
+        for (const player of this.playerList) {
+          if (player.playername.toLowerCase().includes(keyword)) {
+            result[0].push(player)
+          } else if (
+            player.names.some(name => name.name.toLowerCase().includes(keyword))
+          ) {
+            result[1].push(player)
+          } else if (
+            player.uuid.includes(keyword.replace(/-/g, ''))
+          ) {
+            result[2].push(player)
+          }
+          if (result.map(arr => arr.length).reduce((sum, num) => sum + num) >= 99)
+            break
         }
-        if (result.map(arr => arr.length).reduce((sum, num) => sum + num) >= 99)
-          break
-      }
-      return result.flat(1)
+        return result.flat(1)
+      },
+
+      playerListProcessed() {
+        return this.keywordTrimmed
+          ? this.filteredPlayerList
+          : this.playerListCapped
+      },
     },
 
-    playerListProcessed() {
-      return this.keywordTrimmed
-        ? this.filteredPlayerList
-        : this.playerListCapped
+    watch: {
+      keyword: 'lazyload',
     },
-  },
 
-  watch: {
-    keyword: 'lazyload',
-  },
-
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      document.title = vm.info.title
-    })
-  },
-
-  async created() {
-    if (this.playerList.length === 0) {
-      try {
-        await this.$store.dispatch('fetchPlayers')
-      } catch (e) {
-        this.showNetworkErrorAlert = true
-      }
-    }
-    this.loading = false
-  },
-
-  updated() {
-    this.$nextTick(() => {
-      if (this.scrollOffset.length === 32 && !this.isScrolled) {
-        setTimeout(() => {
-          VueScrollTo.scrollTo(`[data-uuid="${this.scrollOffset}"]`, 500, {
-            duration: 500,
-            easing: 'ease-in',
-            offset: -65,
-            cancelable: false,
-          })
-        }, 100)
-      }
-      this.isScrolled = true
-    })
-  },
-
-  beforeRouteLeave(to, from, next) {
-    const uuid = to.params.uuid
-    this.setScrollOffset({
-      uuid,
-    })
-    next()
-  },
-
-  methods: {
-    ...mapMutations(['setScrollOffset', 'setKeyword']),
-    lazyload() {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.$Lazyload.lazyLoadHandler()
-      }, 200)
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        document.title = vm.info.title
+      })
     },
-  },
-}
+
+    async created() {
+      if (this.playerList.length === 0) {
+        try {
+          await this.$store.dispatch('fetchPlayers')
+        } catch (e) {
+          this.showNetworkErrorAlert = true
+        }
+      }
+      this.loading = false
+    },
+
+    updated() {
+      this.$nextTick(() => {
+        if (this.scrollOffset.length === 32 && !this.isScrolled) {
+          setTimeout(() => {
+            VueScrollTo.scrollTo(`[data-uuid="${this.scrollOffset}"]`, 500, {
+              duration: 500,
+              easing: 'ease-in',
+              offset: -65,
+              cancelable: false,
+            })
+          }, 100)
+        }
+        this.isScrolled = true
+      })
+    },
+
+    beforeRouteLeave(to, from, next) {
+      const uuid = to.params.uuid
+      this.setScrollOffset({
+        uuid,
+      })
+      next()
+    },
+
+    methods: {
+      ...mapMutations(['setScrollOffset', 'setKeyword']),
+      lazyload() {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.$Lazyload.lazyLoadHandler()
+        }, 200)
+      },
+    },
+  }
 </script>
 
 <style scoped>

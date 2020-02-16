@@ -1,14 +1,14 @@
 <template>
   <div class="advancement-description">
-    <div class="upper outside"></div>
-    <div class="upper inside"></div>
+    <div class="upper outside" />
+    <div class="upper inside" />
     <div class="middle outside">
       <div class="middle inside">
         <slot />
       </div>
     </div>
-    <div class="lower inside"></div>
-    <div class="lower outside"></div>
+    <div class="lower inside" />
+    <div class="lower outside" />
   </div>
 </template>
 

@@ -30,45 +30,50 @@
 </template>
 
 <script>
-import advancementData from '@/assets/advancement-data'
-import AdvancementTitle from './AdvancementTitle'
-import AdvancementDescription from './AdvancementDescription'
+  import advancementData from '@/assets/advancement-data'
+  import AdvancementTitle from './AdvancementTitle'
+  import AdvancementDescription from './AdvancementDescription'
 
-export default {
-  name: 'AdvancementBlock',
+  export default {
+    name: 'AdvancementBlock',
 
-  components: {
-    AdvancementTitle,
-    AdvancementDescription,
-  },
-
-  filters: {
-    svgPath: val =>
-      val
-        ? 'M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z'
-        : 'M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z',
-  },
-
-  props: ['adv'],
-
-  computed: {
-    advData() {
-      return advancementData[this.adv.advId]
+    components: {
+      AdvancementTitle,
+      AdvancementDescription,
     },
 
-    requirements() {
-      return this.advData.requirements || []
+    filters: {
+      svgPath: val =>
+        val
+          ? 'M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z'
+          : 'M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z',
     },
 
-    achieved() {
-      const uuid = this.$route.params.uuid
-      const player = this.$store.state.players[uuid].advancements[
-        this.adv.advId
-      ]
-      return Object.keys(player.criteria)
+    props: {
+      adv: {
+        type: Object,
+        required: true,
+      },
     },
-  },
-}
+
+    computed: {
+      advData() {
+        return advancementData[this.adv.advId]
+      },
+
+      requirements() {
+        return this.advData.requirements || []
+      },
+
+      achieved() {
+        const uuid = this.$route.params.uuid
+        const player = this.$store.state.players[uuid].advancements[
+          this.adv.advId
+        ]
+        return Object.keys(player.criteria)
+      },
+    },
+  }
 </script>
 
 <style>

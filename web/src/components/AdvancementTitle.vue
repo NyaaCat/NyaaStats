@@ -1,84 +1,82 @@
 <template>
   <div class="advancement-title relative">
     <div class="advancement-title__bg w-full">
-      <img :src="bgLeft" alt="" />
-      <img :src="bgFull" alt="" class="w-full" />
+      <img :src="bgLeft" alt="">
+      <img :src="bgFull" alt="" class="w-full">
       <img
         :src="bgProgress"
         alt=""
         class="w-full"
         :style="{ width: Math.min(progress / (total || 1), 1) * 100 + '%' }"
-      />
-      <img :src="bgRight" alt="" />
+      >
+      <img :src="bgRight" alt="">
     </div>
     <div class="advancement-title__fg relative flex items-center">
       <AdvancementIcon :advancement-id="advancementId" class="flex-none" />
       <span class="advancement-title__text">{{ lang(titleLangKey) }}</span>
-      <span v-if="total" class="advancement-title__progress"
-        >{{ progress }}/{{ total }}</span
-      >
+      <span v-if="total" class="advancement-title__progress">{{ progress }}/{{ total }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import * as frames from '@/assets/frames'
-import advancementData from '@/assets/advancement-data'
-import AdvancementIcon from './AdvancementIcon'
+  import * as frames from '@/assets/frames'
+  import advancementData from '@/assets/advancement-data'
+  import AdvancementIcon from './AdvancementIcon'
 
-export default {
-  name: 'AdvancementTitle',
+  export default {
+    name: 'AdvancementTitle',
 
-  components: {
-    AdvancementIcon,
-  },
-
-  props: {
-    advancementId: {
-      type: String,
-      required: true,
-    },
-  },
-
-  computed: {
-    data() {
-      return advancementData[this.advancementId]
+    components: {
+      AdvancementIcon,
     },
 
-    player() {
-      const uuid = this.$route.params.uuid
-      return this.$store.state.players[uuid].advancements[this.advancementId]
+    props: {
+      advancementId: {
+        type: String,
+        required: true,
+      },
     },
 
-    bgLeft() {
-      return frames.title_left_complete
-    },
+    computed: {
+      data() {
+        return advancementData[this.advancementId]
+      },
 
-    bgFull() {
-      return frames.title_middle
-    },
+      player() {
+        const uuid = this.$route.params.uuid
+        return this.$store.state.players[uuid].advancements[this.advancementId]
+      },
 
-    bgProgress() {
-      return frames.title_middle_complete
-    },
+      bgLeft() {
+        return frames.title_left_complete
+      },
 
-    bgRight() {
-      return this.player.done ? frames.title_right_complete : frames.title_right
-    },
+      bgFull() {
+        return frames.title_middle
+      },
 
-    titleLangKey() {
-      return this.data.title
-    },
+      bgProgress() {
+        return frames.title_middle_complete
+      },
 
-    total() {
-      return this.data.requirements ? this.data.requirements.length : 0
-    },
+      bgRight() {
+        return this.player.done ? frames.title_right_complete : frames.title_right
+      },
 
-    progress() {
-      return Object.keys(this.player.criteria).length
+      titleLangKey() {
+        return this.data.title
+      },
+
+      total() {
+        return this.data.requirements ? this.data.requirements.length : 0
+      },
+
+      progress() {
+        return Object.keys(this.player.criteria).length
+      },
     },
-  },
-}
+  }
 </script>
 
 <style>

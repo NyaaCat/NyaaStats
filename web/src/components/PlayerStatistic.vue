@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <h3>Statistics</h3>
-    <hr />
+    <hr>
     <statistic-block
       v-for="(prop, index) in Object.keys(player.stats)"
       :key="index"
@@ -12,13 +12,20 @@
 </template>
 
 <script>
-import StatisticBlock from './StatisticBlock'
+  import StatisticBlock from './StatisticBlock'
 
-export default {
-  name: 'PlayerStatistic',
-  props: ['player'],
-  components: {
-    StatisticBlock,
-  },
-}
+  export default {
+    name: 'PlayerStatistic',
+
+    components: {
+      StatisticBlock,
+    },
+
+    props: {
+      player: {
+        type: Object,
+        required: true,
+      },
+    },
+  }
 </script>

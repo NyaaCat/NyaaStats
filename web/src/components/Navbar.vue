@@ -14,17 +14,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex'
 
-import LangSelector from '@/components/LangSelector'
+  import LangSelector from '@/components/LangSelector'
 
-export default {
-  name: 'Navbar',
+  export default {
+    name: 'Navbar',
 
-  components: {
-    LangSelector,
-  },
+    components: {
+      LangSelector,
+    },
 
-  computed: mapState(['info']),
-}
+    computed: mapState(['info']),
+  }
 </script>

@@ -11,21 +11,21 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar'
-import Welcome from '@/components/Welcome'
+  import Navbar from '@/components/Navbar'
+  import Welcome from '@/components/Welcome'
 
-export default {
-  name: 'app',
+  export default {
+    name: 'App',
 
-  components: {
-    Navbar,
-    Welcome,
-  },
+    components: {
+      Navbar,
+      Welcome,
+    },
 
-  created() {
-    this.$store.dispatch('fetchInfo')
-  },
-}
+    created() {
+      this.$store.dispatch('fetchInfo')
+    },
+  }
 </script>
 
 <style>
