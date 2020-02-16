@@ -1,25 +1,18 @@
 <template>
   <div id="app">
     <Navbar />
-
-    <Welcome v-if="$route.path === '/'" />
-
-    <div class="container">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
   import Navbar from '@/components/Navbar'
-  import Welcome from '@/components/Welcome'
 
   export default {
     name: 'App',
 
     components: {
       Navbar,
-      Welcome,
     },
 
     created() {

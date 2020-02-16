@@ -1,5 +1,5 @@
 <template>
-  <div class="player-page">
+  <div class="player-page container">
     <b-progress
       v-if="!player"
       :value="progress"

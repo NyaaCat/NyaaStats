@@ -8,11 +8,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: () => import('../views/PlayerList'),
+      component: () => import('../views/Home.vue'),
     },
     {
       path: '/player/:uuid',
-      component: () => import('../views/PlayerPage'),
+      component: () => import('../views/Player.vue'),
     },
   ],
 })

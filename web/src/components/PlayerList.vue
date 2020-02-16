@@ -47,8 +47,6 @@
         </div>
       </span>
     </vue-lazy-component>
-    <hr>
-    <NyaaFooter />
   </div>
 </template>
 
@@ -56,15 +54,13 @@
   import { mapState, mapMutations } from 'vuex'
   import VueScrollTo from 'vue-scrollto'
 
-  import PlayerBlock from '../components/PlayerBlock'
-  import NyaaFooter from '../components/Footer'
+  import PlayerBlock from './PlayerBlock'
 
   export default {
     name: 'PlayerList',
 
     components: {
       PlayerBlock,
-      NyaaFooter,
     },
 
     data() {
