@@ -2,12 +2,20 @@
  * A small collection of Tailwind CSS utility classes
  */
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 .flex {
   display: flex;
 }
 
-.flex-0 {
-  flex: 0 0 auto;
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.flex-none {
+  flex: none;
 }
 
 .items-center {
@@ -20,6 +28,14 @@
 
 .ml-auto {
   margin-left: auto;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-0 {
+  margin-bottom: 0;
 }
 
 .my-0 {
@@ -49,4 +65,28 @@
 
 .right-0 {
   right: 0;
+}
+
+.text-gray-600 {
+  color: #718096;
+}
+
+.text-red-600 {
+  color: #e53e3e;
+}
+
+.not-italic {
+  font-style: normal;
+}
+
+.font-mono {
+  font-family: monospace;
+}
+
+.rounded {
+  border-radius: .25rem;
+}
+
+.break-all {
+  word-break: break-all;
 }

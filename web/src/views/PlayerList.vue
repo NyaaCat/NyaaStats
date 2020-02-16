@@ -28,8 +28,8 @@
     </b-row>
     <vue-lazy-component class="row">
       <PlayerBlock
-        v-for="(player, idx) of playerListProcessed"
-        :key="idx"
+        v-for="player of playerListProcessed"
+        :key="player.uuid"
         :player="player"
       />
       <span v-if="!keywordTrimmed">
@@ -90,22 +90,24 @@ export default {
 
     filteredPlayerList() {
       const keyword = this.keywordTrimmed.toLowerCase()
-      // TODO: cap the iteration in the first place
-      return this.playerList
-        .filter(
-          player =>
-            // match #1: if keyword is an uuid
-            (32 <= keyword.length &&
-              keyword.length <= 36 &&
-              player.uuid.includes(keyword.replace(/-/g, ''))) ||
-            // match #2: if keyword is player's current name
-            player.playername.toLowerCase().includes(keyword) ||
-            // match #3: if keyword is player's used name
-            player.names.some(name =>
-              name.name.toLowerCase().includes(keyword),
-            ),
-        )
-        .slice(0, 100)
+      // [ matchCurrentName, matchUsedName, matchUUID ]
+      const result = [[], [], []]
+      for (const player of this.playerList) {
+        if (player.playername.toLowerCase().includes(keyword)) {
+          result[0].push(player)
+        } else if (
+          player.names.some(name => name.name.toLowerCase().includes(keyword))
+        ) {
+          result[1].push(player)
+        } else if (
+          player.uuid.includes(keyword.replace(/-/g, ''))
+        ) {
+          result[2].push(player)
+        }
+        if (result.map(arr => arr.length).reduce((sum, num) => sum + num) >= 99)
+          break
+      }
+      return result.flat(1)
     },
 
     playerListProcessed() {

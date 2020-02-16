@@ -12,7 +12,7 @@
       <img :src="bgRight" alt="" />
     </div>
     <div class="advancement-title__fg relative flex items-center">
-      <AdvancementIcon :advancement-id="advancementId" class="flex-0" />
+      <AdvancementIcon :advancement-id="advancementId" class="flex-none" />
       <span class="advancement-title__text">{{ lang(titleLangKey) }}</span>
       <span v-if="total" class="advancement-title__progress"
         >{{ progress }}/{{ total }}</span
