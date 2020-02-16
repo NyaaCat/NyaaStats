@@ -10,6 +10,14 @@
   display: flex;
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -20,6 +28,10 @@
 
 .items-center {
   align-items: center;
+}
+
+.items-start {
+  align-items: flex-start;
 }
 
 .justify-center {
@@ -77,6 +89,18 @@
 
 .not-italic {
   font-style: normal;
+}
+
+.font-normal {
+  font-weight: normal;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .font-mono {
