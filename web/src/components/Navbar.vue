@@ -1,16 +1,16 @@
 <template>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container flex items-center">
-      <div class="navbar-header">
-        <router-link class="navbar-brand" to="/">
+  <div class="set-height">
+    <div class="set-bg bg-black text-gray-500 fixed inset-x-0 top-0">
+      <div class="set-height container flex items-center">
+        <RouterLink class="navbar-brand" to="/">
           {{ info.title }}
-        </router-link>
-      </div>
-      <div class="ml-auto">
-        <LangSelector />
+        </RouterLink>
+        <div class="ml-auto">
+          <LangSelector />
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -28,3 +28,13 @@
     computed: mapState(['info']),
   }
 </script>
+
+<style lang="scss" scoped>
+  .set-height {
+    height: 50px;
+  }
+
+  .set-bg {
+    background: url("https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/header/bg-wool-dark.png") repeat;
+  }
+</style>

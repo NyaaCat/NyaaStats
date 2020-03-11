@@ -1,7 +1,7 @@
 <template>
-  <footer>
-    <p>{{ info.servername }}</p>
-    <p class="text-muted">Last Update {{ lastUpdate }}</p>
+  <footer class="py-6 border-t border-gray-200 text-sm">
+    <p class="text-gray-800">{{ info.servername }}</p>
+    <p class="mt-5 text-gray-600">Last Update {{ lastUpdate }}</p>
   </footer>
 </template>
 

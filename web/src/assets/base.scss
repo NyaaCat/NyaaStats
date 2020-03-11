@@ -1,0 +1,15 @@
+@tailwind base;
+
+@tailwind utilities;
+
+svg {
+  @apply fill-current;
+}
+
+.container {
+  @apply px-6 mx-auto;
+
+  @screen xl {
+    @apply w-page px-0;
+  }
+}

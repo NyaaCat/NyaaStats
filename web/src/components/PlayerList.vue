@@ -1,49 +1,37 @@
 <template>
   <div>
-    <b-alert
-      variant="danger"
-      dismissible
-      :show="showNetworkErrorAlert"
-      @dismissed="showNetworkErrorAlert = false"
-    >
+    <!-- Network error alert -->
+    <div v-if="showNetworkErrorAlert" class="my-4 p-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
       Network Error!
-    </b-alert>
-    <b-progress
-      v-show="loading"
-      :value="100"
-      :max="100"
-      animated
-      class="mb-3"
-    />
-    <b-row class="searchbox">
-      <b-col sm="12">
-        <b-form-input
-          id="input-none"
-          type="text"
-          :value="keyword"
-          placeholder="Search user by Name / UUID"
-          @input="val => setKeyword(val)"
-        />
-      </b-col>
-    </b-row>
-    <vue-lazy-component class="row">
+      <button class="flex ml-auto" @click="showNetworkErrorAlert = false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
+          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+        </svg>
+      </button>
+    </div>
+    <!-- Loading indicator -->
+    <ProgressBar :visible="loading" />
+    <!-- Search box -->
+    <div class="mt-8 mb-5">
+      <input
+        :value="keyword"
+        type="text"
+        placeholder="Search user by Name / UUID"
+        class="block w-full px-3 py-2 leading-tight border border-gray-400 rounded shadow-inner focus:outline-none focus:shadow-outline"
+        @input="ev => setKeyword(ev.target.value)"
+      >
+    </div>
+    <!-- Player list -->
+    <vue-lazy-component class="player-list -ml-5 mb-3">
       <PlayerBlock
         v-for="player of playerListProcessed"
         :key="player.uuid"
         :player="player"
+        class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
       />
-      <span v-if="!keywordTrimmed">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 searchbox">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <div
-                class="flex items-center justify-center"
-                style="height: 64px;"
-              >
-                <h4>...and {{ playerList.length - 99 }} more</h4>
-              </div>
-            </div>
-          </div>
+      <span v-if="!keywordTrimmed" class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5 flex">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 w-full p-4 border border-gray-400 rounded flex items-center justify-center">
+          <h4 class="text-lg">...and {{ playerList.length - 99 }} more</h4>
         </div>
       </span>
     </vue-lazy-component>
@@ -51,15 +39,17 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex'
+  import {mapMutations, mapState} from 'vuex'
   import VueScrollTo from 'vue-scrollto'
 
-  import PlayerBlock from './PlayerBlock'
+  import ProgressBar from '@/components/ProgressBar.vue'
+  import PlayerBlock from './PlayerBlock.vue'
 
   export default {
     name: 'PlayerList',
 
     components: {
+      ProgressBar,
       PlayerBlock,
     },
 
@@ -171,7 +161,7 @@
 </script>
 
 <style scoped>
-.searchbox {
-  margin-bottom: 16px;
-}
+  .player-list >>> > div {
+    @apply flex flex-wrap;
+  }
 </style>

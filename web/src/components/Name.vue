@@ -1,9 +1,8 @@
 <template>
   <li class="list-group-item">
-    <h5>
+    <h5 class="text-sm font-medium">
       {{ name.name }}
-      <small v-if="name.changedToAt">Changed at {{ changedToAt }}</small>
-      <small v-if="!name.changedToAt" />
+      <small v-if="name.changedToAt" class="font-normal text-gray-600">Changed at {{ changedToAt }}</small>
     </h5>
   </li>
 </template>

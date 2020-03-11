@@ -1,49 +1,36 @@
 <template>
   <div class="player-page container">
-    <b-progress
-      v-if="!player"
-      :value="progress"
-      :max="100"
-      show-progress
-      animated
-    />
-    <template v-else>
-      <div class="player-page-header flex items-center">
-        <strong class="player-name">{{ player.data.playername }}</strong>
-        <span v-if="player.data.banned" class="player-banned">BANNED</span>
+    <ProgressBar :visible="!player" />
+    <template v-if="player">
+      <div class="h-12 flex items-center">
+        <strong class="text-2xl">{{ player.data.playername }}</strong>
+        <span v-if="player.data.banned" class="ml-2 p-1 text-xs rounded bg-red-600 text-white">BANNED</span>
       </div>
 
-      <div class="row">
-        <div class="col-sm-12 col-md-3 col-lg-2 skin-container">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <img
-                v-if="!isCanvasSupported"
-                :src="`/data/${uuid}/body.png`"
-                :alt="`${player.data.playername}'s model`"
-                class="img-rounded"
-              >
-              <iframe
-                v-if="isCanvasSupported"
-                :src="`/skin/index.html?uuid=${uuid}`"
-                class="skin"
-                scrolling="no"
-              />
-            </div>
-          </div>
+      <div class="lg:flex lg:items-start">
+        <div class="border border-gray-400 rounded shadow-sm lg:flex-none lg:w-48 ">
+          <img
+            v-if="!isCanvasSupported"
+            :src="`/data/${uuid}/body.png`"
+            :alt="`${player.data.playername}'s model`"
+            class="img-rounded"
+          >
+          <iframe
+            v-if="isCanvasSupported"
+            :src="`/skin/index.html?uuid=${uuid}`"
+            scrolling="no"
+            class="skin"
+          />
         </div>
-        <div class="col-sm-12 col-md-9 col-lg-10">
-          <div class="row">
-            <Membership :player="player" />
-            <NameHistory :player="player" />
-          </div>
+        <div class="lg:flex-1 lg:ml-8 mt-5 lg:mt-0 lg:flex lg:items-start">
+          <Membership :player="player" class="lg:flex-1 rounded shadow-sm" />
+          <NameHistory :player="player" class="lg:flex-1 lg:ml-8 mt-5 lg:mt-0 rounded shadow-sm" />
         </div>
       </div>
 
       <PlayerAdvancement :player="player" />
-      <PlayerStatistic :player="player" />
 
-      <hr>
+      <PlayerStatistic :player="player" />
 
       <NyaaFooter :player="player" />
     </template>
@@ -54,6 +41,7 @@
   import { mapState } from 'vuex'
 
   import store from '../store'
+  import ProgressBar from '@/components/ProgressBar.vue'
   import NameHistory from '../components/NameHistory'
   import Membership from '../components/Membership'
   import PlayerAdvancement from '../components/PlayerAdvancement'
@@ -64,6 +52,7 @@
     name: 'PlayerPage',
 
     components: {
+      ProgressBar,
       NameHistory,
       Membership,
       PlayerAdvancement,
@@ -118,34 +107,10 @@
 </script>
 
 <style scoped>
-.skin {
-  width: 100%;
-  height: 285px;
-  border: none;
-  overflow: hidden;
-}
-
-.panel-body {
-  padding: 0;
-}
-</style>
-
-<style>
-.player-page .player-page-header {
-  height: 50px;
-}
-
-.player-page .player-name {
-  font-size: 24px;
-}
-
-.player-page .player-banned {
-  font-size: 12px;
-  line-height: 1;
-  padding: 6px;
-  border-radius: 3px;
-  background: #d9534f;
-  color: #fff;
-  margin-left: 10px;
-}
+  .skin {
+    width: 100%;
+    height: 285px;
+    border: none;
+    overflow: hidden;
+  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`player/${uuid}`">
-    <div :data-uuid="uuid" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div :data-uuid="uuid" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-4 border border-gray-400 rounded">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="flex items-center">
@@ -11,7 +11,7 @@
               style="width: 64px; height: 64px; margin-right: 10px;"
             >
             <div class="flex-1">
-              <h4 class="my-0">{{ playername[0] }}<em v-if="playername[1]" class="not-italic text-red-600">{{ playername[1] }}</em>{{ playername[2] }}</h4>
+              <h4 class="my-0 text-lg font-medium text-blue-700">{{ playername[0] }}<em v-if="playername[1]" class="not-italic text-red-600">{{ playername[1] }}</em>{{ playername[2] }}</h4>
               <h5
                 v-if="usedPlayername[1]"
                 class="flex items-center text-gray-600 mt-4 mb-0"

@@ -1,15 +1,10 @@
 <template>
-  <div v-if="langData.stat[ac]" class="col-sm-12 col-md-4 col-lg-3">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <span class="glyphicon glyphicon-stats" aria-hidden="true" />
-        &nbsp;
-        <span class="text-primary">{{ numAbbr(player.stats[prop]) }}</span>
-        <span class="text-muted">
-          {{ langData.stat[ac] }}
-        </span>
-      </div>
-    </div>
+  <div class="p-4 border border-gray-400 rounded shadow-xs text-sm flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 mr-1">
+      <path d="M3 12h4v9H3v-9zm14-4h4v13h-4V8zm-7-6h4v19h-4V2z" />
+    </svg>
+    <span class="text-blue-600 mr-1">{{ numAbbr(player.stats[prop]) }}</span>
+    <span class="text-gray-600">{{ langData.stat[prop] }}</span>
   </div>
 </template>
 
@@ -34,12 +29,7 @@
     data() {
       return {
         langData,
-        ac: '',
       }
-    },
-
-    mounted() {
-      this.ac = this.prop // this.prop.split(':')
     },
 
     methods: {

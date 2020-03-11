@@ -1,71 +1,65 @@
 <template>
-  <div v-if="player.advancements">
-    <div v-if="advTotal > 0" class="row">
-      <h3>Advancements</h3>
-      <hr>
-      <div v-if="advStory.length > 0" class="row">
-        <div class="col-md-12">
-          <h4>{{ lang('advancements.story.root.title') }}</h4>
-          <hr>
-          <AdvancementBlock
-            v-for="adv in advStory
-              .slice()
-              .sort((a, b) => b.updateTime - a.updateTime)"
+  <div v-if="player.advancements" class="mt-5">
+    <div v-if="advTotal > 0">
+      <h3 class="mb-5 py-5 border-b border-gray-300 text-2xl font-medium">Advancements</h3>
+      <div v-if="advStory.length > 0">
+        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.story.root.title') }}</h4>
+        <div class="md:flex md:flex-wrap md:-ml-5">
+          <div
+            v-for="adv in advStory.slice().sort((a, b) => b.updateTime - a.updateTime)"
             :key="adv.advId"
-            :adv="adv"
-          />
+            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
+          >
+            <AdvancementBlock :adv="adv" />
+          </div>
         </div>
       </div>
-      <div v-if="advNether.length > 0" class="row">
-        <div class="col-md-12">
-          <h4>{{ lang('advancements.nether.root.title') }}</h4>
-          <hr>
-          <AdvancementBlock
-            v-for="adv in advNether
-              .slice()
-              .sort((a, b) => b.updateTime - a.updateTime)"
+      <div v-if="advNether.length > 0">
+        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.nether.root.title') }}</h4>
+        <div class="md:flex md:flex-wrap md:-ml-5">
+          <div
+            v-for="adv in advNether.slice().sort((a, b) => b.updateTime - a.updateTime)"
             :key="adv.advId"
-            :adv="adv"
-          />
+            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
+          >
+            <AdvancementBlock :adv="adv" />
+          </div>
         </div>
       </div>
-      <div v-if="advEnd.length > 0" class="row">
-        <div class="col-md-12">
-          <h4>{{ lang('advancements.end.root.title') }}</h4>
-          <hr>
-          <AdvancementBlock
-            v-for="adv in advEnd
-              .slice()
-              .sort((a, b) => b.updateTime - a.updateTime)"
+      <div v-if="advEnd.length > 0">
+        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.end.root.title') }}</h4>
+        <div class="md:flex md:flex-wrap md:-ml-5">
+          <div
+            v-for="adv in advEnd.slice().sort((a, b) => b.updateTime - a.updateTime)"
             :key="adv.advId"
-            :adv="adv"
-          />
+            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
+          >
+            <AdvancementBlock :adv="adv" />
+          </div>
         </div>
       </div>
-      <div v-if="advAdventure.length > 0" class="row">
-        <div class="col-md-12">
-          <h4>{{ lang('advancements.adventure.root.title') }}</h4>
-          <hr>
-          <AdvancementBlock
-            v-for="adv in advAdventure
-              .slice()
-              .sort((a, b) => b.updateTime - a.updateTime)"
+      <div v-if="advAdventure.length > 0">
+        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.adventure.root.title') }}</h4>
+        <div class="md:flex md:flex-wrap md:-ml-5">
+          <div
+            v-for="adv in advAdventure.slice().sort((a, b) => b.updateTime - a.updateTime)"
             :key="adv.advId"
-            :adv="adv"
-          />
+            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
+          >
+            <AdvancementBlock :adv="adv" />
+          </div>
         </div>
       </div>
-      <div v-if="advHusbandry.length > 0" class="row">
-        <div class="col-md-12">
-          <h4>{{ lang('advancements.husbandry.root.title') }}</h4>
-          <hr>
-          <AdvancementBlock
-            v-for="adv in advHusbandry
-              .slice()
-              .sort((a, b) => b.updateTime - a.updateTime)"
+      <div v-if="advHusbandry.length > 0">
+        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.husbandry.root.title') }}</h4>
+        <div class="md:flex md:flex-wrap md:-ml-5">
+          <div
+            v-for="adv in advHusbandry.slice().sort((a, b) => b.updateTime - a.updateTime)"
             :key="adv.advId"
-            :adv="adv"
-          />
+            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
+          >
+            <AdvancementBlock :adv="adv" />
+          </div>
         </div>
       </div>
     </div>

@@ -1,29 +1,28 @@
 <template>
-  <div class="col-md-6">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" />&nbsp; Membership</h3>
-      </div>
-      <div class="panel-body">
-        <div class="list-group">
-          <li v-if="player.data.time_start" class="list-group-item">
-            <h4 class="list-group-item-heading">
-              {{ timeStart }}
-            </h4>
-            <p class="list-group-item-text text-muted">First Login</p>
-          </li>
-          <li v-if="player.data.time_last" class="list-group-item">
-            <h4 class="list-group-item-heading">
-              {{ timeLast }}
-            </h4>
-            <p class="list-group-item-text text-muted">Last Active</p>
-          </li>
-          <li v-if="player.data.time_lived" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ timeLived }}</h4>
-            <p class="list-group-item-text text-muted">Total Online</p>
-          </li>
-        </div>
-      </div>
+  <div>
+    <div class="px-4 py-2 border border-blue-200 rounded-t bg-blue-100 text-blue-700 font-medium">
+      <h3 class="leading-tight flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 mr-1">
+          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z" />
+        </svg>
+        Membership
+      </h3>
+    </div>
+    <div class="p-4 border border-t-0 border-blue-200 rounded-b">
+      <ul class="border border-gray-400 rounded">
+        <li v-if="player.data.time_start" class="px-4 py-3 border-b border-gray-400">
+          <h4 class="text-lg font-medium">{{ timeStart }}</h4>
+          <p class="mt-2 text-sm text-gray-600">First Login</p>
+        </li>
+        <li v-if="player.data.time_last" class="px-4 py-3 border-b border-gray-400">
+          <h4 class="text-lg font-medium">{{ timeLast }}</h4>
+          <p class="mt-2 text-sm text-gray-600">Last Active</p>
+        </li>
+        <li v-if="player.data.time_lived" class="px-4 py-3">
+          <h4 class="text-lg font-medium">{{ timeLived }}</h4>
+          <p class="mt-2 text-sm text-gray-600">Total Online</p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

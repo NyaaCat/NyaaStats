@@ -3,7 +3,6 @@
     <Welcome />
     <div class="container">
       <PlayerList />
-      <hr>
       <Footer />
     </div>
   </div>

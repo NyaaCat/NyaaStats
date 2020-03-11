@@ -1,25 +1,15 @@
 <template>
-  <div class="advancement-block col-sm-12 col-md-6 col-lg-4">
+  <div class="advancement-block">
     <AdvancementTitle :advancement-id="adv.advId" />
-    <div
-      v-if="requirements.length > 1"
-      class="advancement-requirements relative"
-    >
-      <AdvancementDescription
-        class="advancement-requirements__inner absolute w-full"
-      >
-        <p
-          v-for="req of requirements"
-          :key="req"
-          :class="achieved.includes(req) && 'done'"
-        >
+    <div v-if="requirements.length > 1" class="advancement-requirements relative">
+      <AdvancementDescription class="advancement-requirements__inner absolute w-full">
+        <p v-for="req of requirements" :key="req" :class="achieved.includes(req) && 'done'">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             width="24"
             height="24"
           >
-            <path fill="none" d="M0 0h24v24H0z" />
             <path :d="achieved.includes(req) | svgPath" />
           </svg>
           {{ lang(advData.requirement_names[req]) }}
