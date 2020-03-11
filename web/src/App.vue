@@ -22,7 +22,17 @@
 </script>
 
 <style>
+  @import url('/font/inter.css');
+
   #app {
-    @apply font-sans antialiased leading-none;
+    @apply antialiased leading-none;
+
+    font-family: Inter, theme('fontFamily.sans');
+  }
+
+  @supports (font-variation-settings: normal) {
+    #app {
+      font-family: 'Inter var', theme('fontFamily.sans');
+    }
   }
 </style>
