@@ -1,10 +1,8 @@
 <template>
   <div class="set-height">
-    <div class="set-bg bg-black text-gray-500 fixed inset-x-0 top-0">
-      <div class="set-height container flex items-center">
-        <RouterLink class="navbar-brand" to="/">
-          {{ info.title }}
-        </RouterLink>
+    <div class="page-section set-bg bg-black text-gray-300 fixed inset-x-0 top-0">
+      <div class="set-height flex items-center">
+        <RouterLink to="/" class="font-medium hover:text-white transition-color duration-100 ease-linear">{{ info.title }}</RouterLink>
         <div class="ml-auto">
           <LangSelector />
         </div>

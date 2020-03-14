@@ -1,28 +1,28 @@
 <template>
-  <div class="py-8 sm:py-12 xl:py-16 bg-gray-200">
-    <div class="container">
-      <div class="text-center">
-        <h1 class="text-4xl xl:text-6xl leading-tight font-black">{{ info.servername }}</h1>
-        <a :href="info.homepage" class="text-lg py-4 text-blue-600 inline-flex items-center hover:underline">
-          Learn More
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 ml-2"><path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" /></svg>
-        </a>
-      </div>
-      <dl class="mt-3 flex items-start">
-        <div>
-          <dt>World Running Time</dt>
-          <dd>{{ worldTime }}</dd>
-        </div>
-        <div>
-          <dt>Total Players</dt>
-          <dd>{{ totalPlayers }}</dd>
-        </div>
-        <div>
-          <dt>Recently Active Players</dt>
-          <dd>{{ activePlayers }}</dd>
-        </div>
-      </dl>
+  <div class="page-section py-4 md:py-6 xl:py-10 border-b border-gray-200 bg-gray-50">
+    <div class="text-center">
+      <h1 class="text-3xl md:text-4xl xl:text-5xl leading-tight font-black">{{ info.servername }}</h1>
+      <a :href="info.homepage" class="mt-4 text-lg text-blue-600 inline-flex items-center hover:underline">
+        Explore
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 ml-1">
+          <path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" />
+        </svg>
+      </a>
     </div>
+    <dl class="mt-8 flex items-start">
+      <div>
+        <dt>World Age</dt>
+        <dd>{{ worldTime }}</dd>
+      </div>
+      <div>
+        <dt>Total Players</dt>
+        <dd>{{ totalPlayers }}</dd>
+      </div>
+      <div>
+        <dt>Recently Online</dt>
+        <dd>{{ activePlayers }}</dd>
+      </div>
+    </dl>
   </div>
 </template>
 
@@ -64,20 +64,34 @@
   }
 
   dt {
-    @apply mt-2 text-gray-600;
+    @apply mt-2 text-sm text-gray-600;
+
+    @screen md {
+      & {
+        @apply text-base;
+      }
+    }
+
+    @screen xl {
+      & {
+        @apply mt-3;
+      }
+    }
   }
 
   dd {
-    @apply text-xl;
-  }
+    @apply text-2xl font-medium;
 
-  @screen xl {
-    dt {
-      @apply text-xl;
+    @screen md {
+      & {
+        @apply text-3xl;
+      }
     }
 
-    dd {
-      @apply text-5xl;
+    @screen xl {
+      & {
+        @apply text-4xl;
+      }
     }
   }
 </style>

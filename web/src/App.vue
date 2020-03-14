@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <Navbar class="relative z-10" />
-    <RouterView />
+  <div id="app" class="h-screen flex flex-col">
+    <Navbar class="flex-none relative z-10" />
+    <RouterView class="flex-1" />
   </div>
 </template>
 

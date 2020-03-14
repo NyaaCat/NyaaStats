@@ -1,39 +1,37 @@
 <template>
-  <div class="player-page container">
-    <ProgressBar :visible="!player" />
+  <div class="flex flex-col">
+    <div class="page-section">
+      <ProgressBar :visible="!player" />
+    </div>
     <template v-if="player">
-      <div class="h-12 flex items-center">
-        <strong class="text-2xl">{{ player.data.playername }}</strong>
-        <span v-if="player.data.banned" class="ml-2 p-1 text-xs rounded bg-red-600 text-white">BANNED</span>
-      </div>
-
-      <div class="lg:flex lg:items-start">
-        <div class="border border-gray-400 rounded shadow-sm lg:flex-none lg:w-48 ">
-          <img
-            v-if="!isCanvasSupported"
-            :src="`/data/${uuid}/body.png`"
-            :alt="`${player.data.playername}'s model`"
-            class="img-rounded"
-          >
-          <iframe
-            v-if="isCanvasSupported"
-            :src="`/skin/index.html?uuid=${uuid}`"
-            scrolling="no"
-            class="skin"
-          />
-        </div>
-        <div class="lg:flex-1 lg:ml-8 mt-5 lg:mt-0 lg:flex lg:items-start">
-          <Membership :player="player" class="lg:flex-1 rounded shadow-sm" />
-          <NameHistory :player="player" class="lg:flex-1 lg:ml-8 mt-5 lg:mt-0 rounded shadow-sm" />
+      <div class="page-section">
+        <div class="py-4 flex items-center">
+          <h1 class="text-3xl xl:text-4xl font-bold">{{ player.data.playername }}</h1>
+          <span v-if="player.data.banned" class="ml-2 p-1 rounded bg-red-600 text-white font-medium">BANNED</span>
         </div>
       </div>
-
-      <PlayerAdvancement :player="player" />
-
-      <PlayerStatistic :player="player" />
-
-      <NyaaFooter :player="player" />
+      <div class="page-section">
+        <div class="md:flex md:items-start">
+          <div class="border border-gray-300 rounded-md bg-gray-50 shadow-inner md:flex-1 lg:flex-none lg:w-64">
+            <iframe
+              v-if="isCanvasSupported"
+              :src="`/skin/index.html?uuid=${uuid}`"
+              scrolling="no"
+              class="w-full border-0 rounded-md overflow-hidden bg-gray-50 shadow-inner"
+              style="height: 285px;"
+            />
+            <img v-else :src="`/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`">
+          </div>
+          <div class="md:ml-5 md:flex-1 lg:flex lg:items-start">
+            <Membership :player="player" class="md:flex-1 mt-8 md:mt-0" />
+            <NameHistory :player="player" class="md:flex-1 lg:ml-5 mt-8 lg:mt-0" />
+          </div>
+        </div>
+      </div>
+      <PlayerAdvancement :player="player" class="mt-8" />
+      <PlayerStatistic v-if="player" :player="player" />
     </template>
+    <Footer :player="player" class="mt-auto" />
   </div>
 </template>
 
@@ -46,7 +44,7 @@
   import Membership from '../components/Membership'
   import PlayerAdvancement from '../components/PlayerAdvancement'
   import PlayerStatistic from '../components/PlayerStatistic'
-  import NyaaFooter from '../components/Footer'
+  import Footer from '../components/Footer'
 
   export default {
     name: 'PlayerPage',
@@ -57,7 +55,7 @@
       Membership,
       PlayerAdvancement,
       PlayerStatistic,
-      NyaaFooter,
+      Footer,
     },
 
     data() {
@@ -105,12 +103,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .skin {
-    width: 100%;
-    height: 285px;
-    border: none;
-    overflow: hidden;
-  }
-</style>

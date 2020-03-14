@@ -1,67 +1,12 @@
 <template>
-  <div v-if="player.advancements" class="mt-5">
+  <div v-if="player.advancements" class="page-section py-8 border-t border-b border-gray-200">
     <div v-if="advTotal > 0">
-      <h3 class="mb-5 py-5 border-b border-gray-300 text-2xl font-medium">Advancements</h3>
-      <div v-if="advStory.length > 0">
-        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.story.root.title') }}</h4>
-        <div class="md:flex md:flex-wrap md:-ml-5">
-          <div
-            v-for="adv in advStory.slice().sort((a, b) => b.updateTime - a.updateTime)"
-            :key="adv.advId"
-            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
-          >
-            <AdvancementBlock :adv="adv" />
-          </div>
-        </div>
-      </div>
-      <div v-if="advNether.length > 0">
-        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.nether.root.title') }}</h4>
-        <div class="md:flex md:flex-wrap md:-ml-5">
-          <div
-            v-for="adv in advNether.slice().sort((a, b) => b.updateTime - a.updateTime)"
-            :key="adv.advId"
-            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
-          >
-            <AdvancementBlock :adv="adv" />
-          </div>
-        </div>
-      </div>
-      <div v-if="advEnd.length > 0">
-        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.end.root.title') }}</h4>
-        <div class="md:flex md:flex-wrap md:-ml-5">
-          <div
-            v-for="adv in advEnd.slice().sort((a, b) => b.updateTime - a.updateTime)"
-            :key="adv.advId"
-            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
-          >
-            <AdvancementBlock :adv="adv" />
-          </div>
-        </div>
-      </div>
-      <div v-if="advAdventure.length > 0">
-        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.adventure.root.title') }}</h4>
-        <div class="md:flex md:flex-wrap md:-ml-5">
-          <div
-            v-for="adv in advAdventure.slice().sort((a, b) => b.updateTime - a.updateTime)"
-            :key="adv.advId"
-            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
-          >
-            <AdvancementBlock :adv="adv" />
-          </div>
-        </div>
-      </div>
-      <div v-if="advHusbandry.length > 0">
-        <h4 class="mb-5 w-full py-5 border-b border-gray-300 text-xl font-medium">{{ lang('advancements.husbandry.root.title') }}</h4>
-        <div class="md:flex md:flex-wrap md:-ml-5">
-          <div
-            v-for="adv in advHusbandry.slice().sort((a, b) => b.updateTime - a.updateTime)"
-            :key="adv.advId"
-            class="w-full md:pl-5 md:w-1/2 xl:w-1/3 md:flex-grow-0 md:flex-shrink"
-          >
-            <AdvancementBlock :adv="adv" />
-          </div>
-        </div>
-      </div>
+      <h3 class="mb-5 text-2xl font-bold">Advancements</h3>
+      <AdvancementGroup v-if="advStory.length > 0" :title="lang('advancements.story.root.title')" :data="advStory" />
+      <AdvancementGroup v-if="advNether.length > 0" :title="lang('advancements.nether.root.title')" :data="advNether" />
+      <AdvancementGroup v-if="advEnd.length > 0" :title="lang('advancements.end.root.title')" :data="advEnd" />
+      <AdvancementGroup v-if="advAdventure.length > 0" :title="lang('advancements.adventure.root.title')" :data="advAdventure" />
+      <AdvancementGroup v-if="advHusbandry.length > 0" :title="lang('advancements.husbandry.root.title')" :data="advHusbandry" />
     </div>
   </div>
 
@@ -80,15 +25,15 @@
 <script>
   import { mapState } from 'vuex'
 
-  import AdvancementBlock from './AdvancementBlock'
+  import AdvancementGroup from './AdvancementGroup.vue'
   import AchievementBlock from './AchievementBlock'
 
   export default {
     name: 'PlayerAdvancement',
 
     components: {
+      AdvancementGroup,
       AchievementBlock,
-      AdvancementBlock,
     },
 
     props: {

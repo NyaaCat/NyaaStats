@@ -11,30 +11,28 @@
     </div>
     <!-- Loading indicator -->
     <ProgressBar :visible="loading" />
-    <!-- Search box -->
-    <div class="mt-8 mb-5">
-      <input
-        :value="keyword"
-        type="text"
-        placeholder="Search user by Name / UUID"
-        class="block w-full px-3 py-2 leading-tight border border-gray-400 rounded shadow-inner focus:outline-none focus:shadow-outline"
-        @input="ev => setKeyword(ev.target.value)"
-      >
-    </div>
-    <!-- Player list -->
-    <vue-lazy-component class="player-list -ml-5 mb-3">
-      <PlayerBlock
-        v-for="player of playerListProcessed"
-        :key="player.uuid"
-        :player="player"
-        class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
-      />
-      <span v-if="!keywordTrimmed" class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5 flex">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 w-full p-4 border border-gray-400 rounded flex items-center justify-center">
-          <h4 class="text-lg">...and {{ playerList.length - 99 }} more</h4>
-        </div>
-      </span>
-    </vue-lazy-component>
+    <template v-show="!loading">
+      <!-- Search box -->
+      <div class="mt-5 xl:mt-8 mb-5">
+        <input
+          :value="keyword"
+          type="text"
+          placeholder="Search user by Name / UUID"
+          class="form-input block w-full"
+          @input="ev => setKeyword(ev.target.value)"
+        >
+      </div>
+      <!-- Player list -->
+      <vue-lazy-component class="player-list -ml-5 mb-3">
+        <PlayerBlock
+          v-for="player of playerListProcessed.slice(0, renderedCount)"
+          :key="player.uuid"
+          :player="player"
+          class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
+        />
+      </vue-lazy-component>
+      <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">...and {{ playerList.length - renderedCount }} more</div>
+    </template>
   </div>
 </template>
 
@@ -53,13 +51,14 @@
       PlayerBlock,
     },
 
-    data() {
+    data () {
       return {
         showNetworkErrorAlert: false,
         searchTimer: null,
         loading: true,
         timer: null,
         isScrolled: false,
+        renderedCount: process.env.NODE_ENV === 'production' ? 50 : 20,
       }
     },
 
@@ -71,7 +70,7 @@
       },
 
       playerListCapped() {
-        return this.playerList.slice(0, 99)
+        return this.playerList.slice(0, this.renderedCount)
       },
 
       filteredPlayerList() {
@@ -90,7 +89,7 @@
           ) {
             result[2].push(player)
           }
-          if (result.map(arr => arr.length).reduce((sum, num) => sum + num) >= 99)
+          if (result.map(arr => arr.length).reduce((sum, num) => sum + num) >= this.renderedCount)
             break
         }
         return result.flat(1)

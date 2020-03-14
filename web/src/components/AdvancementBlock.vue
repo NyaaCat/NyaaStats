@@ -67,10 +67,6 @@
 </script>
 
 <style>
-.advancement-block {
-  margin-bottom: 28px;
-}
-
 .advancement-requirements {
   top: -14px;
   z-index: 1;

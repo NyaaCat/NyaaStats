@@ -1,15 +1,23 @@
 @tailwind base;
 
-@tailwind utilities;
-
 svg {
   @apply fill-current;
 }
 
-.container {
-  @apply px-6 mx-auto;
+@tailwind components;
 
-  @screen xl {
-    @apply w-page px-0;
+.page-section {
+  @apply px-4;
+
+  > * {
+    @apply mx-auto;
+
+    max-width: theme('spacing.page');
+  }
+
+  @screen md {
+    @apply px-5;
   }
 }
+
+@tailwind utilities;

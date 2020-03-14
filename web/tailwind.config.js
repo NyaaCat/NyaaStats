@@ -29,4 +29,10 @@ module.exports = {
       },
     },
   },
+  variants: {
+    display: ['responsive', 'group-hover'],
+  },
+  plugins: [
+    require('@tailwindcss/ui'),
+  ],
 }

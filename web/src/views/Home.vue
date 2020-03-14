@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <Welcome />
-    <div class="container">
+    <div class="page-section">
       <PlayerList />
-      <Footer />
     </div>
+    <Footer class="mt-auto" />
   </div>
 </template>
 

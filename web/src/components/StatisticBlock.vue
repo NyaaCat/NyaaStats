@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 border border-gray-400 rounded shadow-xs text-sm flex items-center">
+  <div class="p-4 border border-gray-300 rounded-md text-sm flex items-center">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 mr-1">
       <path d="M3 12h4v9H3v-9zm14-4h4v13h-4V8zm-7-6h4v19h-4V2z" />
     </svg>

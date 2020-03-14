@@ -1,8 +1,10 @@
 <template>
-  <footer class="py-6 border-t border-gray-200 text-sm">
-    <p class="text-gray-800">{{ info.servername }}</p>
-    <p class="mt-5 text-gray-600">Last Update {{ lastUpdate }}</p>
-  </footer>
+  <div class="page-section py-8 border-t border-gray-200 bg-gray-100">
+    <footer class="xl:w-page mx-auto text-sm">
+      <p class="text-gray-800">Last Update {{ lastUpdate }}</p>
+      <p class="mt-4 text-gray-600">{{ info.servername }}</p>
+    </footer>
+  </div>
 </template>
 
 <script>
