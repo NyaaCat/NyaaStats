@@ -22,35 +22,34 @@ const store = new Vuex.Store({
     lang: 'zh_cn',
   },
 
-  getters: {},
-
   mutations: {
-    setInfo(state, data) {
+    setInfo (state, data) {
       state.info = data
     },
 
-    setPlayer(state, [uuid, data]) {
+    setPlayer (state, [uuid, data]) {
       state.players[uuid] = data
     },
 
-    setPlayerList(state, data) {
+    setPlayerList (state, data) {
       state.playerList = data
     },
 
-    setScrollOffset(state, payload) {
+    setScrollOffset (state, payload) {
       state.scrollOffset = payload.uuid
     },
-    setKeyword(state, keyword) {
+
+    setKeyword (state, keyword) {
       state.keyword = keyword
     },
 
-    setLang(state, value) {
+    setLang (state, value) {
       state.lang = value
     },
   },
 
   actions: {
-    async fetchInfo({ commit }) {
+    async fetchInfo ({commit}) {
       let data
 
       try {
@@ -64,7 +63,7 @@ const store = new Vuex.Store({
       return data
     },
 
-    async fetchPlayers({ commit }) {
+    async fetchPlayers ({commit}) {
       let data
 
       try {
@@ -78,7 +77,7 @@ const store = new Vuex.Store({
       return data
     },
 
-    async fetchStats({ commit }, uuid) {
+    async fetchStats ({commit}, uuid) {
       let data
 
       try {
@@ -96,7 +95,7 @@ const store = new Vuex.Store({
 
 Vue.mixin({
   computed: {
-    lang() {
+    lang () {
       const lang = this.$store.state.lang
       return key => langData[lang][key]
     },
