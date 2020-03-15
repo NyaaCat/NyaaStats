@@ -17,5 +17,16 @@
       PlayerList,
       Footer,
     },
+
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        document.title = vm.$store.state.info.title
+      })
+    },
+
+    beforeRouteLeave (to, from, next) {
+      this.$store.commit('setScrollOffset', {uuid: to.params.uuid})
+      next()
+    },
   }
 </script>

@@ -60,12 +60,12 @@
         loading: true,
         timer: null,
         isScrolled: false,
-        renderedCount: process.env.NODE_ENV === 'production' ? 50 : 20,
+        renderedCount: process.env.NODE_ENV === 'production' ? 50 : 50,
       }
     },
 
     computed: {
-      ...mapState(['playerList', 'scrollOffset', 'info', 'keyword']),
+      ...mapState(['playerList', 'scrollOffset', 'keyword']),
 
       keywordTrimmed() {
         return this.keyword.trim()
@@ -108,12 +108,6 @@
       keyword: 'lazyload',
     },
 
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        document.title = vm.info.title
-      })
-    },
-
     async created() {
       if (this.playerList.length === 0) {
         try {
@@ -141,17 +135,10 @@
       })
     },
 
-    beforeRouteLeave(to, from, next) {
-      const uuid = to.params.uuid
-      this.setScrollOffset({
-        uuid,
-      })
-      next()
-    },
-
     methods: {
-      ...mapMutations(['setScrollOffset', 'setKeyword']),
-      lazyload() {
+      ...mapMutations(['setKeyword']),
+
+      lazyload () {
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.$Lazyload.lazyLoadHandler()

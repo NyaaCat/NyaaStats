@@ -78,21 +78,19 @@
       },
     },
 
-    async beforeRouteEnter(to, from, next) {
-      const uuid = to.params.uuid
-      const player =
-        store.state.players[uuid] || (await store.dispatch('fetchStats', uuid))
+    async beforeRouteEnter ({params: {uuid}}, from, next) {
+      const player = store.state.players[uuid] || (await store.dispatch('fetchStats', uuid))
       next(vm => void vm.setPlayerData(uuid, player))
     },
 
-    mounted() {
+    mounted () {
       const timer = setInterval(() => {
         this.progress += 20
         if (this.progress === 80) {
           clearInterval(timer)
         }
       }, 100)
-      this.$el.scrollTop = 0
+      document.body.scrollTop = 0
     },
 
     methods: {
