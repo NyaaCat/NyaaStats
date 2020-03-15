@@ -1,38 +1,40 @@
 <template>
-  <div>
-    <!-- Network error alert -->
-    <div v-if="showNetworkErrorAlert" class="my-4 p-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
-      Network Error!
-      <button class="flex ml-auto" @click="showNetworkErrorAlert = false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
-          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-        </svg>
-      </button>
-    </div>
-    <!-- Loading indicator -->
-    <ProgressBar :visible="loading" />
-    <template v-show="!loading">
-      <!-- Search box -->
-      <div class="mt-5 xl:mt-8 mb-5">
-        <input
-          :value="keyword"
-          type="text"
-          placeholder="Search user by Name / UUID"
-          class="form-input block w-full"
-          @input="ev => setKeyword(ev.target.value)"
-        >
+  <div class="page-section">
+    <div>
+      <!-- Network error alert -->
+      <div v-if="showNetworkErrorAlert" class="my-4 p-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
+        Network Error!
+        <button class="flex ml-auto" @click="showNetworkErrorAlert = false">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
+            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+          </svg>
+        </button>
       </div>
-      <!-- Player list -->
-      <vue-lazy-component class="player-list -ml-5 mb-3">
-        <PlayerBlock
-          v-for="player of playerListProcessed.slice(0, renderedCount)"
-          :key="player.uuid"
-          :player="player"
-          class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
-        />
-      </vue-lazy-component>
-      <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">...and {{ playerList.length - renderedCount }} more</div>
-    </template>
+      <!-- Loading indicator -->
+      <ProgressBar :visible="loading" />
+      <template v-show="!loading">
+        <!-- Search box -->
+        <div class="mt-5 xl:mt-8 mb-5">
+          <input
+            :value="keyword"
+            type="text"
+            placeholder="Search user by Name / UUID"
+            class="form-input block w-full border-0 bg-white focus:bg-white shadow-xs focus:shadow-md transition duration-100 ease-linear"
+            @input="ev => setKeyword(ev.target.value)"
+          >
+        </div>
+        <!-- Player list -->
+        <vue-lazy-component class="player-list -ml-5 mb-3">
+          <PlayerBlock
+            v-for="player of playerListProcessed.slice(0, renderedCount)"
+            :key="player.uuid"
+            :player="player"
+            class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
+          />
+        </vue-lazy-component>
+        <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">...and {{ playerList.length - renderedCount }} more</div>
+      </template>
+    </div>
   </div>
 </template>
 

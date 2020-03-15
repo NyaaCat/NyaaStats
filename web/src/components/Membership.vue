@@ -1,23 +1,19 @@
 <template>
-  <div>
-    <div class="pb-2 border-b border-gray-300 text-gray-600 flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 mr-1 hidden xl:block">
-        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z" />
+  <div class="flex flex-col">
+    <div class="flex-none px-3 xl:px-6 py-3 xl:py-4 border-b border-cool-gray-300 bg-cool-gray-50 rounded-t-md text-gray-600 flex items-center relative overflow-hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 -ml-4 my-auto fill-cool-gray-200 hidden xl:block absolute left-0 inset-y-0">
+        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z" />
       </svg>
-      <h3 class="xl:text-lg font-medium uppercase tracking-wide text-gray-600">Membership</h3>
+      <h3 class="xl:text-lg font-medium uppercase tracking-wide text-gray-600 relative">Membership</h3>
     </div>
-    <dl>
-      <div v-if="player.data.time_start" class="xl:px-6 py-3 lg:py-4 border-b border-gray-200 flex items-center">
-        <dt class="text-gray-500">First Login</dt>
-        <dd class="ml-auto">{{ timeStart }}</dd>
-      </div>
-      <div v-if="player.data.time_last" class="xl:px-6 py-3 lg:py-4 border-b border-gray-200 flex items-center">
-        <dt class="text-gray-500">Last Active</dt>
-        <dd class="ml-auto">{{ timeLast }}</dd>
-      </div>
-      <div v-if="player.data.time_lived" class="xl:px-6 py-3 lg:py-4 border-b border-gray-300 flex items-center">
-        <dt class="text-gray-500">Total Online</dt>
-        <dd class="ml-auto">{{ timeLived }}</dd>
+    <dl class="flex-1 flex flex-col">
+      <div
+        v-for="({label, value}, idx) of list"
+        :key="idx"
+        :class="['flex-1 px-3 xl:px-6 py-3 xl:py-4 flex', {'border-t border-gray-300': idx}]"
+      >
+        <dt class="lg:self-start text-gray-600">{{ label }}</dt>
+        <dd class="ml-auto lg:self-end lg:text-xl xl:text-2xl">{{ value || 'N/A' }}</dd>
       </div>
     </dl>
   </div>
@@ -41,15 +37,27 @@
       ...mapState(['info']),
 
       timeStart () {
-        return format(new Date(this.player.data.time_start), 'yyyy-MM-dd HH:mm:ss')
+        return this.player.data.time_start && format(new Date(this.player.data.time_start), 'yyyy-MM-dd HH:mm:ss')
       },
       timeLast () {
-        return format(new Date(this.player.data.time_last), 'yyyy-MM-dd HH:mm:ss')
+        return this.player.data.time_last && format(new Date(this.player.data.time_last), 'yyyy-MM-dd HH:mm:ss')
       },
       timeLived () {
-        const date = new Date()
-        const baseDate = add(date, {seconds: -this.player.data.time_lived})
-        return formatDistanceStrict(date, baseDate, {unit: 'hour'})
+        if (this.player.data.time_lived) {
+          const date = new Date()
+          const baseDate = add(date, {seconds: -this.player.data.time_lived})
+          return formatDistanceStrict(date, baseDate, {unit: 'hour'})
+        } else {
+          return null
+        }
+      },
+
+      list () {
+        return [
+          {label: 'First Login', value: this.timeStart},
+          {label: 'Last Active', value: this.timeLast},
+          {label: 'Total Online', value: this.timeLived},
+        ]
       },
     },
   }

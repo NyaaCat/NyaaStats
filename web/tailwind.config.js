@@ -1,6 +1,9 @@
 module.exports = {
   theme: {
     extend: {
+      fill: theme => ({
+        ...theme('colors'),
+      }),
       spacing: {
         page: '1200px',
       },
@@ -30,6 +33,8 @@ module.exports = {
     },
   },
   variants: {
+    borderWidth: ['responsive', 'last'],
+    cursor: ['responsive', 'focus'],
     display: ['responsive', 'group-hover'],
   },
   plugins: [

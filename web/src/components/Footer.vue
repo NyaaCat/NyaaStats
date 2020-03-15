@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section py-8 border-t border-gray-200 bg-gray-100">
+  <div class="page-section py-8 border-t border-gray-300 bg-gray-200">
     <footer class="xl:w-page mx-auto text-sm">
       <p class="text-gray-800">Last Update {{ lastUpdate }}</p>
       <p class="mt-4 text-gray-600">{{ info.servername }}</p>

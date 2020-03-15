@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section py-4 md:py-6 xl:py-10 border-b border-gray-200 bg-gray-50">
+  <div class="page-section py-4 md:py-6 xl:py-10 border-b border-gray-200 bg-white">
     <div class="text-center">
       <h1 class="text-3xl md:text-4xl xl:text-5xl leading-tight font-black">{{ info.servername }}</h1>
       <a :href="info.homepage" class="mt-4 text-lg text-blue-600 inline-flex items-center hover:underline">

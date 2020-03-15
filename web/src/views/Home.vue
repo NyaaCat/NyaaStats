@@ -1,9 +1,7 @@
 <template>
   <div class="flex flex-col">
     <Welcome />
-    <div class="page-section">
-      <PlayerList />
-    </div>
+    <PlayerList />
     <Footer class="mt-auto" />
   </div>
 </template>

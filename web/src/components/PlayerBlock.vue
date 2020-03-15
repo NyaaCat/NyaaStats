@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`player/${uuid}`">
-    <div :data-uuid="uuid" class="p-4 border border-gray-300 rounded-md flex items-center group hover:shadow-md transition-shadow duration-100 ease-linear">
+    <div :data-uuid="uuid" class="p-4 rounded-md bg-white shadow-xs hover:shadow-md flex items-center group transition-shadow duration-100 ease-linear">
       <img
         v-lazy="`/data/${uuid}/avatar.png`"
         :alt="`${player.playername}'s Avatar`"

@@ -4,32 +4,34 @@
       <ProgressBar :visible="!player" />
     </div>
     <template v-if="player">
+      <!-- Player ID -->
       <div class="page-section">
         <div class="py-4 flex items-center">
           <h1 class="text-3xl xl:text-4xl font-bold">{{ player.data.playername }}</h1>
           <span v-if="player.data.banned" class="ml-2 p-1 rounded bg-red-600 text-white font-medium">BANNED</span>
         </div>
       </div>
-      <div class="page-section">
-        <div class="md:flex md:items-start">
-          <div class="border border-gray-300 rounded-md bg-gray-50 shadow-inner md:flex-1 lg:flex-none lg:w-64">
+      <!-- Basic info -->
+      <div class="page-section pb-5">
+        <div class="md:flex">
+          <div class="bg-white rounded shadow md:flex-1 lg:flex-none lg:w-64">
             <iframe
               v-if="isCanvasSupported"
               :src="`/skin/index.html?uuid=${uuid}`"
               scrolling="no"
-              class="w-full border-0 rounded-md overflow-hidden bg-gray-50 shadow-inner"
-              style="height: 285px;"
+              class="w-full h-full border-0 rounded-md overflow-hidden"
+              style="min-height: 285px;"
             />
             <img v-else :src="`/data/${uuid}/body.png`" :alt="`${player.data.playername}'s model`">
           </div>
-          <div class="md:ml-5 md:flex-1 lg:flex lg:items-start">
-            <Membership :player="player" class="md:flex-1 mt-8 md:mt-0" />
-            <NameHistory :player="player" class="md:flex-1 lg:ml-5 mt-8 lg:mt-0" />
+          <div class="md:ml-5 md:flex-1 lg:flex">
+            <Membership :player="player" class="bg-white rounded-md shadow md:flex-1 mt-8 md:mt-0" />
+            <NameHistory :player="player" class="bg-white rounded-md shadow md:flex-1 lg:ml-5 mt-8 lg:mt-0" />
           </div>
         </div>
       </div>
-      <PlayerAdvancement :player="player" class="mt-8" />
-      <PlayerStatistic v-if="player" :player="player" />
+      <PlayerAdvancement :player="player" class="bg-white" />
+      <PlayerStatistic v-if="player" :player="player" class="bg-white" />
     </template>
     <Footer :player="player" class="mt-auto" />
   </div>

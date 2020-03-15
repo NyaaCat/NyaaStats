@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-screen flex flex-col">
+  <div id="app" class="min-h-screen leading-none antialiased bg-gray-100 flex flex-col">
     <Navbar class="flex-none relative z-10" />
     <RouterView class="flex-1" />
   </div>
@@ -25,8 +25,6 @@
   @import url('/font/inter.css');
 
   #app {
-    @apply antialiased leading-none;
-
     font-family: Inter, theme('fontFamily.sans');
   }
 
