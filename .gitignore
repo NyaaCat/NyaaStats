@@ -6,3 +6,5 @@ npm-debug.log
 data
 .DS_Store
 dist
+
+__mock__
