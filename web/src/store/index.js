@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-import langData from '@/assets/lang.json'
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -19,7 +17,7 @@ const store = new Vuex.Store({
     scrollOffset: '',
     keyword: '',
 
-    lang: 'zh_cn',
+    footerUpdateTime: null,
   },
 
   mutations: {
@@ -43,8 +41,8 @@ const store = new Vuex.Store({
       state.keyword = keyword
     },
 
-    setLang (state, value) {
-      state.lang = value
+    setFooterUpdateTime (state, value) {
+      state.footerUpdateTime = value
     },
   },
 
@@ -89,15 +87,6 @@ const store = new Vuex.Store({
 
       commit('setPlayer', [uuid, data])
       return data
-    },
-  },
-})
-
-Vue.mixin({
-  computed: {
-    lang () {
-      const lang = this.$store.state.lang
-      return key => langData[lang][key]
     },
   },
 })

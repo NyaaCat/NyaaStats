@@ -2,20 +2,28 @@
   <div class="flex flex-col">
     <Welcome />
     <PlayerList />
-    <Footer class="mt-auto" />
   </div>
 </template>
 
 <script>
   import Welcome from '@/components/Welcome.vue'
   import PlayerList from '@/components/PlayerList.vue'
-  import Footer from '@/components/Footer.vue'
 
   export default {
     components: {
       Welcome,
       PlayerList,
-      Footer,
+    },
+
+    watch: {
+      '$store.state.info.lastUpdate': {
+        immediate: true,
+        handler (val) {
+          if (val) {
+            this.$store.commit('setFooterUpdateTime', val)
+          }
+        },
+      },
     },
 
     beforeRouteEnter (to, from, next) {

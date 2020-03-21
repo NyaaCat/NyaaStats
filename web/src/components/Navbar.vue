@@ -1,7 +1,7 @@
 <template>
-  <div class="set-height">
-    <div class="page-section set-bg text-gray-300 fixed inset-x-0 top-0">
-      <div class="set-height flex items-center">
+  <div ref="wrapper" class="set-height">
+    <div ref="navbar" class="set-bg w-full text-gray-300 fixed left-0 top-0">
+      <div class="page-section set-height flex items-center">
         <RouterLink to="/" class="font-medium hover:text-white transition-color duration-100 ease-linear">{{ info.title }}</RouterLink>
         <div class="ml-auto">
           <LangSelector />
@@ -12,9 +12,10 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
+  import {ResizeSensor} from 'css-element-queries'
 
-  import LangSelector from '@/components/LangSelector'
+  import LangSelector from '@/components/LangSelector.vue'
 
   export default {
     name: 'Navbar',
@@ -24,10 +25,16 @@
     },
 
     computed: mapState(['info']),
+
+    mounted () {
+      new ResizeSensor(this.$refs.wrapper, () => {
+        this.$refs.navbar.style.width = this.$refs.wrapper.offsetWidth + 'px'
+      })
+    },
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .set-height {
     height: 50px;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section">
+  <div class="page-section -mb-5">
     <div>
       <!-- Network error alert -->
       <div v-if="showNetworkErrorAlert" class="my-4 p-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
@@ -24,7 +24,7 @@
           >
         </div>
         <!-- Player list -->
-        <vue-lazy-component class="player-list -ml-5 mb-3">
+        <vue-lazy-component class="player-list -ml-5">
           <PlayerBlock
             v-for="player of playerListProcessed.slice(0, renderedCount)"
             :key="player.uuid"

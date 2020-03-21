@@ -3,7 +3,7 @@ const purgecssOptions = {
     './src/**/*.vue',
     './src/**/*.jsx',
   ],
-  defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
+  defaultExtractor: content => content.match(/[\w-/:.]+(?<!:)/g) || [],
 }
 
 module.exports = {

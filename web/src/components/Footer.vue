@@ -1,36 +1,27 @@
 <template>
-  <div class="page-section py-8 border-t border-gray-300 bg-gray-200">
-    <footer class="xl:w-page mx-auto text-sm">
-      <p class="text-gray-800">Last Update {{ lastUpdate }}</p>
-      <p class="mt-4 text-gray-600">{{ info.servername }}</p>
+  <div>
+    <footer class="xl:w-page mx-auto px-page py-5 xl:py-8 text-sm flex flex-col md:flex-row items-center">
+      <p v-if="footerUpdateTime" class="mb-3 md:mb-0 text-gray-600">{{ `${t('nyaa.general.data_update_time')}${t('nyaa.symbol.colon_s')}${formatDate(footerUpdateTime)}` }}</p>
+      <p class="md:ml-auto text-gray-500">&copy; {{ info.servername }}</p>
     </footer>
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
-  import {format} from 'date-fns'
+
+  import {normalizeDate} from '@/utils'
 
   export default {
     name: 'Footer',
 
-    props: {
-      player: {
-        type: Object,
-        default: null,
-      },
+    computed: {
+      ...mapState(['info', 'footerUpdateTime']),
     },
 
-    computed: {
-      ...mapState(['info']),
-
-      lastUpdate () {
-        if (this.player) {
-          return format(new Date(this.player.data.lastUpdate), 'yyyy-MM-dd HH:mm:ss xx')
-        } else if (this.info) {
-          return format(new Date(this.info.lastUpdate), 'yyyy-MM-dd HH:mm:ss xx')
-        }
-        return ''
+    methods: {
+      formatDate (val) {
+        return normalizeDate(val)
       },
     },
   }

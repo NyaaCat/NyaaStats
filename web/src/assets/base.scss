@@ -1,25 +1,41 @@
 /*! purgecss start ignore */
 @tailwind base;
 
+html {
+  font-size: 16px;
+}
+
 svg {
   @apply fill-current;
 }
 
 @tailwind components;
 
+// TODO: Not useful, remove it
 .page-section {
   @apply px-4;
-
-  > * {
-    @apply mx-auto;
-
-    max-width: theme('spacing.page');
-  }
 
   @screen md {
     @apply px-5;
   }
+
+  @screen xl {
+    @apply w-page px-0 mx-auto;
+  }
 }
+
 /*! purgecss end ignore */
 
 @tailwind utilities;
+
+.px-page {
+  @apply px-4;
+
+  @screen md {
+    @apply px-5;
+  }
+
+  @screen xl {
+    @apply px-0;
+  }
+}

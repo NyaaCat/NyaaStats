@@ -1,33 +1,29 @@
 <template>
-  <div class="advancement-title relative">
-    <div class="advancement-title__bg w-full">
-      <img :src="bgLeft" alt="">
-      <img :src="bgFull" alt="" class="w-full">
-      <img
-        :src="bgProgress"
-        alt=""
-        class="w-full"
-        :style="{ width: Math.min(progress / (total || 1), 1) * 100 + '%' }"
-      >
-      <img :src="bgRight" alt="">
+  <AdvancementFrame
+    :type="isMouseOver ? 'outline' : null"
+    class="cursor-pointer"
+    style="height: 40px;"
+    @mouseenter.native="isMouseOver = true"
+    @mouseleave.native="isMouseOver = false"
+  >
+    <div class="h-full flex items-center">
+      <AdvancementIcon :advancement-id="advancementId" :type="player.done ? 'complete' : 'normal'" class="flex-none -ml-1" />
+      <span :title="lang(titleLangKey)" class="ml-1 whitespace-no-wrap truncate">{{ lang(titleLangKey) }}</span>
+      <span v-if="total" class="ml-2 text-gray-500">({{ progress }}/{{ total }})</span>
     </div>
-    <div class="advancement-title__fg relative flex items-center">
-      <AdvancementIcon :advancement-id="advancementId" class="flex-none" />
-      <span class="advancement-title__text">{{ lang(titleLangKey) }}</span>
-      <span v-if="total" class="advancement-title__progress">{{ progress }}/{{ total }}</span>
-    </div>
-  </div>
+  </AdvancementFrame>
 </template>
 
 <script>
-  import * as frames from '@/assets/frames'
-  import advancementData from '@/assets/advancement-data'
-  import AdvancementIcon from './AdvancementIcon'
+  import advancementData from '@/assets/advancement-data.json'
+  import AdvancementFrame from './AdvancementFrame/index.vue'
+  import AdvancementIcon from './AdvancementIcon/index.vue'
 
   export default {
     name: 'AdvancementTitle',
 
     components: {
+      AdvancementFrame,
       AdvancementIcon,
     },
 
@@ -38,84 +34,33 @@
       },
     },
 
+    data () {
+      return {
+        isMouseOver: false,
+      }
+    },
+
     computed: {
-      data() {
+      data () {
         return advancementData[this.advancementId]
       },
 
-      player() {
+      player () {
         const uuid = this.$route.params.uuid
         return this.$store.state.players[uuid].advancements[this.advancementId]
       },
 
-      bgLeft() {
-        return frames.title_left_complete
-      },
-
-      bgFull() {
-        return frames.title_middle
-      },
-
-      bgProgress() {
-        return frames.title_middle_complete
-      },
-
-      bgRight() {
-        return this.player.done ? frames.title_right_complete : frames.title_right
-      },
-
-      titleLangKey() {
+      titleLangKey () {
         return this.data.title
       },
 
-      total() {
+      total () {
         return this.data.requirements ? this.data.requirements.length : 0
       },
 
-      progress() {
+      progress () {
         return Object.keys(this.player.criteria).length
       },
     },
   }
 </script>
-
-<style>
-.advancement-title {
-  border-width: 0 4px;
-  border-style: solid;
-  border-color: transparent;
-}
-
-.advancement-title__bg img {
-  height: 52px;
-  image-rendering: pixelated;
-  position: absolute;
-}
-
-.advancement-title__bg img:nth-child(1) {
-  right: 100%;
-}
-
-.advancement-title__bg img:nth-child(4) {
-  left: 100%;
-}
-
-.advancement-title__fg {
-  font-size: 17px;
-  color: #fff;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
-}
-
-.advancement-title__fg > * {
-  margin: 0 2px;
-}
-
-.advancement-title__text {
-  white-space: nowrap;
-}
-
-.advancement-title__progress {
-  margin-left: auto;
-  margin-right: 8px;
-}
-</style>

@@ -1,18 +1,26 @@
 <template>
-  <div id="app" class="min-h-screen leading-none antialiased bg-gray-100 flex flex-col">
-    <Navbar class="flex-none relative z-10" />
-    <RouterView class="flex-1" />
+  <div id="app" class="h-screen leading-none antialiased relative">
+    <div class="h-full bg-gray-200 overflow-auto flex flex-col relative">
+      <Navbar class="flex-none z-10" />
+      <RouterView class="flex-1" />
+      <Footer class="mt-auto" />
+    </div>
+    <ModalLayer class="z-10" />
   </div>
 </template>
 
 <script>
-  import Navbar from '@/components/Navbar'
+  import Navbar from '@/components/Navbar.vue'
+  import Footer from '@/components/Footer'
+  import ModalLayer from '@/components/ModalLayer.vue'
 
   export default {
     name: 'App',
 
     components: {
       Navbar,
+      Footer,
+      ModalLayer,
     },
 
     created () {
