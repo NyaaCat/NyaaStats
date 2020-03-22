@@ -11,7 +11,7 @@
     </div>
     <dl class="mt-8 xl:mx-auto xl:w-page flex items-start">
       <div>
-        <dt>World Age</dt>
+        <dt>Uptime</dt>
         <dd>{{ worldTime }}</dd>
       </div>
       <div>
@@ -19,7 +19,7 @@
         <dd>{{ totalPlayers }}</dd>
       </div>
       <div>
-        <dt>Recently Online</dt>
+        <dt>Recently Active</dt>
         <dd>{{ activePlayers }}</dd>
       </div>
     </dl>
