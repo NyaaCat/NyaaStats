@@ -7,8 +7,9 @@
 
     <template v-else>
       <!-- Player name (page header) -->
-      <div class="xl:w-page px-page py-3 xl:mx-auto md:py-4">
+      <div class="xl:w-page xl:mx-auto px-page py-3 md:py-4 flex items-center">
         <h1 class="text-2xl md:text-3xl xl:text-4xl font-black" @click="$refs.iframe.contentWindow.location.reload()">{{ player.data.playername }}</h1>
+        <span v-if="player.data.banned" class="ml-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
       </div>
 
       <div class="xl:w-page xl:mx-auto md:flex md:items-start">
