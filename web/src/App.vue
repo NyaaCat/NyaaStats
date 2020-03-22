@@ -1,11 +1,11 @@
 <template>
-  <div id="app" class="h-screen leading-none antialiased relative">
-    <div class="h-full bg-gray-200 overflow-auto flex flex-col relative">
+  <div id="app" class="leading-none antialiased">
+    <div class="min-h-screen bg-gray-200 flex flex-col relative">
       <Navbar class="flex-none z-10" />
       <RouterView class="flex-1" />
       <Footer class="mt-auto" />
     </div>
-    <ModalLayer class="z-10" />
+    <ModalLayer class="fixed inset-0 z-10" />
   </div>
 </template>
 

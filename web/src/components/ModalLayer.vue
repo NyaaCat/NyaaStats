@@ -4,8 +4,10 @@
     leave-to-class="bg-layer-leave"
     enter-active-class="transition-colors duration-200 ease-out"
     leave-active-class="transition-colors duration-200 ease-in"
+    @before-enter="onBeforeEnter"
+    @after-leave="onAfterLeave"
   >
-    <div v-show="visible" class="w-full h-full bg-layer-enter absolute top-0 left-0 flex flex-col" @click.self="state.modal = null">
+    <div v-show="visible" class="bg-layer-enter flex flex-col" @click.self="state.modal = null">
       <div class="md:mx-auto mt-auto md:mb-auto px-4 md:px-5 pb-4 md:pb-5 overflow-auto flex flex-col" style="max-height: 67vh;">
         <transition
           enter-class="transform-leave opacity-0"
@@ -23,10 +25,12 @@
 <script>
   import Vue from 'vue'
 
+  import {getScrollbarWidth} from '@/utils'
+
   export const state = Vue.observable({
     modal: null,
   })
-  state.setModal = (component, data) => {
+  state.setModal = (component, data = {}) => {
     state.modal = {
       ...component,
       data () {
@@ -60,6 +64,28 @@
           await this.$nextTick()
           this.modal = null
         }
+      },
+    },
+
+    methods: {
+      onBeforeEnter () {
+        if (getScrollbarWidth() > 0) {
+          const app = document.getElementById('app')
+          const scrollTop = document.documentElement.scrollTop
+          app.classList.add('h-screen', 'overflow-auto')
+          app.scrollTop = scrollTop
+        }
+        document.body.classList.add('overflow-hidden')
+      },
+
+      onAfterLeave () {
+        if (getScrollbarWidth() > 0) {
+          const app = document.getElementById('app')
+          const scrollTop = app.scrollTop
+          app.classList.remove('h-screen', 'overflow-scroll')
+          document.documentElement.scrollTop = scrollTop
+        }
+        document.body.classList.remove('overflow-hidden')
       },
     },
   }

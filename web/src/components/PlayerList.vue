@@ -60,7 +60,7 @@
         loading: true,
         timer: null,
         isScrolled: false,
-        renderedCount: process.env.NODE_ENV === 'production' ? 50 : 50,
+        renderedCount: process.env.NODE_ENV === 'production' ? 50 : 20,
       }
     },
 
