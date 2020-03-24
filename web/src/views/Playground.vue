@@ -1,43 +1,78 @@
 <template>
-  <div class="flex flex-col items-center">
-    <details open class="my-10">
-      <summary>Click</summary>
-      <div class="w-24 text-center bg-pink-100" @click="showModal">
-        <p v-for="n of 100" :key="n" class="mt-4">{{ n }}</p>
-      </div>
-    </details>
-    <pre class="fixed left-0 top-0 z-20 mt-20 p-4 my-auto bg-green-100 text-xs" @click="echo">{{ echoMsg }}</pre>
+  <div class="el flex-1 flex flex-col items-center">
+    <div class="flex -mr-5">
+      <AdvancementIcon advancement-id="minecraft:adventure/trade" color-map="outline" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/trade" color-map="normal" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/trade" color-map="complete" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/trade" color-map="fill" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/trade" class="mr-5" />
+    </div>
+    <div class="flex -mr-5">
+      <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" color-map="outline" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" color-map="normal" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" color-map="complete" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" color-map="fill" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" class="mr-5" />
+    </div>
+    <div class="flex -mr-5">
+      <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" color-map="outline" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" color-map="normal" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" color-map="complete" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" color-map="fill" class="mr-5" />
+      <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" class="mr-5" />
+    </div>
+    <div class="flex -mr-5">
+      <AdvancementTitle advancement-id="minecraft:adventure/trade" :progress="0" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/trade" :progress="0.5" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/trade" :progress="1" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/trade" :color-map="isMouseHover ? 'fill' : null" :icon-color-map="isMouseHover ? 'normal' : 'fill'" class="mr-5" @mouseenter.native="isMouseHover = true" @mouseleave.native="isMouseHover = false" />
+    </div>
+    <div class="flex -mr-5">
+      <AdvancementTitle advancement-id="minecraft:adventure/totem_of_undying" :progress="0" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/totem_of_undying" :progress="0.5" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/totem_of_undying" :progress="1" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/totem_of_undying" :color-map="isMouseHover ? 'fill' : null" :icon-color-map="isMouseHover ? 'normal' : 'fill'" class="mr-5" @mouseenter.native="isMouseHover = true" @mouseleave.native="isMouseHover = false" />
+    </div>
+    <div class="flex -mr-5">
+      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :progress="0" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :progress="0.5" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :progress="1" class="mr-5" />
+      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :color-map="isMouseHover ? 'fill' : null" :icon-color-map="isMouseHover ? 'normal' : 'fill'" class="mr-5" @mouseenter.native="isMouseHover = true" @mouseleave.native="isMouseHover = false" />
+    </div>
+    <div class="flex -mr-5">
+      <div v-for="n of 10" :key="n" :class="`mr-5 w-12 h-12 border border-black bg-gray-${n > 1 ? (n - 1) * 10 : 5}0`" />
+    </div>
   </div>
 </template>
 
-<script>
-  import {state} from '@/components/ModalLayer.vue'
-  import {getScrollbarWidth} from '@/utils'
+<script lang="jsx">
+  import AdvancementIcon from '@/components/AdvancementIcon.vue'
+  import AdvancementTitle from '@/components/AdvancementTitle.vue'
 
   export default {
     name: 'PlaygroundView',
 
-    data () {
-      return{
-        echoMsg: 'N/A',
-      }
+    components: {
+      AdvancementIcon,
+      AdvancementTitle,
     },
 
-    methods: {
-      showModal () {
-        state.setModal({
-          render: h => h('div', {class: 'h-20 bg-white rounded-md flex items-center justify-center'}, 'Hello World'),
-        })
-      },
-
-      echo () {
-        console.log('test')
-        console.log(getScrollbarWidth() > 0)
-        document.documentElement.classList.toggle('overflow-hidden')
-        const flag = document.documentElement.classList.contains('overflow-hidden')
-        document.body.classList.toggle('overflow-hidden', flag)
-        this.echoMsg = flag
-      },
+    data () {
+      return {
+        isMouseHover: false,
+      }
     },
   }
 </script>
+
+<style lang="scss" scoped>
+  .el {
+    > * {
+      @apply mt-10;
+    }
+  }
+
+  [data-component-name=AdvancementTitle] {
+    width: 240px;
+  }
+</style>

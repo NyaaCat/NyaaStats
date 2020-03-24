@@ -31,9 +31,9 @@
 
 <script>
   import advancementData from '@/assets/advancement-data.json'
-  import {normalizeDate, parseDate} from '@/utils'
   import AdvancementFrame from '@/components/AdvancementFrame/index.vue'
-  import AdvancementIcon from '@/components/AdvancementIcon/index.vue'
+  import AdvancementIcon from '@/components/AdvancementIcon.vue'
+  import {normalizeDate, parseDate} from '@/utils'
 
   export default {
     name: 'AdvancementModal',

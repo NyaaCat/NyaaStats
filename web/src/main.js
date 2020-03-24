@@ -27,6 +27,14 @@ Vue.mixin({
   },
 })
 
+if (process.env.NODE_ENV === 'development') {
+  Vue.mixin({
+    mounted () {
+      this.$el.setAttribute?.('data-component-name', this.$options.name || 'AnonymousComponent')
+    },
+  })
+}
+
 /* eslint-disable no-new */
 new Vue({
   router,

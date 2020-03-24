@@ -88,12 +88,20 @@
                 <span class="ml-auto text-cool-gray-500">{{ data.filter(adv => adv.done).length }}/{{ getGroupTotal(group) }} 已完成</span>
               </h3>
               <div class="px-page xl:px-4 py-2 lg:flex lg:flex-wrap lg:-ml-5">
-                <div v-for="adv of data" :key="adv.id" class="lg:flex-grow-0 lg:flex-shrink lg:w-1/2 xl:w-1/3 lg:pl-5 py-2">
-                  <AdvancementTitle v-if="adv.criteria" :advancement-id="adv.id" @click.native="showModal(adv.id)" />
-                  <div v-else class="flex items-center opacity-50" style="height: 40px; padding: 0 5px;">
-                    <AdvancementIcon :advancement-id="adv.id" type="outline" class="flex-none" />
-                    <span :title="lang(db[adv.id].title)" class="ml-1 whitespace-no-wrap truncate">{{ lang(db[adv.id].title) }}</span>
-                  </div>
+                <div v-for="adv of data" :key="adv.id" class="lg:flex-grow-0 lg:flex-shrink lg:w-1/2 xl:w-1/3 lg:pl-5 py-1">
+                  <AdvancementTitle
+                    :advancement-id="adv.id"
+                    :color-map="mouseHoverAdv === adv.id ? 'fill' : null"
+                    :icon-color-map="adv.done ? 'complete' : 'normal'"
+                    :class="['cursor-pointer hover:opacity-100', {'opacity-50': !adv.criteria}]"
+                    @mouseenter.native="mouseHoverAdv = adv.id"
+                    @mouseleave.native="mouseHoverAdv = mouseHoverAdv === adv.id ? null : mouseHoverAdv"
+                    @click.native="showModal(adv.id)"
+                  >
+                    <span v-if="db[adv.id].requirements" class="ml-1 text-gray-500">
+                      ({{ Object.keys(adv.criteria || {}).length }}/{{ db[adv.id].requirements.length }})
+                    </span>
+                  </AdvancementTitle>
                 </div>
               </div>
             </div>
@@ -116,7 +124,6 @@
   import {normalizeDate, parseDate} from '@/utils'
   import useLocalConfig from '@/composables/local-config'
   import AdvancementTitle from '@/components/AdvancementTitle.vue'
-  import AdvancementIcon from '@/components/AdvancementIcon/index.vue'
   import {state as modalLayerState} from '@/components/ModalLayer.vue'
   import AdvancementModal from '@/components/AdvancementModal.vue'
   import PlayerStatistics from '@/components/PlayerStatistics.vue'
@@ -125,7 +132,6 @@
     name: 'PlayerView',
 
     components: {
-      AdvancementIcon,
       AdvancementTitle,
       PlayerStatistics,
     },
@@ -138,6 +144,7 @@
 
         showConfig: false,
         config,
+        mouseHoverAdv: null,
       }
     },
 
@@ -176,23 +183,23 @@
       advancementGroups () {
         const groups = {
           story: {
-            title: this.lang('advancements.story.root.title'),
+            title: this.t('advancements.story.root.title'),
             data: [],
           },
           nether: {
-            title: this.lang('advancements.nether.root.title'),
+            title: this.t('advancements.nether.root.title'),
             data: [],
           },
           end: {
-            title: this.lang('advancements.end.root.title'),
+            title: this.t('advancements.end.root.title'),
             data: [],
           },
           adventure: {
-            title: this.lang('advancements.adventure.root.title'),
+            title: this.t('advancements.adventure.root.title'),
             data: [],
           },
           husbandry: {
-            title: this.lang('advancements.husbandry.root.title'),
+            title: this.t('advancements.husbandry.root.title'),
             data: [],
           },
         }
