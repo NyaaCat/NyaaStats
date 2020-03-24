@@ -1,68 +1,32 @@
 <template>
-  <div :class="['flex items-center relative', {'text-white text-shadow': colorMap$ === 'normal' || colorMap$ === 'complete'}]">
-    <div class="w-full h-frame absolute left-0 inset-y-0 my-auto z-0" :style="frameStyle">
-      <div v-if="0 < progress && progress < 1" class="absolute right-0 inset-y-0" :style="progressStyle" />
-    </div>
-    <div class="relative px-frame flex items-center">
-      <AdvancementIcon
-        v-if="advancementId"
-        :advancement-id="advancementId"
-        :color-map="iconColorMap$"
-        class="mr-icon flex-none"
+  <div class="h-icon flex items-center">
+    <AdvancementGui type="box" :color-map="colorMapP" class="w-full h-box relative">
+      <AdvancementGui
+        v-if="0 < progress && progress < total"
+        type="box"
+        color-map="normal"
+        class="absolute right-0 inset-y-0 z-0"
+        :style="{width: (total - progress) / total * 100 + '%', borderImageWidth: '4px 4px 4px 0'}"
       />
-      <span :title="t(titleLangKey)" class="whitespace-no-wrap truncate">{{ t(titleLangKey) }}</span>
-      <slot />
-    </div>
+      <div class="flex-1 leading-5 relative flex items-center">
+        <AdvancementIcon :advancement-id="advancementId" :color-map="iconColorMapP" class="w-icon h-icon mr-icon flex-none" />
+        <span :title="t(titleLangKey)" class="whitespace-no-wrap truncate">{{ t(titleLangKey) }}</span>
+        <span v-if="total && player" class="ml-auto" style="padding-left: 6px;">({{ progress }}/{{ total }})</span>
+      </div>
+    </AdvancementGui>
   </div>
 </template>
 
 <script>
-  import advancementData from '@/assets/advancement-data.json'
-  import {createImage} from '@/utils'
+  import advancementDB from '@/assets/advancement-data.json'
+  import AdvancementGui from './AdvancementGui.vue'
   import AdvancementIcon from './AdvancementIcon.vue'
-
-  const PIXEL_MAP = [
-    '00100',
-    '01210',
-    '12431',
-    '01310',
-    '00100',
-  ].map(str => str.split(''))
-
-  const COLOR_MAPS = {
-    normal: {
-      1: [0, 0, 0],
-      2: [3, 126, 185],
-      3: [1, 41, 56],
-      4: [2, 95, 139],
-    },
-    complete: {
-      1: [0, 0, 0],
-      2: [214, 151, 20],
-      3: [64, 47, 8],
-      4: [177, 132, 39],
-    },
-    description: {
-      1: [0, 0, 0],
-      2: [75, 75, 75],
-      3: [75, 75, 75],
-      4: [30, 30, 30],
-    },
-    outline: {
-      1: [0, 0, 0],
-    },
-    fill: {
-      1: [229, 231, 235],
-      2: [229, 231, 235],
-      3: [229, 231, 235],
-      4: [229, 231, 235],
-    },
-  }
 
   export default {
     name: 'AdvancementTitle',
 
     components: {
+      AdvancementGui,
       AdvancementIcon,
     },
 
@@ -72,77 +36,64 @@
         required: true,
       },
 
-      progress: {
-        type: Number,
+      player: {
+        type: Object,
         default: null,
-        validator: val => val >= 0,
       },
 
       colorMap: {
-        type: [String, Object],
+        type: null,
         default: null,
       },
 
       iconColorMap: {
-        type: [String, Object],
+        type: null,
         default: null,
       },
     },
 
-    data () {
-      return {
-        isMouseOver: false,
-      }
-    },
-
     computed: {
+      playerAdvancement () {
+        return this.player?.advancements[this.advancementId]
+      },
+
+      progress () {
+        return Object.keys(this.playerAdvancement?.criteria ?? {}).length
+      },
+
+      total () {
+        return advancementDB[this.advancementId].requirements?.length ?? 0
+      },
+
+      colorMapP () {
+        return this.colorMap ?? (this.progress > 0 ? 'complete' : 'normal')
+      },
+
+      iconColorMapP () {
+        return this.iconColorMap ?? (this.progress === this.total ? 'complete' : 'normal')
+      },
+
       titleLangKey () {
-        return advancementData[this.advancementId].title
-      },
-
-      colorMap$ () {
-        return typeof this.progress === 'number' ? (this.progress > 0 ? 'complete' : 'normal') : this.colorMap
-      },
-
-      frameStyle () {
-        if (!this.colorMap$) return
-
-        const img = createImage(PIXEL_MAP, COLOR_MAPS[this.colorMap$], 2)
-        return {
-          borderImage: `url(${img}) ${4 * devicePixelRatio} fill / 4px repeat`,
-        }
-      },
-
-      progressStyle () {
-        const img = createImage(PIXEL_MAP, COLOR_MAPS.normal, 2)
-        return {
-          width: (1 - this.progress) * 100 + '%',
-          borderImage: `url(${img}) ${4 * devicePixelRatio} fill / 4px 4px 4px 0 repeat`,
-        }
-      },
-
-      iconColorMap$ () {
-        return this.iconColorMap ?? (typeof this.progress === 'number' ? this.progress === 1 ? 'complete' : 'normal' : this.colorMap$)
+        return advancementDB[this.advancementId].title
       },
     },
   }
 </script>
 
 <style scoped>
-  .h-frame {
-    height: 40px;
+  .w-icon {
+    width: 52px;
   }
 
-  .px-frame {
-    padding-left: 6px;
-    padding-right: 6px;
+  .h-icon {
+    height: 52px;
+  }
+
+  .h-box {
+    height: 40px;
   }
 
   .mr-icon {
     margin-right: 6px;
-  }
-
-  .text-shadow {
-    text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
   }
 </style>

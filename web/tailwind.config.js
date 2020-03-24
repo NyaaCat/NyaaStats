@@ -1,6 +1,10 @@
 module.exports = {
   theme: {
     extend: {
+      colors: {
+        mcgray: '#aaa',
+        mcwhite: '#fff',
+      },
       fill: theme => ({
         ...theme('colors'),
       }),
