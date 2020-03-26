@@ -13,7 +13,7 @@ export function parseDate (dateStr) {
 /**
  * Normalize date format
  *
- * @param {Date | String} date
+ * @param {Date | String | Number} date
  * @param {"long" | "short"} [format="long"]
  * @return {String}
  */

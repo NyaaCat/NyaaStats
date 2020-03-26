@@ -10,7 +10,7 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {normalizeDate} from '@/utils'
+  import {normalizeDate} from '@/common/utils'
 
   export default {
     name: 'Footer',

@@ -5,14 +5,12 @@
       <RouterView class="flex-1" />
       <Footer class="mt-auto" />
     </div>
-    <ModalLayer class="fixed inset-0 z-10" />
   </div>
 </template>
 
 <script>
   import Navbar from '@/components/Navbar.vue'
   import Footer from '@/components/Footer'
-  import ModalLayer from '@/components/ModalLayer.vue'
 
   export default {
     name: 'App',
@@ -20,7 +18,6 @@
     components: {
       Navbar,
       Footer,
-      ModalLayer,
     },
 
     created () {

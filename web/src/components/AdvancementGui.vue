@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import {createImage} from '@/utils'
+  import {createImage} from '@/common/utils'
 
   const PIXEL_MAPS = {
     box: [
@@ -123,11 +123,15 @@
         if (this.type !== 'box') {
           return 'flex items-center justify-center'
         }
-        // Is predefined advancement title
-        if (typeof this.colorMap === 'string' && this.colorMap !== 'description') {
-          return 'px-box text-white text-shadow flex items-center'
+        // Is box
+        else {
+          const className = ['px-box']
+          // Is predefined advancement title
+          if (typeof this.colorMap === 'string' && this.colorMap !== 'description') {
+            className.push('text-white text-shadow flex items-center')
+          }
+          return className
         }
-        return null
       },
 
       style () {

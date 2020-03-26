@@ -1,6 +1,13 @@
 <template>
   <div class="el flex-1 flex flex-col items-center">
     <div class="flex">
+      <AdvancementInfoPanel advancement-id="minecraft:adventure/adventuring_time" class="mr-5" style="width: 300px;" />
+      <AdvancementInfoPanel advancement-id="minecraft:adventure/adventuring_time" expandable style="width: 300px;" />
+    </div>
+
+    <template v-if="false">
+    <button class="underline" @click="flag = !flag">{{ flag }}</button>
+    <div class="flex">
       <AdvancementInfoPanel advancement-id="minecraft:adventure/adventuring_time" class="mr-5" style="width: 300px; max-height: 400px;" />
       <AdvancementInfoPanel advancement-id="minecraft:adventure/adventuring_time" :player="genPlayer(0.5)" style="width: 300px; max-height: 400px;" />
     </div>
@@ -12,45 +19,36 @@
         <p>Hello World</p>
       </AdvancementInfoPanel>
     </div>
-    <div>
+    </template>
+
+    <div style="margin-top: 0;">
       <div class="flex -mr-5">
-        <AdvancementIcon advancement-id="minecraft:adventure/trade" color-map="normal" class="mr-5" style="width: 52px; height: 52px;" />
-        <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" color-map="normal" class="mr-5" style="width: 52px; height: 52px;" />
-        <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" color-map="normal" class="mr-5" style="width: 52px; height: 52px;" />
+        <div v-for="n of 10" :key="n" :class="`mr-5 w-12 h-12 border border-black bg-gray-${n > 1 ? (n - 1) * 10 : 5}0`" />
       </div>
-      <div class="mt-2 flex -mr-5">
-        <AdvancementIcon advancement-id="minecraft:adventure/trade" color-map="complete" class="mr-5" style="width: 52px; height: 52px;" />
-        <AdvancementIcon advancement-id="minecraft:adventure/adventuring_time" color-map="complete" class="mr-5" style="width: 52px; height: 52px;" />
-        <AdvancementIcon advancement-id="minecraft:adventure/totem_of_undying" color-map="complete" class="mr-5" style="width: 52px; height: 52px;" />
+      <div class="mt-5 flex -mr-5">
+        <div v-for="n of 10" :key="n" :class="`mr-5 w-12 h-12 border border-black bg-cool-gray-${n > 1 ? (n - 1) * 10 : 5}0`" />
       </div>
-    </div>
-    <div class="-mb-2">
-      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :player="genPlayer(0)" class="mb-2" />
-      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :player="genPlayer(0.5)" class="mb-2" />
-      <AdvancementTitle advancement-id="minecraft:adventure/adventuring_time" :player="genPlayer(1)" class="mb-2" />
-    </div>
-    <div class="flex -mr-5">
-      <div v-for="n of 10" :key="n" :class="`mr-5 w-12 h-12 border border-black bg-gray-${n > 1 ? (n - 1) * 10 : 5}0`" />
     </div>
   </div>
 </template>
 
 <script lang="jsx">
+  /* eslint-disable */
+
   import AdvancementInfoPanel from '@/components/AdvancementInfoPanel.vue'
-  import AdvancementIcon from '@/components/AdvancementIcon.vue'
-  import AdvancementTitle from '@/components/AdvancementTitle.vue'
+  import SlidingTransition from '@/components/SlidingTransition.vue'
 
   export default {
     name: 'PlaygroundView',
 
     components: {
       AdvancementInfoPanel,
-      AdvancementIcon,
-      AdvancementTitle,
+      SlidingTransition,
     },
 
     data () {
       return {
+        flag: false,
       }
     },
 

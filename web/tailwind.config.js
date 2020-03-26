@@ -40,6 +40,7 @@ module.exports = {
     borderWidth: ['responsive', 'last'],
     cursor: ['responsive', 'focus'],
     display: ['responsive', 'group-hover'],
+    margin: ['responsive', 'first'],
   },
   plugins: [
     require('@tailwindcss/ui'),
