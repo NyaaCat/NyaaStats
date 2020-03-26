@@ -45,6 +45,7 @@
             :advancement-id="adv.id"
             :player="player"
             :color-map="mouseHoverAdv === adv.id ? hoverColorMap : 'none'"
+            :data-prevent-clickaway="Boolean(openedAdv)"
             :class="['cursor-pointer', {'opacity-50 hover:opacity-100': !adv.criteria}]"
             @mouseenter.native="mouseHoverAdv = adv.id"
             @mouseleave.native="mouseHoverAdv = mouseHoverAdv === adv.id ? null : mouseHoverAdv"
@@ -57,9 +58,11 @@
           </AdvancementTitle>
           <AdvancementInfoPanel
             v-if="openedAdv === adv.id"
+            ref="openedPanel"
             :advancement-id="adv.id"
             :player="player"
             expandable="auto"
+            data-prevent-clickaway="true"
             class="lg:w-info-panel-lg x-float-right md:relative md:z-10"
             @after-collapse="openedAdv === adv.id && (openedAdv = null)"
           >
@@ -163,9 +166,32 @@
       }),
     },
 
+    watch: {
+      openedAdv (val, oldVal) {
+        if (val && !oldVal) {
+          document.body.addEventListener('click', this.onClickAway, true)
+        } else if (!val) {
+          this.offClickAway()
+        }
+      },
+    },
+
     methods: {
       getGroupTotal (group) {
         return Object.keys(advancementDB).filter(k => k.startsWith('minecraft:' + group)).length
+      },
+
+      onClickAway ({target}) {
+        let el = target
+        do {
+          if (el.dataset.preventClickaway) return
+        } while ((el = el.parentElement))
+        this.$refs.openedPanel[0].toggle()
+        this.offClickAway()
+      },
+
+      offClickAway () {
+        document.body.removeEventListener('click', this.onClickAway, true)
       },
     },
   }
