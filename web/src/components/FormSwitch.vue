@@ -1,9 +1,9 @@
 <template>
-  <span @click="$emit('change', !value)">
+  <span class="relative">
     <input
       :value="value"
       type="checkbox"
-      class="hidden"
+      class="absolute inset-0 w-full h-full invisible"
       @change="$emit('change', $event.target.checked)"
     >
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 100" class="h-6">
