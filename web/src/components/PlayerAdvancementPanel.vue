@@ -60,7 +60,7 @@
             @after-collapse="openedAdv === adv.id && (openedAdv = null)"
           >
             <template v-if="!player.advancements[adv.id]" #default>
-              <p>{{ t('nyaa.player_advancements.status_unlocked') }}</p>
+              <p class="mt-5 first:mt-0">{{ t('nyaa.player_advancements.status_unlocked') }}</p>
             </template>
           </AdvancementInfoPanel>
         </div>
