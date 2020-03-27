@@ -26,7 +26,7 @@
                   <span :class="{'text-mcwhite': playerAdvancement && playerAdvancement.criteria[req]}">{{ t(db.requirement_names[req]) }}</span>
                 </p>
               </template>
-              <p v-if="updateTime" class="mt-5 first:mt-0">Update time: {{ normalizeDate(updateTime) }}</p>
+              <p v-if="updateTime" class="mt-5 first:mt-0">{{ t('nyaa.player_advancements.update_time') }}{{ t('nyaa.symbol.colon_s') }}{{ normalizeDate(updateTime) }}</p>
             </slot>
           </div>
         </AdvancementGui>

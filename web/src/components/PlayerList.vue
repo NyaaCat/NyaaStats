@@ -18,7 +18,7 @@
           <input
             :value="keyword"
             type="text"
-            placeholder="Search user by Name / UUID"
+            :placeholder="t('nyaa.general.search_placeholder')"
             class="form-input block w-full border-0 bg-white focus:bg-white shadow-xs focus:shadow-md transition duration-100 ease-linear"
             @input="ev => setKeyword(ev.target.value)"
           >
@@ -32,7 +32,7 @@
             class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
           />
         </vue-lazy-component>
-        <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">...and {{ playerList.length - renderedCount }} more</div>
+        <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">{{ t('nyaa.player_list.more_players_hint', playerList.length - renderedCount) }}</div>
       </template>
     </div>
   </div>

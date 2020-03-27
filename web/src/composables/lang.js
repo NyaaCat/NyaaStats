@@ -3,8 +3,14 @@ import useLocalConfig from './local-config'
 
 const config = useLocalConfig()
 
-function t (key) {
-  return langData[config.lang][key] ?? key
+function t (key, ...args) {
+  /** @type {String | undefined} */
+  const tmpl = langData[config.lang][key]
+  return tmpl
+    ? /%(?!=%)/.test(tmpl)
+      ? tmpl.split('%s').reduce((result, part, idx) => result + args[idx - 1] + part)
+      : tmpl
+    : key
 }
 
 Object.defineProperty(t, 'lang', {

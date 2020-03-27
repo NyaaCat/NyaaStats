@@ -30,8 +30,7 @@
             </dl>
           </div>
           <div class="mt-5">
-            <h2 class="font-medium text-cool-gray-600 uppercase tracking-wide px-3 pb-2">Name
-              History</h2>
+            <h2 class="font-medium text-cool-gray-600 uppercase tracking-wide px-3 pb-2">{{ t('nyaa.player_name_history.section_title') }}</h2>
             <ul class="bg-white rounded-md shadow">
               <li
                 v-for="({name, changedToAt}, idx) of player.data.names"
@@ -39,7 +38,7 @@
                 :class="['p-3 flex items-center', {'border-t border-gray-300': idx}]"
               >
                 <strong class="font-normal mr-3">{{ name }}</strong>
-                <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || 'First name' }}</span>
+                <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
               </li>
             </ul>
           </div>
@@ -58,6 +57,7 @@
 
 <script>
   import {add, formatDistanceStrict} from 'date-fns'
+  import {zhCN} from 'date-fns/locale'
 
   import advancementData from '@/assets/advancement-data.json'
   import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
@@ -88,15 +88,15 @@
       membership () {
         const output = [
           {
-            label: 'First login',
+            label: this.t('nyaa.player_info.first_login'),
             value: this.formatDate(this.player?.data.time_start),
           },
           {
-            label: 'Last active',
+            label: this.t('nyaa.player_info.last_active'),
             value: this.formatDate(this.player?.data.time_last),
           },
           {
-            label: 'Total online',
+            label: this.t('nyaa.player_info.total_online'),
             value: null,
           },
         ]
@@ -104,7 +104,7 @@
         if (this.player?.data.time_lived) {
           const now = new Date()
           const base = add(now, {seconds: -this.player.data.time_lived})
-          output[2].value = formatDistanceStrict(now, base, {unit: 'hour'})
+          output[2].value = formatDistanceStrict(now, base, {unit: 'hour', locale: this.t.lang === 'zh_cn' ? zhCN : null})
         }
 
         return output

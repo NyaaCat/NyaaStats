@@ -3,7 +3,7 @@
     <div class="xl:mx-auto xl:w-page text-center">
       <h1 class="text-3xl md:text-4xl xl:text-5xl leading-tight font-black" @click="goPlayground">{{ info.servername }}</h1>
       <a :href="info.homepage" class="mt-4 text-lg text-blue-600 inline-flex items-center hover:underline">
-        Explore
+        {{ t('nyaa.home.explore_link_label') }}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 ml-1">
           <path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" />
         </svg>
@@ -11,15 +11,15 @@
     </div>
     <dl class="mt-8 xl:mx-auto xl:w-page flex items-start">
       <div>
-        <dt>Uptime</dt>
+        <dt>{{ t('nyaa.home.starring_number.uptime') }}</dt>
         <dd>{{ worldTime }}</dd>
       </div>
       <div>
-        <dt>Total Players</dt>
+        <dt>{{ t('nyaa.home.starring_number.total_players') }}</dt>
         <dd>{{ totalPlayers }}</dd>
       </div>
       <div>
-        <dt>Recently Active</dt>
+        <dt>{{ t('nyaa.home.starring_number.recently_active') }}</dt>
         <dd>{{ activePlayers }}</dd>
       </div>
     </dl>

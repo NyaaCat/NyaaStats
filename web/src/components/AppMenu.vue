@@ -27,26 +27,26 @@
     <SlidingTransition :duration="{enter: 300, leave: 200}">
       <div v-if="visible" class="fixed xl:absolute top-0 right-0 w-full md:w-menu xl:-mr-offset flex flex-col justify-end">
         <div class="h-screen md:h-auto max-h-screen bg-gray-700 md:rounded-bl-md xl:rounded-br-md md:shadow-lg text-white flex flex-col">
-          <h2 class="flex-none h-header px-4 border-b border-gray-600 flex items-center">MENU</h2>
+          <div class="flex-none h-header border-b border-gray-600" />
           <div class="flex-1 md:rounded-bl-md xl:rounded-br-md overflow-auto flex flex-col">
             <section class="py-4 border-b border-transparent">
-              <h3 class="mb-4 px-4 text-sm text-cool-gray-400">进度</h3>
+              <h3 class="mb-4 px-4 text-sm text-cool-gray-400 uppercase tracking-wide">{{ t('nyaa.player_advancements.section_title') }}</h3>
               <label class="px-4 h-12 bg-cool-gray-600 cursor-pointer flex items-center">
-                <span>显示未解锁进度</span>
+                <span>{{ t('nyaa.config.show_all_advancements') }}</span>
                 <FormSwitch v-model="config.showAllAdvancements" class="ml-auto" />
               </label>
             </section>
             <section class="py-4 border-b border-transparent">
-              <h3 class="mb-4 px-4 text-sm text-cool-gray-400">统计</h3>
+              <h3 class="mb-4 px-4 text-sm text-cool-gray-400 uppercase tracking-wide">{{ t('nyaa.player_statistics.section_title') }}</h3>
               <label class="px-4 h-12 bg-cool-gray-600 cursor-pointer flex items-center">
-                <span>显示完整数据</span>
+                <span>{{ t('nyaa.config.show_long_statistics') }}</span>
                 <FormSwitch v-model="config.showLongStatistics" class="ml-auto" />
               </label>
             </section>
             <section class="py-4 border-b border-transparent">
-              <h3 class="mb-4 px-4 text-sm text-cool-gray-400">其他</h3>
+              <h3 class="mb-4 px-4 text-sm text-cool-gray-400 uppercase tracking-wide">{{ t('nyaa.app_menu.section_title.others') }}</h3>
               <div class="px-4 h-12 bg-cool-gray-600 flex items-center">
-                <span>界面语言</span>
+                <span>{{ t('nyaa.config.display_language') }}</span>
                 <span class="ml-auto flex">
                   <label :class="['flex-1 px-4 h-7 rounded cursor-pointer flex items-center', config.lang === 'zh_cn' ? 'bg-blue-500' : null]">
                     <!-- eslint-disable vue/max-attributes-per-line -->

@@ -2,7 +2,7 @@
   <div class="bg-white md:rounded-md shadow">
     <header class="border-b border-gray-300 bg-gray-100 md:rounded-t-md flex flex-col">
       <div class="px-page xl:px-5 flex items-center">
-        <h2 class="py-3 xl:py-4 text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">进度</h2>
+        <h2 class="py-3 xl:py-4 text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">{{ t('nyaa.player_advancements.section_title') }}</h2>
         <button class="ml-auto p-1 -mr-1 focus:outline-none flex" @click="showConfig = !showConfig">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="['w-6 h-6', showConfig ? 'fill-black' : 'fill-gray-500']">
             <path d="M8 7a5 5 0 1 0 0 10h8a5 5 0 0 0 0-10H8zm0-2h8a7 7 0 0 1 0 14H8A7 7 0 0 1 8 5zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -12,7 +12,7 @@
       <SlidingTransition :duration="150">
         <div v-show="showConfig" style="height: 0;">
           <label class="px-page xl:px-5 py-3 border-t border-gray-300 cursor-pointer flex items-center">
-            <span>显示未解锁进度</span>
+            <span>{{ t('nyaa.config.show_all_advancements') }}</span>
             <FormSwitch v-model="config.showAllAdvancements" class="ml-auto" />
           </label>
         </div>
@@ -25,7 +25,7 @@
     >
       <h3 class="px-page xl:px-5 py-3 xl:py-4 border-b border-gray-300 flex items-center">
         <span class="text-cool-gray-700 uppercase tracking-wide">{{ title }}</span>
-        <span class="ml-auto text-cool-gray-500">{{ data.filter(adv => adv.done).length }}/{{ getGroupTotal(group) }} 已完成</span>
+        <span class="ml-auto text-cool-gray-500">{{ data.filter(adv => adv.done).length }}/{{ t('nyaa.player_advancements.progress_completed', getGroupTotal(group)) }}</span>
       </h3>
       <div class="px-page xl:px-4 py-2 lg:flex lg:flex-wrap lg:-ml-5">
         <div
@@ -60,7 +60,7 @@
             @after-collapse="openedAdv === adv.id && (openedAdv = null)"
           >
             <template v-if="!player.advancements[adv.id]" #default>
-              <p>未解锁</p>
+              <p>{{ t('nyaa.player_advancements.status_unlocked') }}</p>
             </template>
           </AdvancementInfoPanel>
         </div>
