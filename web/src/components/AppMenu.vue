@@ -33,7 +33,7 @@
               <h3 class="mb-4 px-4 text-sm text-cool-gray-400">进度</h3>
               <label class="px-4 h-12 bg-cool-gray-600 cursor-pointer flex items-center">
                 <span>显示未解锁进度</span>
-                <FormSwitch v-model="showAllAdvancements" class="ml-auto" />
+                <FormSwitch v-model="config.showAllAdvancements" class="ml-auto" />
               </label>
             </section>
             <section class="py-4 border-b border-transparent">
@@ -92,7 +92,8 @@
         visible: false,
 
         config,
-        showAllAdvancements: false,
+
+        // mock-only
         showRawStatistics: false,
       }
     },
