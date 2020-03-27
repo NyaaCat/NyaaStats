@@ -10,6 +10,7 @@ module.exports = {
       }),
       spacing: {
         page: '1200px',
+        header: '50px',
       },
       fontFamily: {
         sans: [

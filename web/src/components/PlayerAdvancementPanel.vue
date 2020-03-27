@@ -13,14 +13,7 @@
         <div v-show="showConfig" style="height: 0;">
           <label class="px-page xl:px-5 py-3 border-t border-gray-300 cursor-pointer flex items-center">
             <span>显示未解锁进度</span>
-            <span class="ml-auto">
-              <input v-model="config.showAllAdvancements" type="checkbox" class="hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 100" class="h-6">
-                <path d="M50 100A50 50 0 0150 0h80a50 50 0 010 100H50z" :class="config.showAllAdvancements ? 'fill-blue-500' : 'fill-gray-400'" />
-                <!-- eslint-disable vue/max-attributes-per-line -->
-                <circle :cx="config.showAllAdvancements ? 130 : 50" cy="50" r="40" class="fill-white" />
-              </svg>
-            </span>
+            <FormSwitch v-model="config.showAllAdvancements" class="ml-auto" />
           </label>
         </div>
       </SlidingTransition>
@@ -81,6 +74,7 @@
   import AdvancementTitle from '@/components/AdvancementTitle.vue'
   import AdvancementInfoPanel from '@/components/AdvancementInfoPanel.vue'
   import SlidingTransition from '@/components/SlidingTransition.vue'
+  import FormSwitch from '@/components/FormSwitch.vue'
   import useLocalConfig from '@/composables/local-config'
   import {parseDate} from '@/common/utils'
 
@@ -88,6 +82,7 @@
     name: 'PlayerAdvancementPanel',
 
     components: {
+      FormSwitch,
       AdvancementInfoPanel,
       AdvancementTitle,
       SlidingTransition,
