@@ -14,7 +14,6 @@ const store = new Vuex.Store({
     },
     players: {},
     playerList: [],
-    scrollOffset: '',
     keyword: '',
 
     footerUpdateTime: null,
@@ -31,10 +30,6 @@ const store = new Vuex.Store({
 
     setPlayerList (state, data) {
       state.playerList = data
-    },
-
-    setScrollOffset (state, payload) {
-      state.scrollOffset = payload.uuid
     },
 
     setKeyword (state, keyword) {

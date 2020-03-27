@@ -29,6 +29,7 @@
 <script>
   import {mapState} from 'vuex'
   import {add, formatDistanceStrict} from 'date-fns'
+  import {zhCN} from 'date-fns/locale'
 
   export default {
     name: 'Welcome',
@@ -40,7 +41,7 @@
         if (this.info.worldTime) {
           const date = new Date()
           const baseDate = add(date, {seconds: -this.info.worldTime})
-          return formatDistanceStrict(date, baseDate)
+          return formatDistanceStrict(date, baseDate, {locale: this.t.lang === 'zh_cn' ? zhCN : null})
         } else {
           return '--'
         }

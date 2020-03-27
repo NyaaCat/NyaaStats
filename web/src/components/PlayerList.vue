@@ -40,7 +40,6 @@
 
 <script>
   import {mapMutations, mapState} from 'vuex'
-  import VueScrollTo from 'vue-scrollto'
 
   import ProgressBar from '@/components/ProgressBar.vue'
   import PlayerBlock from './PlayerBlock.vue'
@@ -65,7 +64,7 @@
     },
 
     computed: {
-      ...mapState(['playerList', 'scrollOffset', 'keyword']),
+      ...mapState(['playerList', 'keyword']),
 
       keywordTrimmed() {
         return this.keyword.trim()
@@ -117,22 +116,6 @@
         }
       }
       this.loading = false
-    },
-
-    updated() {
-      this.$nextTick(() => {
-        if (this.scrollOffset.length === 32 && !this.isScrolled) {
-          setTimeout(() => {
-            VueScrollTo.scrollTo(`[data-uuid="${this.scrollOffset}"]`, 500, {
-              duration: 500,
-              easing: 'ease-in',
-              offset: -65,
-              cancelable: false,
-            })
-          }, 100)
-        }
-        this.isScrolled = true
-      })
     },
 
     methods: {
