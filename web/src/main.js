@@ -21,10 +21,6 @@ Vue.mixin({
     t () {
       return useLang().t
     },
-    lang () {
-      console.warn('[NyaaStats] Found usage of deprecated `lang()`.')
-      return this.t
-    },
   },
 })
 
