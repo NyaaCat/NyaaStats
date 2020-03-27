@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="leading-none antialiased">
     <div class="min-h-screen bg-gray-200 flex flex-col relative">
-      <Navbar class="flex-none z-10" />
-      <RouterView class="flex-1" />
+      <Navbar class="flex-none relative z-10" />
+      <RouterView class="flex-1 relative z-0" />
       <Footer class="mt-auto" />
     </div>
   </div>
