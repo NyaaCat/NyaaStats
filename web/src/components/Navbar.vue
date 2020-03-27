@@ -4,7 +4,6 @@
       <div class="page-section h-header flex items-center">
         <RouterLink to="/" class="font-medium hover:text-white transition-color duration-100 ease-linear">{{ info.title }}</RouterLink>
         <div class="ml-auto self-stretch">
-          <LangSelector v-if="false" />
           <AppMenu />
         </div>
       </div>
@@ -16,14 +15,12 @@
   import {mapState} from 'vuex'
   import {ResizeSensor} from 'css-element-queries'
 
-  import LangSelector from '@/components/LangSelector.vue'
   import AppMenu from './AppMenu.vue'
 
   export default {
     name: 'Navbar',
 
     components: {
-      LangSelector,
       AppMenu,
     },
 

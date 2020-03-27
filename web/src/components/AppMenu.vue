@@ -48,12 +48,14 @@
               <div class="px-4 h-12 bg-cool-gray-600 flex items-center">
                 <span>界面语言</span>
                 <span class="ml-auto flex">
-                  <label :class="['flex-1 px-4 h-7 rounded cursor-pointer flex items-center', langVal === 'zh_cn' ? 'bg-blue-500' : null]">
-                    <input v-model="langVal" value="zh_cn" type="radio" class="hidden">
+                  <label :class="['flex-1 px-4 h-7 rounded cursor-pointer flex items-center', config.lang === 'zh_cn' ? 'bg-blue-500' : null]">
+                    <!-- eslint-disable vue/max-attributes-per-line -->
+                    <input v-model="config.lang" value="zh_cn" type="radio" class="hidden">
                     <span>中文</span>
                   </label>
-                  <label :class="['flex-1 px-4 h-7 rounded cursor-pointer flex items-center', langVal === 'en_us' ? 'bg-blue-500' : null]">
-                    <input v-model="langVal" value="en_us" type="radio" class="hidden">
+                  <label :class="['flex-1 px-4 h-7 rounded cursor-pointer flex items-center', config.lang === 'en_us' ? 'bg-blue-500' : null]">
+                    <!-- eslint-disable vue/max-attributes-per-line -->
+                    <input v-model="config.lang" value="en_us" type="radio" class="hidden">
                     <span>English</span>
                   </label>
                 </span>
@@ -73,6 +75,7 @@
 <script>
   import SlidingTransition from '@/components/SlidingTransition.vue'
   import FormSwitch from '@/components/FormSwitch.vue'
+  import useLocalConfig from '@/composables/local-config'
 
   export default {
     name: 'AppMenu',
@@ -83,10 +86,12 @@
     },
 
     data () {
+      const config = useLocalConfig()
+
       return {
         visible: false,
 
-        langVal: 'zh_cn',
+        config,
         showAllAdvancements: false,
         showRawStatistics: false,
       }
