@@ -21,9 +21,20 @@ const vm = new Vue({
   watch: {
     lang (val) {
       localStorage.setItem(StorageKey.Lang, val)
+      this.setLangAttr()
     },
     showAllAdvancements: val => handleBooleanStorage(StorageKey.ShowAllAdvancements, val),
     showLongStatistics: val => handleBooleanStorage(StorageKey.ShowLongStatistics, val),
+  },
+
+  created () {
+    this.setLangAttr()
+  },
+
+  methods: {
+    setLangAttr () {
+      document.documentElement.setAttribute('lang', {'zh_cn': 'cmn', 'en_us': 'en'}[this.lang])
+    },
   },
 })
 
