@@ -39,8 +39,8 @@
             <section class="py-4 border-b border-transparent">
               <h3 class="mb-4 px-4 text-sm text-cool-gray-400">统计</h3>
               <label class="px-4 h-12 bg-cool-gray-600 cursor-pointer flex items-center">
-                <span>显示原始数据</span>
-                <FormSwitch v-model="showRawStatistics" class="ml-auto" />
+                <span>显示完整数据</span>
+                <FormSwitch v-model="config.showLongStatistics" class="ml-auto" />
               </label>
             </section>
             <section class="py-4 border-b border-transparent">
@@ -92,9 +92,6 @@
         visible: false,
 
         config,
-
-        // mock-only
-        showRawStatistics: false,
       }
     },
 

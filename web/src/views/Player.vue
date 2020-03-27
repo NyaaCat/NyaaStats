@@ -7,10 +7,10 @@
 
     <template v-else>
       <!-- Player name (page header) -->
-      <div class="xl:w-page xl:mx-auto px-page py-3 md:py-4 flex items-center">
+      <header class="xl:w-page xl:mx-auto px-page py-3 md:py-4 flex items-center">
         <h1 class="text-2xl md:text-3xl xl:text-4xl font-black" @click="$refs.iframe.contentWindow.location.reload()">{{ player.data.playername }}</h1>
         <span v-if="player.data.banned" class="ml-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
-      </div>
+      </header>
 
       <div class="xl:w-page xl:mx-auto md:flex md:items-start">
         <!-- Player info -->
@@ -47,12 +47,9 @@
         <!-- Main -->
         <div class="flex-1 md:mr-5 xl:ml-5 xl:mr-0 -mb-5">
           <!-- Advancements -->
-          <PlayerAdvancementPanel :player="player" />
+          <PlayerAdvancementPanel :player="player" class="mb-5" />
           <!-- Statistics -->
-          <div class="mb-5 bg-white md:rounded-md shadow overflow-hidden">
-            <h2 class="px-page xl:px-5 py-3 xl:py-4 border-b border-gray-300 bg-gray-100 md:rounded-t-md text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">Statistics</h2>
-            <PlayerStatistics :player="player" />
-          </div>
+          <PlayerStatisticPanel :player="player" class="mb-5" />
         </div>
       </div>
     </template>
@@ -63,16 +60,16 @@
   import {add, formatDistanceStrict} from 'date-fns'
 
   import advancementData from '@/assets/advancement-data.json'
+  import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
+  import PlayerStatisticPanel from '@/components/PlayerStatisticPanel.vue'
   import {normalizeDate} from '@/common/utils'
-  import PlayerStatistics from '@/components/PlayerStatistics.vue'
-  import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel'
 
   export default {
     name: 'PlayerView',
 
     components: {
       PlayerAdvancementPanel,
-      PlayerStatistics,
+      PlayerStatisticPanel,
     },
 
     data () {

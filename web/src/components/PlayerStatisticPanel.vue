@@ -1,13 +1,33 @@
 <template>
-  <div class="-mb-px lg:-ml-px lg:flex lg:flex-wrap">
-    <div
-      v-for="[key, value, unit] of entries"
-      :key="key"
-      class="lg:flex-grow-0 lg:flex-shrink lg:w-1/2 xl:w-1/3 px-4 md:px-5 py-3 xl:py-4 border-b lg:border-l border-gray-300"
-    >
-      <div class="text-sm flex items-center">
-        <span class="mr-1">{{ t(statKey2LangKey(key)) }}{{ t.lang !== 'zh_cn' ? ' ' : null }}{{ t('nyaa.symbol.parentheses.left') }}{{ t(unit) }}{{ t('nyaa.symbol.parentheses.right') }}</span>
-        <span class="ml-auto text-blue-700">{{ value }}</span>
+  <div class="bg-white md:rounded-md shadow overflow-hidden">
+    <header class="border-b border-gray-300 bg-gray-100 md:rounded-t-md flex flex-col">
+      <div class="px-page xl:px-5 flex items-center">
+        <h2 class="py-3 xl:py-4 text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">统计</h2>
+        <button class="ml-auto p-1 -mr-1 focus:outline-none flex" @click="showConfig = !showConfig">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="['w-6 h-6', showConfig ? 'fill-black' : 'fill-gray-500']">
+            <path d="M8 7a5 5 0 1 0 0 10h8a5 5 0 0 0 0-10H8zm0-2h8a7 7 0 0 1 0 14H8A7 7 0 0 1 8 5zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+          </svg>
+        </button>
+      </div>
+      <SlidingTransition :duration="150">
+        <div v-show="showConfig" style="height: 0;">
+          <label class="px-page xl:px-5 py-3 border-t border-gray-300 cursor-pointer flex items-center">
+            <span>显示完整数据</span>
+            <FormSwitch v-model="config.showLongStatistics" class="ml-auto" />
+          </label>
+        </div>
+      </SlidingTransition>
+    </header>
+    <div class="-mb-px lg:-ml-px lg:flex lg:flex-wrap">
+      <div
+        v-for="[key, value, unit] of entries"
+        :key="key"
+        class="lg:flex-grow-0 lg:flex-shrink lg:w-1/2 xl:w-1/3 px-4 md:px-5 py-3 xl:py-4 border-b lg:border-l border-gray-300"
+      >
+        <div class="text-sm flex items-center">
+          <span class="mr-1">{{ t(statKey2LangKey(key)) }}{{ t.lang !== 'zh_cn' ? ' ' : null }}{{ t('nyaa.symbol.parentheses.left') }}{{ t(unit) }}{{ t('nyaa.symbol.parentheses.right') }}</span>
+          <span class="ml-auto text-blue-700">{{ value }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -15,7 +35,10 @@
 
 <script>
   import langData from '@/assets/lang.json'
+  import SlidingTransition from '@/components/SlidingTransition.vue'
+  import FormSwitch from '@/components/FormSwitch.vue'
   import useLang from '@/composables/lang'
+  import useLocalConfig from '@/composables/local-config'
 
   const ENTRIES = [
     {
@@ -115,6 +138,8 @@
     },
   ]
 
+  const config = useLocalConfig()
+
   /**
    * Fix statistics value overflow issue
    *
@@ -130,6 +155,8 @@
    * @return {String}
    */
   function humanizeNumber (val) {
+    if (config.showLongStatistics) return String(val)
+
     const {lang} = useLang()
     // TODO: Use i18n API (possibly?)
     const SCALE_SIZE = lang === 'zh_cn' ? 10000 : 1000
@@ -151,6 +178,11 @@
   export default {
     name: 'PlayerStatistics',
 
+    components: {
+      SlidingTransition,
+      FormSwitch,
+    },
+
     props: {
       player: {
         type: Object,
@@ -160,12 +192,16 @@
 
     data () {
       return {
+        showConfig: false,
+
         langData,
+        config,
       }
     },
 
     computed: {
       entries () {
+        config.showLongStatistics // Notify the watcher
         return ENTRIES.map(({key, transform, unit}) => {
           const raw = fixOverflow(this.player.stats[key] ?? 0)
           return [key, transform?.(raw) ?? raw, unit]

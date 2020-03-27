@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5 bg-white md:rounded-md shadow">
+  <div class="bg-white md:rounded-md shadow">
     <header class="border-b border-gray-300 bg-gray-100 md:rounded-t-md flex flex-col">
       <div class="px-page xl:px-5 flex items-center">
         <h2 class="py-3 xl:py-4 text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">进度</h2>
