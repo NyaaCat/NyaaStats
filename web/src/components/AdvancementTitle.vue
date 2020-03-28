@@ -82,7 +82,7 @@
       },
 
       iconColorMapP () {
-        return this.iconColorMap ?? (this.progress === this.total ? 'complete' : 'normal')
+        return this.iconColorMap ?? (this.progress >= this.total ? 'complete' : 'normal')
       },
 
       titleLangKey () {
