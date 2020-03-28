@@ -1,29 +1,35 @@
 <template>
-  <div class="page-section -mb-5">
-    <div>
-      <!-- Network error alert -->
-      <div v-if="showNetworkErrorAlert" class="my-4 p-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
-        Network Error!
-        <button class="flex ml-auto" @click="showNetworkErrorAlert = false">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
-            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-          </svg>
-        </button>
-      </div>
-      <!-- Loading indicator -->
-      <ProgressBar :visible="loading" />
-      <template v-show="!loading">
-        <!-- Search box -->
-        <div class="mt-5 xl:mt-8 mb-5">
+  <div class="-mb-5">
+    <!-- Network error alert -->
+    <div v-if="showNetworkErrorAlert" class="my-4 px-page py-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
+      Network Error!
+      <button class="flex ml-auto" @click="showNetworkErrorAlert = false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
+          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+        </svg>
+      </button>
+    </div>
+    <!-- Loading indicator -->
+    <ProgressBar :visible="loading" />
+
+    <template v-show="!loading">
+      <!-- Search box -->
+      <label :class="['block mb-5 px-page border-b border-gray-300 cursor-pointer transition duration-200 easing-linear', {'bg-white': isSearchBoxFocused}]">
+        <div class="xl:w-page xl:mx-auto flex">
           <input
             :value="keyword"
             type="text"
             :placeholder="t('nyaa.general.search_placeholder')"
-            class="form-input block w-full border-0 bg-white focus:bg-white shadow-xs focus:shadow-md transition duration-100 ease-linear"
-            @input="ev => setKeyword(ev.target.value)"
+            class="flex-1 py-3 pr-5 bg-transparent placeholder-gray-600 focus:outline-none"
+            @focus="isSearchBoxFocused = true"
+            @blur="isSearchBoxFocused = false"
+            @input="setKeyword($event.target.value)"
           >
+          <button class="flex-none ml-auto text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player') }}</button>
         </div>
-        <!-- Player list -->
+      </label>
+      <!-- Player list -->
+      <div class="xl:mx-auto xl:w-page px-page">
         <vue-lazy-component class="player-list -ml-5">
           <PlayerBlock
             v-for="player of playerListProcessed.slice(0, renderedCount)"
@@ -33,8 +39,8 @@
           />
         </vue-lazy-component>
         <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">{{ t('nyaa.player_list.more_players_hint', playerList.length - renderedCount) }}</div>
-      </template>
-    </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -42,7 +48,8 @@
   import {mapMutations, mapState} from 'vuex'
 
   import ProgressBar from '@/components/ProgressBar.vue'
-  import PlayerBlock from './PlayerBlock.vue'
+  import PlayerBlock from '@/components/PlayerBlock.vue'
+  import useRandomPlayer from '@/composables/random-player'
 
   export default {
     name: 'PlayerList',
@@ -53,12 +60,17 @@
     },
 
     data () {
+      const {goRandom, stopRandom} = useRandomPlayer()
+
       return {
+        goRandom,
+        stopRandom,
+
         showNetworkErrorAlert: false,
+        isSearchBoxFocused: false,
         searchTimer: null,
         loading: true,
         timer: null,
-        isScrolled: false,
         renderedCount: process.env.NODE_ENV === 'production' ? 50 : 20,
       }
     },
@@ -107,7 +119,7 @@
       keyword: 'lazyload',
     },
 
-    async created() {
+    async created () {
       if (this.playerList.length === 0) {
         try {
           await this.$store.dispatch('fetchPlayers')
@@ -115,6 +127,7 @@
           this.showNetworkErrorAlert = true
         }
       }
+      this.stopRandom()
       this.loading = false
     },
 

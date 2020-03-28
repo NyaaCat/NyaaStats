@@ -7,9 +7,10 @@
 
     <template v-else>
       <!-- Player name (page header) -->
-      <header class="xl:w-page xl:mx-auto px-page py-3 md:py-4 flex items-center">
-        <h1 class="text-2xl md:text-3xl xl:text-4xl font-black" @click="$refs.iframe.contentWindow.location.reload()">{{ player.data.playername }}</h1>
-        <span v-if="player.data.banned" class="ml-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
+      <header class="xl:w-page xl:mx-auto px-page py-1.5 md:py-2 flex flex-wrap items-center">
+        <h1 class="py-1.5 md:py-2 text-2xl md:text-3xl xl:text-4xl font-black" @click="$refs.iframe.contentWindow.location.reload()">{{ player.data.playername }}</h1>
+        <span v-if="player.data.banned" class="mx-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
+        <button v-if="randomPlayerMode" class="flex-none ml-auto py-1.5 md:py-2 text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player_again') }}</button>
       </header>
 
       <div class="xl:w-page xl:mx-auto md:flex md:items-start">
@@ -62,7 +63,10 @@
   import advancementData from '@/assets/advancement-data.json'
   import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
   import PlayerStatisticPanel from '@/components/PlayerStatisticPanel.vue'
+  import useRandomPlayer from '@/composables/random-player'
   import {normalizeDate} from '@/common/utils'
+
+  const {state: randomPlayerState, goRandom} = useRandomPlayer()
 
   export default {
     name: 'PlayerView',
@@ -74,12 +78,18 @@
 
     data () {
       return {
+        goRandom,
+
         player: null,
       }
     },
 
     computed: {
       db: () => advancementData,
+
+      randomPlayerMode () {
+        return randomPlayerState.randomMode
+      },
 
       uuid () {
         return this.$route.params.uuid
@@ -111,13 +121,24 @@
       },
     },
 
-    async created () {
-      this.player = await this.$store.dispatch('fetchStats', this.uuid)
-      document.title = `${this.player.data.playername} | ${this.$store.state.info.title}`
-      this.$store.commit('setFooterUpdateTime', this.player.data.lastUpdate)
+    watch: {
+      uuid () {
+        this.fetchData()
+      },
+    },
+
+    created () {
+      this.fetchData()
     },
 
     methods: {
+      async fetchData () {
+        this.player = null
+        this.player = await this.$store.dispatch('fetchStats', this.uuid)
+        document.title = `${this.player.data.playername} | ${this.$store.state.info.title}`
+        this.$store.commit('setFooterUpdateTime', this.player.data.lastUpdate)
+      },
+
       formatDate (val) {
         return val && normalizeDate(val, 'short')
       },
