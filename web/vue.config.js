@@ -6,6 +6,14 @@ const MOCK_DIR = resolve(__dirname, '../__mock__')
 
 module.exports = {
   devServer: {
+    proxy: {
+      '^/mojang-api': {
+        target: 'https://api.mojang.com',
+        pathRewrite: {
+          '^/mojang-api/': '/',
+        },
+      },
+    },
     before (app) {
       app.get(/^\/data/, async ({path}, /** @type {express.response} */ res) => {
         const file = resolve(MOCK_DIR, './' + path)

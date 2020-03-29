@@ -36,11 +36,12 @@
               <li
                 v-for="({name, changedToAt}, idx) of player.data.names"
                 :key="idx"
-                :class="['p-3 flex items-center', {'border-t border-gray-300': idx}]"
+                class="p-3 border-t first:border-t-0 border-gray-300 flex items-center"
               >
                 <strong class="font-normal mr-3">{{ name }}</strong>
                 <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
               </li>
+              <li v-if="isLoadingNameHistory" class="p-3 border-t first:border-t-0 border-gray-300 text-gray-500 flex items-center">{{ t('nyaa.general.loading_hint') }}</li>
             </ul>
           </div>
         </div>
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import {add, formatDistanceStrict} from 'date-fns'
   import {zhCN} from 'date-fns/locale'
 
@@ -78,9 +80,11 @@
 
     data () {
       return {
-        goRandom,
-
         player: null,
+
+        isLoadingNameHistory: true,
+
+        goRandom,
       }
     },
 
@@ -125,6 +129,12 @@
       uuid () {
         this.fetchData()
       },
+
+      player (val) {
+        if (val) {
+          this.loadNameHistory()
+        }
+      },
     },
 
     created () {
@@ -137,6 +147,24 @@
         this.player = await this.$store.dispatch('fetchStats', this.uuid)
         document.title = `${this.player.data.playername} | ${this.$store.state.info.title}`
         this.$store.commit('setFooterUpdateTime', this.player.data.lastUpdate)
+      },
+
+      async loadNameHistory () {
+        if (!this.player) {
+          console.error('Attempt to load name history while player data is not ready.')
+          return
+        }
+
+        if (this.player.data.names.slice(-1)[0].changedToAt) {
+          const {data} = await axios(
+            process.env.NODE_ENV === 'development'
+              ? `/mojang-api/user/profiles/${this.uuid}/names`
+              : `https://mojang-api.silent.land/${location.host}/user/profiles/${this.uuid}/names`
+          )
+          this.$set(this.player.data, 'names', data.reverse())
+        }
+
+        this.isLoadingNameHistory = false
       },
 
       formatDate (val) {
