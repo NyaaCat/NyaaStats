@@ -30,14 +30,15 @@
       </label>
       <!-- Player list -->
       <div class="xl:mx-auto xl:w-page px-page">
-        <vue-lazy-component class="player-list -ml-5">
-          <PlayerBlock
+        <div class="flex flex-wrap -ml-5">
+          <vue-lazy-component
             v-for="player of playerListProcessed.slice(0, renderedCount)"
             :key="player.uuid"
-            :player="player"
             class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
-          />
-        </vue-lazy-component>
+          >
+            <PlayerBlock :player="player" class="block" />
+          </vue-lazy-component>
+        </div>
         <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">{{ t('nyaa.player_list.more_players_hint', playerList.length - renderedCount) }}</div>
       </div>
     </template>
@@ -143,9 +144,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .player-list >>> > div {
-    @apply flex flex-wrap;
-  }
-</style>
