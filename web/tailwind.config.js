@@ -11,6 +11,8 @@ module.exports = {
       spacing: {
         page: '1200px',
         header: '50px',
+        text: '1em',
+        'text-icon': '1.2em',
       },
       fontFamily: {
         sans: [

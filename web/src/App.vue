@@ -22,6 +22,14 @@
 
     created () {
       this.$store.dispatch('fetchInfo')
+
+      if (process.env.NODE_ENV === 'development') {
+        document.addEventListener('keyup', ev => {
+          if (ev.target === document.body && ev.key === '`') {
+            this.$router.push('/playground')
+          }
+        })
+      }
     },
   }
 </script>
