@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import VueLazyload from 'vue-lazyload'
-import VueLazyComponent from '@xunlei/vue-lazy-component'
 
 import '@/assets/base.scss'
 import '@/common/velocity'
@@ -10,9 +8,6 @@ import store from './store'
 import App from './App.vue'
 
 Vue.config.productionTip = false
-
-Vue.use(VueLazyload)
-Vue.use(VueLazyComponent)
 
 Vue.mixin({
   computed: {
