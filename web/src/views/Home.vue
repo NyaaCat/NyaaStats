@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col">
-    <Welcome />
+    <section class="border-b border-gray-300 bg-gray-50">
+      <Welcome />
+    </section>
     <!-- Loading indicator -->
     <ProgressBar :visible="playerList.length === 0" />
     <section class="border-b border-gray-300">
