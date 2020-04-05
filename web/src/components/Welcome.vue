@@ -12,13 +12,13 @@
       </p>
     </div>
     <dl class="flex-none mt-4 sm:mt-0 sm:ml-auto text-center sm:text-right flex">
-      <div class="flex-1 sm:ml-8">
+      <div class="flex-1 sm:ml-8 cursor-pointer" @click="showWorldTimeInDays = !showWorldTimeInDays">
         <dt class="text-sm md:text-base text-gray-600 whitespace-no-wrap">{{ t('nyaa.home.starring_number.uptime') }}</dt>
-        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ worldTime }}</dd>
+        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ worldTime || '...' }}</dd>
       </div>
       <div class="flex-1 sm:ml-8">
         <dt class="text-sm md:text-base text-gray-600 whitespace-no-wrap">{{ t('nyaa.home.starring_number.total_players') }}</dt>
-        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ totalPlayers }}</dd>
+        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ totalPlayers || '...' }}</dd>
       </div>
     </dl>
   </div>
@@ -32,6 +32,12 @@
   export default {
     name: 'Welcome',
 
+    data () {
+      return {
+        showWorldTimeInDays: false,
+      }
+    },
+
     computed: {
       ...mapState(['info']),
 
@@ -39,14 +45,13 @@
         if (this.info.worldTime) {
           const date = new Date()
           const baseDate = add(date, {seconds: -this.info.worldTime})
-          return formatDistanceStrict(date, baseDate, {locale: this.t.lang === 'zh_cn' ? zhCN : null})
-        } else {
-          return '--'
+          return formatDistanceStrict(date, baseDate, {unit: this.showWorldTimeInDays ? 'day' : null, locale: this.t.lang === 'zh_cn' ? zhCN : null})
         }
+        return null
       },
 
       totalPlayers () {
-        return this.$store.state.playerList.length || '--'
+        return this.$store.state.playerList.length
       },
     },
   }
