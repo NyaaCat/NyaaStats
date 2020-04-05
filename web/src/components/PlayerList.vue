@@ -1,145 +1,89 @@
 <template>
-  <div class="-mb-5">
-    <!-- Network error alert -->
-    <div v-if="showNetworkErrorAlert" class="my-4 px-page py-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
-      Network Error!
-      <button class="flex ml-auto" @click="showNetworkErrorAlert = false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5">
-          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-        </svg>
+  <div>
+    <ul class="-mt-2">
+      <li v-for="{uuid, playername, historyName} of data.slice(0, cursor)" :key="extract(uuid)">
+        <RouterLink
+          :to="'/player/' + extract(uuid)"
+          class="sm:-mx-3 sm:px-3 py-2 hover:bg-cool-gray-100 rounded-md flex items-center transition duration-100 ease-linear"
+        >
+          <PlayerAvatar :uuid="extract(uuid)" class="flex-none w-10 h-10 rounded" />
+          <span class="flex-1 ml-4 flex items-center">
+            <!-- eslint-disable vue/no-v-html -->
+            <span class="sm:w-56 mr-auto sm:mr-0 font-medium" v-html="html(playername)" />
+            <template v-if="historyName">
+              <span class="sm:hidden p-1 text-xs border border-red-300 bg-red-200 rounded text-red-800">{{ t('nyaa.player_list.match_history_name') }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hidden sm:block ml-4 mr-1 h-text fill-gray-600">
+                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-8h4v2h-6V7h2v5z" />
+              </svg>
+              <span class="hidden sm:inline text-gray-600 font-medium" v-html="html(historyName)" />
+            </template>
+            <span v-if="uuid instanceof Array" class="lg:hidden ml-1 sm:ml-auto p-1 text-xs sm:text-base border border-red-300 bg-red-200 rounded text-red-800">UUID</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hidden lg:block h-text ml-auto mr-1 fill-gray-600">
+              <path d="M7.784 14l.42-4H4V8h4.415l.525-5h2.011l-.525 5h3.989l.525-5h2.011l-.525 5H20v2h-3.784l-.42 4H20v2h-4.415l-.525 5h-2.011l.525-5H9.585l-.525 5H7.049l.525-5H4v-2h3.784zm2.011 0h3.99l.42-4h-3.99l-.42 4z" />
+            </svg>
+            <code class="hidden lg:inline text-gray-600" v-html="html(uuid)" />
+            <!-- eslint-enable vue/no-v-html -->
+          </span>
+        </RouterLink>
+      </li>
+    </ul>
+    <div class="-mx-3">
+      <button v-show="restCount > 0" class="flex w-full h-14 px-3 py-2 hover:bg-cool-gray-100 focus:outline-none rounded-md text-gray-600 text-left transition duration-100 ease-linear" @click="cursor += 50">
+        <span class="ml-14">{{ t('nyaa.player_list.load_more_button_label') }}</span>
       </button>
     </div>
-    <!-- Loading indicator -->
-    <ProgressBar :visible="loading" />
-
-    <template v-show="!loading">
-      <!-- Search box -->
-      <label :class="['block mb-5 px-page border-b border-gray-300 cursor-pointer transition duration-200 easing-linear', {'bg-white': isSearchBoxFocused}]">
-        <div class="xl:w-page xl:mx-auto flex">
-          <input
-            :value="keyword"
-            type="text"
-            :placeholder="t('nyaa.general.search_placeholder')"
-            class="flex-1 py-3 pr-5 bg-transparent placeholder-gray-600 focus:outline-none"
-            @focus="isSearchBoxFocused = true"
-            @blur="isSearchBoxFocused = false"
-            @input="setKeyword($event.target.value)"
-          >
-          <button class="flex-none ml-auto text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player') }}</button>
-        </div>
-      </label>
-      <!-- Player list -->
-      <div class="xl:mx-auto xl:w-page px-page">
-        <div class="flex flex-wrap -ml-5">
-          <vue-lazy-component
-            v-for="player of playerListProcessed.slice(0, renderedCount)"
-            :key="player.uuid"
-            class="flex-grow-0 flex-shrink w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 pl-5 mb-5"
-          >
-            <PlayerBlock :player="player" class="block" />
-          </vue-lazy-component>
-        </div>
-        <div v-show="!keywordTrimmed" class="mb-8 text-lg text-center text-gray-600">{{ t('nyaa.player_list.more_players_hint', playerList.length - renderedCount) }}</div>
-      </div>
-    </template>
   </div>
 </template>
 
 <script>
-  import {mapMutations, mapState} from 'vuex'
+  import PlayerAvatar from '@/components/PlayerAvatar.vue'
 
-  import ProgressBar from '@/components/ProgressBar.vue'
-  import PlayerBlock from '@/components/PlayerBlock.vue'
-  import useRandomPlayer from '@/composables/random-player'
+  const DEFAULT_CURSOR = 50
 
   export default {
     name: 'PlayerList',
 
     components: {
-      ProgressBar,
-      PlayerBlock,
+      PlayerAvatar,
+    },
+
+    props: {
+      data: {
+        type: Array,
+        required: true,
+      },
     },
 
     data () {
-      const {goRandom, stopRandom} = useRandomPlayer()
-
       return {
-        goRandom,
-        stopRandom,
-
-        showNetworkErrorAlert: false,
-        isSearchBoxFocused: false,
-        searchTimer: null,
-        loading: true,
-        timer: null,
-        renderedCount: process.env.NODE_ENV === 'production' ? 50 : 20,
+        cursor: DEFAULT_CURSOR,
       }
     },
 
     computed: {
-      ...mapState(['playerList', 'keyword']),
-
-      keywordTrimmed() {
-        return this.keyword.trim()
-      },
-
-      playerListCapped() {
-        return this.playerList.slice(0, this.renderedCount)
-      },
-
-      filteredPlayerList() {
-        const keyword = this.keywordTrimmed.toLowerCase()
-        // [ matchCurrentName, matchUsedName, matchUUID ]
-        const result = [[], [], []]
-        for (const player of this.playerList) {
-          if (player.playername.toLowerCase().includes(keyword)) {
-            result[0].push(player)
-          } else if (
-            player.names.some(name => name.name.toLowerCase().includes(keyword))
-          ) {
-            result[1].push(player)
-          } else if (
-            player.uuid.includes(keyword.replace(/-/g, ''))
-          ) {
-            result[2].push(player)
-          }
-          if (result.map(arr => arr.length).reduce((sum, num) => sum + num) >= this.renderedCount)
-            break
-        }
-        return result.flat(1)
-      },
-
-      playerListProcessed() {
-        return this.keywordTrimmed
-          ? this.filteredPlayerList
-          : this.playerListCapped
+      restCount () {
+        return this.data.length - this.cursor
       },
     },
 
     watch: {
-      keyword: 'lazyload',
-    },
-
-    async created () {
-      if (this.playerList.length === 0) {
-        try {
-          await this.$store.dispatch('fetchPlayers')
-        } catch (e) {
-          this.showNetworkErrorAlert = true
-        }
-      }
-      this.stopRandom()
-      this.loading = false
+      data (data) {
+        // Display all the data by default when 2 possible pages are enough
+        this.cursor = data.length <= DEFAULT_CURSOR * 2 ? DEFAULT_CURSOR * 2 : DEFAULT_CURSOR
+      },
     },
 
     methods: {
-      ...mapMutations(['setKeyword']),
+      extract (val) {
+        return typeof val === 'string' ? val : val[0]
+      },
 
-      lazyload () {
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-          this.$Lazyload.lazyLoadHandler()
-        }, 200)
+      html (entry) {
+        return typeof entry === 'string'
+          ? entry
+          : entry[0].slice(0, entry[1]) +
+            `<em class="-mx-px border border-red-300 bg-red-200 rounded text-red-800 not-italic">${entry[0].slice(entry[1], entry[2])}</em>` +
+            entry[0].slice(entry[2])
       },
     },
   }

@@ -14,16 +14,12 @@
       </div>
       <dl class="flex-none mt-4 md:mt-5 lg:mt-0 lg:ml-auto text-center lg:text-right flex">
         <div class="flex-1 lg:ml-8">
-          <dt class="text-sm md:text-base text-gray-600">{{ t('nyaa.home.starring_number.uptime') }}</dt>
+          <dt class="text-sm md:text-base text-gray-600 whitespace-no-wrap">{{ t('nyaa.home.starring_number.uptime') }}</dt>
           <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ worldTime }}</dd>
         </div>
         <div class="flex-1 lg:ml-8">
-          <dt class="text-sm md:text-base text-gray-600">{{ t('nyaa.home.starring_number.total_players') }}</dt>
+          <dt class="text-sm md:text-base text-gray-600 whitespace-no-wrap">{{ t('nyaa.home.starring_number.total_players') }}</dt>
           <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ totalPlayers }}</dd>
-        </div>
-        <div class="flex-1 lg:ml-8">
-          <dt class="text-sm md:text-base text-gray-600">{{ t('nyaa.home.starring_number.recently_active') }}</dt>
-          <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ activePlayers }}</dd>
         </div>
       </dl>
     </section>
@@ -53,11 +49,6 @@
 
       totalPlayers () {
         return this.$store.state.playerList.length || '--'
-      },
-
-      activePlayers () {
-        const _lastUpdate = this.info.lastUpdate
-        return this.$store.state.playerList.filter(p => _lastUpdate - p.seen <= 24 * 60 * 60 * 1000).length || '--'
       },
     },
   }
