@@ -2,7 +2,7 @@
   <div>
     <!-- Loading indicator -->
     <div v-if="!player" class="xl:w-page px-page py-10 xl:mx-auto text-center">
-      <span>LOADING</span>
+      <span class="tracking-widest">LOADING</span>
     </div>
 
     <template v-else>

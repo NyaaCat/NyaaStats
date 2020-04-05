@@ -3,12 +3,11 @@
     <section class="border-b border-gray-300 bg-gray-50">
       <Welcome />
     </section>
-    <!-- Loading indicator -->
-    <ProgressBar :visible="playerList.length === 0" />
-    <section class="border-b border-gray-300">
-      <SearchBox @focus="isSearchBoxFocused = true" @blur="isSearchBoxFocused = false" />
+    <section class="border-b border-gray-300 relative">
+      <p v-if="playerList.length === 0" class="absolute inset-0 tracking-widest text-gray-600 flex items-center justify-center">LOADING</p>
+      <SearchBox :class="{'invisible': playerList.length === 0}" @focus="isSearchBoxFocused = true" @blur="isSearchBoxFocused = false" />
     </section>
-    <section v-show="!keyword" :class="['xl:w-page xl:mx-auto px-page transition-opacity duration-200 ease-linear', {'opacity-25': isSearchBoxFocused}]">
+    <section v-show="playerList.length && !keyword" :class="['xl:w-page xl:mx-auto px-page transition-opacity duration-200 ease-linear', {'opacity-25': isSearchBoxFocused}]">
       <p class="h-14 flex items-center">{{ t('nyaa.player_list.yesterday_active_count_label') + t('nyaa.symbol.colon_s') + yesterdayPlayers.length }}</p>
       <PlayerGrid :data="yesterdayPlayers" />
     </section>
@@ -24,7 +23,6 @@
   import {isYesterday} from 'date-fns'
 
   import Welcome from '@/components/Welcome.vue'
-  import ProgressBar from '@/components/ProgressBar.vue'
   import SearchBox from '@/components/SearchBox'
   import PlayerGrid from '@/components/PlayerGrid.vue'
   import PlayerList from '@/components/PlayerList.vue'
@@ -33,7 +31,6 @@
   export default {
     components: {
       Welcome,
-      ProgressBar,
       SearchBox,
       PlayerGrid,
       PlayerList,
