@@ -30,6 +30,10 @@ if (process.env.NODE_ENV === 'development') {
         (this.$el.dataset.componentName ? this.$el.dataset.componentName + ' ' : '') + (this.$options.name ?? 'AnonymousComponent'),
       )
     },
+
+    methods: {
+      log: console.log,
+    },
   })
 }
 

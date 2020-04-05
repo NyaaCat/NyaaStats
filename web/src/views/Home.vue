@@ -3,23 +3,9 @@
     <Welcome />
     <!-- Loading indicator -->
     <ProgressBar :visible="playerList.length === 0" />
-    <!-- Search box -->
-    <div class="border-b border-gray-300">
-      <label :class="['block px-page cursor-pointer transition duration-200 easing-linear', {'bg-white': isSearchBoxFocused}]">
-        <div class="xl:w-page xl:mx-auto flex">
-          <input
-            :value="keyword"
-            type="text"
-            :placeholder="t('nyaa.general.search_placeholder')"
-            class="flex-1 py-3 pr-5 bg-transparent placeholder-gray-600 focus:outline-none"
-            @focus="isSearchBoxFocused = true"
-            @blur="isSearchBoxFocused = false"
-            @input="setKeyword($event.target.value)"
-          >
-          <button class="flex-none ml-auto text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player') }}</button>
-        </div>
-      </label>
-    </div>
+    <section class="border-b border-gray-300">
+      <SearchBox @focus="isSearchBoxFocused = true" @blur="isSearchBoxFocused = false" />
+    </section>
     <section v-show="!keyword" :class="['xl:w-page xl:mx-auto px-page transition-opacity duration-200 ease-linear', {'opacity-25': isSearchBoxFocused}]">
       <p class="h-14 flex items-center">{{ t('nyaa.player_list.yesterday_active_count_label') + t('nyaa.symbol.colon_s') + yesterdayPlayers.length }}</p>
       <PlayerGrid :data="yesterdayPlayers" />
@@ -32,11 +18,12 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
   import {isYesterday} from 'date-fns'
 
   import Welcome from '@/components/Welcome.vue'
   import ProgressBar from '@/components/ProgressBar.vue'
+  import SearchBox from '@/components/SearchBox'
   import PlayerGrid from '@/components/PlayerGrid.vue'
   import PlayerList from '@/components/PlayerList.vue'
   import useRandomPlayer from '@/composables/random-player'
@@ -45,17 +32,17 @@
     components: {
       Welcome,
       ProgressBar,
+      SearchBox,
       PlayerGrid,
       PlayerList,
     },
 
     data () {
-      const {goRandom, stopRandom} = useRandomPlayer()
+      const {stopRandom} = useRandomPlayer()
 
       return {
         isSearchBoxFocused: false,
 
-        goRandom,
         stopRandom,
       }
     },
@@ -142,10 +129,6 @@
         document.title = vm.$store.state.info.title
         vm.stopRandom()
       })
-    },
-
-    methods: {
-      ...mapMutations(['setKeyword']),
     },
   }
 </script>

@@ -2,12 +2,9 @@
   <!-- eslint-disable -->
 
   <div class="el flex-1 flex flex-col items-center">
-    <label class="flex items-center">
-      <span class="mr-5">LABEL</span>
-      <FormSwitch v-model="flag" />
-    </label>
-    <pre @click="flag = !flag">{{ flag }}</pre>
-    <input type="checkbox" class="form-checkbox" @click="log($event.target.checked)" @change="log($event.target.checked)">
+    <button class="flex">
+      <span class="min-w-6 leading-5 px-1 border-2 border-gray-500 rounded text-gray-600 font-mono inline-flex items-center justify-center" style="min-width: 24px;">/</span>
+    </button>
 
     <div class="mx-4 self-stretch xl:w-page xl:self-center">
       <div class="flex -mr-1">
@@ -23,25 +20,19 @@
 <script lang="jsx">
   /* eslint-disable */
 
-  import FormSwitch from '@/components/FormSwitch'
   export default {
     name: 'PlaygroundView',
 
     components: {
-      FormSwitch,
     },
 
     data () {
       return {
-        log: console.log,
         flag: false,
       }
     },
 
     methods: {
-      onClickLabel () {
-        console.log('label')
-      },
     },
   }
 </script>
