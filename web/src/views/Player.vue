@@ -14,8 +14,9 @@
       </header>
 
       <div class="xl:w-page xl:mx-auto md:flex md:items-start">
-        <!-- Player info -->
+        <!-- Player info (aside) -->
         <div class="md:flex-none px-page pb-5">
+          <!-- Player figure & membership info -->
           <div class="bg-white rounded-md shadow overflow-hidden md:w-figure md:flex-none">
             <!-- eslint-disable vue/max-attributes-per-line -->
             <iframe ref="iframe" :src="'/skin/index.html?uuid=' + uuid" scrolling="no" class="w-full h-figure border-0" />
@@ -30,6 +31,7 @@
               </div>
             </dl>
           </div>
+          <!-- Name history -->
           <div class="mt-5">
             <h2 class="font-medium text-cool-gray-600 uppercase tracking-wide px-3 pb-2">{{ t('nyaa.player_name_history.section_title') }}</h2>
             <ul class="bg-white rounded-md shadow">
@@ -43,6 +45,11 @@
               </li>
               <li v-if="isLoadingNameHistory" class="p-3 border-t first:border-t-0 border-gray-300 text-gray-500 flex items-center">{{ t('nyaa.general.loading_hint') }}</li>
             </ul>
+          </div>
+          <!-- Ore mining graph -->
+          <div class="mt-5 pb-10 relative">
+            <h2 class="px-3 pb-2 font-medium text-cool-gray-600 uppercase tracking-wide">{{ t('nyaa.player_ore_graph.section_title') }}</h2>
+            <PlayerOreGraph :player="player" class="absolute bottom-0 w-full h-10 rounded-md overflow-hidden shadow" />
           </div>
         </div>
         <!-- Main -->
@@ -63,6 +70,7 @@
   import {zhCN} from 'date-fns/locale'
 
   import advancementData from '@/assets/advancement-data.json'
+  import PlayerOreGraph from '@/components/PlayerOreGraph.vue'
   import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
   import PlayerStatisticPanel from '@/components/PlayerStatisticPanel.vue'
   import useRandomPlayer from '@/composables/random-player'
@@ -74,6 +82,7 @@
     name: 'PlayerView',
 
     components: {
+      PlayerOreGraph,
       PlayerAdvancementPanel,
       PlayerStatisticPanel,
     },
