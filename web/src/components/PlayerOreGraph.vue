@@ -4,8 +4,7 @@
       v-for="it of graphData.filter(it => it[1])"
       :key="it[0]"
       :data-type="it[0]"
-      class="flex-grow flex-shrink"
-      :style="{width: it[1] + 'px'}"
+      :style="{flex: `${it[1]} 0 1px`}"
     />
   </div>
 </template>
@@ -46,12 +45,12 @@
 </script>
 
 <style lang="scss" scoped>
-  [data-type=coal]          {min-width: 1px; background: #343434;}
-  [data-type=iron]          {min-width: 1px; background: #af8e77;}
-  [data-type=lapis]         {min-width: 1px; background: #315ec4;}
-  [data-type=gold]          {min-width: 1px; background: #fcee4b;}
-  [data-type=diamond]       {min-width: 1px; background: #3de0e5;}
-  [data-type=redstone]      {min-width: 1px; background: #ab0600;}
-  [data-type=emerald]       {min-width: 1px; background: #00ab28;}
-  [data-type=nether_quartz] {min-width: 1px; background: #eae5de;}
+  [data-type=coal]          {background: #343434;}
+  [data-type=iron]          {background: #af8e77;}
+  [data-type=lapis]         {background: #315ec4;}
+  [data-type=gold]          {background: #fcee4b;}
+  [data-type=diamond]       {background: #3de0e5;}
+  [data-type=redstone]      {background: #ab0600;}
+  [data-type=emerald]       {background: #00ab28;}
+  [data-type=nether_quartz] {background: #eae5de;}
 </style>
