@@ -47,9 +47,9 @@
             </ul>
           </div>
           <!-- Ore mining graph -->
-          <div class="mt-5 pb-10 relative">
+          <div class="mt-5">
             <h2 class="px-3 pb-2 font-medium text-cool-gray-600 uppercase tracking-wide">{{ t('nyaa.player_ore_graph.section_title') }}</h2>
-            <PlayerOreGraph :player="player" class="absolute bottom-0 w-full h-10 rounded-md overflow-hidden shadow" />
+            <PlayerOreGraph :player="player" class="rounded-md shadow" />
           </div>
         </div>
         <!-- Main -->
