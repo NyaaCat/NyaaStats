@@ -88,10 +88,15 @@
 
     watch: {
       isExpanded (value) {
-        for (const [idx, /** @type {HTMLDivElement} */ seg] of Object.entries(this.$refs.segments)) {
-          seg.style.transform = value
-            ? `translate(${-seg.offsetLeft}px, ${41 * (this.graphData[idx][2] + 1)}px)`
-            : `translate(0, 0)`
+        if (value) {
+          const containerX = this.$refs.segments[0].parentElement.getBoundingClientRect().x
+          this.$refs.segments.forEach((/** @type {HTMLDivElement} */ seg, idx) => {
+            seg.style.transform = `translate(${-(Math.round(seg.getBoundingClientRect().x) - containerX)}px, ${41 * (this.graphData[idx][2] + 1)}px)`
+          })
+        } else {
+          this.$refs.segments.forEach(seg => {
+            seg.style.transform = 'translate(0, 0)'
+          })
         }
       },
     },
