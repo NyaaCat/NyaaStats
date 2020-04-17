@@ -199,8 +199,4 @@
       width: 300px;
     }
   }
-
-  .font-tnum {
-    font-feature-settings: "tnum";
-  }
 </style>

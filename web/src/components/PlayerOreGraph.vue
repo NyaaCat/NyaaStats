@@ -24,8 +24,8 @@
     >
       <dl v-show="isExpanded" class="relative text-sm flex flex-col">
         <div class="flex-none order-first h-10 px-3 flex items-center">
-          <dt class="order-last ml-auto">{{ t('nyaa.player_ore_graph.item_name.total') }}</dt>
-          <dd>{{ total }}</dd>
+          <dt>{{ t('nyaa.player_ore_graph.item_name.total') }}</dt>
+          <dd class="ml-auto font-tnum">{{ total }}</dd>
         </div>
         <div
           v-for="([ore, value, order]) of graphData"
@@ -33,8 +33,8 @@
           class="flex-none h-10 mt-px px-3 flex items-center"
           :style="{order}"
         >
-          <dt class="order-last ml-auto -mr-1 px-1 py-0.5 _text-bg rounded">{{ t(`nyaa.player_ore_graph.item_name.${ore}_ore`) }}</dt>
-          <dd class="-ml-1 px-1 py-0.5 _text-bg rounded">{{ value }}</dd>
+          <dt class="-ml-1 px-1 py-0.5 _text-bg rounded">{{ t(`nyaa.player_ore_graph.item_name.${ore}_ore`) }}</dt>
+          <dd class="ml-auto -mr-1 px-1 py-0.5 font-tnum _text-bg rounded">{{ value }}</dd>
         </div>
       </dl>
     </transition>
@@ -109,6 +109,6 @@
   [data-type=nether_quartz] {background: #eae5de;}
 
   ._text-bg {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.6);
   }
 </style>

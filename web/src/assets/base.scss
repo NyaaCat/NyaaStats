@@ -40,6 +40,10 @@ svg {
   }
 }
 
+.font-tnum {
+  font-feature-settings: "tnum";
+}
+
 .image-pixelated {
   image-rendering: pixelated;
 }
