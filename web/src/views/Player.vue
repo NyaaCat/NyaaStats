@@ -34,17 +34,7 @@
           <!-- Name history -->
           <div class="mt-5">
             <h2 class="font-medium text-cool-gray-600 uppercase tracking-wide px-3 pb-2">{{ t('nyaa.player_name_history.section_title') }}</h2>
-            <ul class="bg-white rounded-md shadow">
-              <li
-                v-for="({name, changedToAt}, idx) of player.data.names"
-                :key="idx"
-                class="p-3 border-t first:border-t-0 border-gray-300 flex items-center"
-              >
-                <strong class="font-normal mr-3">{{ name }}</strong>
-                <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
-              </li>
-              <li v-if="isLoadingNameHistory" class="p-3 border-t first:border-t-0 border-gray-300 text-gray-500 flex items-center">{{ t('nyaa.general.loading_hint') }}</li>
-            </ul>
+            <PlayerNameHistory :player="player" class="rounded-md shadow" />
           </div>
           <!-- Ore mining graph -->
           <div class="mt-5">
@@ -65,11 +55,11 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import {add, formatDistanceStrict} from 'date-fns'
   import {zhCN} from 'date-fns/locale'
 
   import advancementData from '@/assets/advancement-data.json'
+  import PlayerNameHistory from '@/components/PlayerNameHistory.vue'
   import PlayerOreGraph from '@/components/PlayerOreGraph.vue'
   import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
   import PlayerStatisticPanel from '@/components/PlayerStatisticPanel.vue'
@@ -82,6 +72,7 @@
     name: 'PlayerView',
 
     components: {
+      PlayerNameHistory,
       PlayerOreGraph,
       PlayerAdvancementPanel,
       PlayerStatisticPanel,
@@ -90,8 +81,6 @@
     data () {
       return {
         player: null,
-
-        isLoadingNameHistory: true,
 
         goRandom,
       }
@@ -111,12 +100,12 @@
       membership () {
         const output = [
           {
-            label: this.t('nyaa.player_info.first_login'),
-            value: this.formatDate(this.player?.data.time_start),
-          },
-          {
             label: this.t('nyaa.player_info.last_active'),
             value: this.formatDate(this.player?.data.time_last),
+          },
+          {
+            label: this.t('nyaa.player_info.first_login'),
+            value: this.formatDate(this.player?.data.time_start),
           },
           {
             label: this.t('nyaa.player_info.total_online'),
@@ -138,12 +127,6 @@
       uuid () {
         this.fetchData()
       },
-
-      player (val) {
-        if (val) {
-          this.loadNameHistory()
-        }
-      },
     },
 
     created () {
@@ -156,24 +139,6 @@
         this.player = await this.$store.dispatch('fetchStats', this.uuid)
         document.title = `${this.player.data.playername} | ${this.$store.state.info.title}`
         this.$store.commit('setFooterUpdateTime', this.player.data.lastUpdate)
-      },
-
-      async loadNameHistory () {
-        if (!this.player) {
-          console.error('Attempt to load name history while player data is not ready.')
-          return
-        }
-
-        if (this.player.data.names.slice(-1)[0].changedToAt) {
-          const {data} = await axios(
-            process.env.NODE_ENV === 'development'
-              ? `/mojang-api/user/profiles/${this.uuid}/names`
-              : `https://mojang-api.silent.land/${location.host}/user/profiles/${this.uuid}/names`
-          )
-          this.$set(this.player.data, 'names', data.reverse())
-        }
-
-        this.isLoadingNameHistory = false
       },
 
       formatDate (val) {
