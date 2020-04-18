@@ -21,6 +21,7 @@
         type="text"
         :placeholder="t('nyaa.general.search_placeholder')"
         class="flex-1 pl-2 pr-5 py-3 bg-transparent placeholder-gray-600 cursor-pointer focus:cursor-text"
+        @focus="$event.target.select()"
         @blur="$event.relatedTarget !== $refs.button && (isFocused = false)"
         @input="setKeyword($event.target.value)"
       >
