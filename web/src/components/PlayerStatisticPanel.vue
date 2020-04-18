@@ -3,7 +3,7 @@
     <header class="border-b border-gray-300 bg-gray-100 md:rounded-t-md flex flex-col">
       <div class="px-page xl:px-5 flex items-center">
         <h2 class="py-3 xl:py-4 text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">{{ t('nyaa.player_statistics.section_title') }}</h2>
-        <button class="ml-auto p-1 -mr-1 focus:outline-none flex" @click="showConfig = !showConfig">
+        <button class="ml-auto p-1 -mr-1 flex" @click="showConfig = !showConfig">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="['w-6 h-6', showConfig ? 'fill-black' : 'fill-gray-500']">
             <path d="M8 7a5 5 0 1 0 0 10h8a5 5 0 0 0 0-10H8zm0-2h8a7 7 0 0 1 0 14H8A7 7 0 0 1 8 5zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
           </svg>

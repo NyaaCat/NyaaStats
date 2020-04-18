@@ -5,6 +5,12 @@ html {
   font-size: 16px;
 }
 
+button, input {
+  &:focus {
+    @apply outline-none;
+  }
+}
+
 svg {
   @apply fill-current;
 }
@@ -23,7 +29,6 @@ svg {
     @apply w-page px-0 mx-auto;
   }
 }
-
 /*! purgecss end ignore */
 
 @tailwind utilities;

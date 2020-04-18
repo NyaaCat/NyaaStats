@@ -1,6 +1,6 @@
 <template>
   <div class="h-full relative" :data-prevent-clickaway="visible">
-    <button class="h-full w-header -mr-offset relative z-10 focus:outline-none flex" @click="visible = !visible">
+    <button class="h-full w-header -mr-offset relative z-10 flex" @click="visible = !visible">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="m-auto w-6 h-6">
         <transition
           enter-class="translate-y-full"

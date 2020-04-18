@@ -28,7 +28,7 @@
       </li>
     </ul>
     <div class="-mx-3">
-      <button v-show="restCount > 0" class="flex w-full h-14 px-3 py-2 hover:bg-cool-gray-100 focus:outline-none rounded-md text-gray-600 text-left transition duration-100 ease-linear" @click="cursor += 50">
+      <button v-show="restCount > 0" class="flex w-full h-14 px-3 py-2 hover:bg-cool-gray-100 rounded-md text-gray-600 text-left transition duration-100 ease-linear" @click="cursor += 50">
         <span class="ml-14">{{ t('nyaa.player_list.load_more_button_label') }}</span>
       </button>
     </div>
