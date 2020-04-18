@@ -1,24 +1,31 @@
 <template>
-  <ul class="bg-white overflow-hidden">
-    <li
-      v-for="({name, changedToAt}, idx) of names"
-      :key="changedToAt || 'init'"
-      :class="['p-3 border-t first:border-t-0 border-gray-300 flex items-center', {'bg-gray-50 text-gray-500': idx < lastInServer || firstInServer < idx}]"
-    >
-      <strong class="font-normal mr-3">{{ name }}</strong>
-      <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
-    </li>
-    <li v-if="isLoadingNameHistory" class="p-3 border-t first:border-t-0 border-gray-300 bg-gray-100 text-gray-500 flex items-center">{{ t('nyaa.general.loading_hint') }}</li>
-  </ul>
+  <PlayerAsidePanel :title="t('nyaa.player_name_history.section_title')">
+    <ul class="bg-white overflow-hidden">
+      <li
+        v-for="({name, changedToAt}, idx) of names"
+        :key="changedToAt || 'init'"
+        :class="['p-3 border-t first:border-t-0 border-gray-300 flex items-center', {'bg-gray-50 text-gray-500': idx < lastInServer || firstInServer < idx}]"
+      >
+        <strong class="font-normal mr-3">{{ name }}</strong>
+        <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
+      </li>
+      <li v-if="isLoadingNameHistory" class="p-3 border-t first:border-t-0 border-gray-300 bg-gray-100 text-gray-500 flex items-center">{{ t('nyaa.general.loading_hint') }}</li>
+    </ul>
+  </PlayerAsidePanel>
 </template>
 
 <script>
   import axios from 'axios'
 
+  import PlayerAsidePanel from '@/components/PlayerAsidePanel.vue'
   import {normalizeDate} from '@/common/utils'
 
   export default {
     name: 'PlayerNameHistory',
+
+    components: {
+      PlayerAsidePanel,
+    },
 
     props: {
       player: {

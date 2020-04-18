@@ -31,16 +31,10 @@
               </div>
             </dl>
           </div>
-          <!-- Name history -->
-          <div class="mt-5">
-            <h2 class="font-medium text-cool-gray-600 uppercase tracking-wide px-3 pb-2">{{ t('nyaa.player_name_history.section_title') }}</h2>
-            <PlayerNameHistory :player="player" class="rounded-md shadow" />
-          </div>
-          <!-- Ore mining graph -->
-          <div class="mt-5">
-            <h2 class="px-3 pb-2 font-medium text-cool-gray-600 uppercase tracking-wide">{{ t('nyaa.player_ore_graph.section_title') }}</h2>
-            <PlayerOreGraph :player="player" class="rounded-md shadow" />
-          </div>
+
+          <PlayerNameHistory :player="player" class="mt-5" />
+
+          <PlayerOreGraph :player="player" class="mt-5" />
         </div>
         <!-- Main -->
         <div class="flex-1 md:mr-5 xl:ml-5 xl:mr-0 -mb-5">
