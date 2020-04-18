@@ -56,7 +56,7 @@
           const {data} = await axios(
             process.env.NODE_ENV === 'development'
               ? `/mojang-api/user/profiles/${this.player.data.uuid_short}/names`
-              : `https://mojang-api.silent.land/${location.host}/user/profiles/${this.uuid}/names`
+              : `https://mojang-api.silent.land/${location.host}/user/profiles/${this.player.data.uuid_short}/names`
           )
           this.names = data.reverse()
         }
