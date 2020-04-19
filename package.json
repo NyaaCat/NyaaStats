@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/NyaaCat/NyaaStats#readme",
   "dependencies": {
-    "bignum": "^0.13.0",
+    "bignum": "^0.13.1",
     "fs-extra": "^2.0.0",
     "gauge": "^2.7.4",
     "inquirer": "^5.2.0",
