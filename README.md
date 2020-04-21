@@ -25,24 +25,23 @@ Now you can find all the files you need in the `web/dist` folder.
 
 Move files in place:
 
-* Move `web/dist` to your webroot
-* Move the output directory you defined to `webroot/static/data`
+* Move everything under `web/dist` to your webroot
+* Move the output directory you defined to `webroot/data`
 
 ### Final File Structures
 
 ```
 - webroot
   + index.html
-  - static
-    + css
-    - data  # here's the data that main application produces
-      + info.json
-      + players.json
-      + (...) Player UUID directories
-    + fonts
-    + img
-    + js
-    + skin
+  + css
+  - data  # here's the data that main application produces
+    + info.json
+    + players.json
+    + (...) Player UUID directories
+  + fonts
+  + img
+  + js
+  + skin
 ```
 
 Upload webroot to you server, and configure your nginx server like this:
