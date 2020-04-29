@@ -65,7 +65,7 @@
           </ul>
           <transition v-bind="textTransitionProps">
             <div v-if="isShowingOriginalData" class="ml-auto font-tnum grid row-gap-px items-center">
-              <span :style="{gridRow: 1}">{{ total.mined }}</span>
+              <span class="pl-1" :style="{gridRow: 1}">{{ total.mined }}</span>
               <span :style="{gridRow: 1}" class="text-gray-600 flex">
                 <span class="mx-1">/</span>
                 <span class="ml-auto">{{ total.used }}</span>
@@ -92,27 +92,6 @@
               </li>
             </ul>
           </transition>
-          <div v-if="false" class="ml-auto font-tnum grid">
-            <span class="order-first h-10 flex items-center">
-              <transition v-bind="textTransitionProps">
-                <span v-if="isShowingOriginalData" key="1">{{ total.mined }} / <span class="text-gray-600">{{ total.used }}</span></span>
-                <span v-else key="0">{{ total.net }}</span>
-              </transition>
-            </span>
-            <li
-              v-for="({ore, mined, used, net, order}) of oreData"
-              :key="ore"
-              class="flex-none h-10 mt-px flex items-center"
-              :style="{order}"
-            >
-              <span class="-mr-1 px-1 py-0.5 _text-bg rounded">
-                <transition v-bind="textTransitionProps">
-                  <span v-if="isShowingOriginalData" key="1">{{ mined }} / <span class="text-gray-500">{{ used }}</span></span>
-                  <span v-else key="0">{{ net }}</span>
-                </transition>
-              </span>
-            </li>
-          </div>
         </div>
       </transition>
     </div>
