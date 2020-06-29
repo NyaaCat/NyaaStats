@@ -1,4 +1,4 @@
-import request from 'request-promise';
+import axios from 'axios';
 import bignum from 'bignum';
 import NBT from 'mcnbt';
 import path from 'path';
@@ -7,11 +7,6 @@ import fs from 'fs-extra';
 
 import { writeJSON, mergeStats, defaultSkin, download, delay } from './helper';
 import * as logger from './logger';
-
-const reqOpts = {
-  timeout: 30000, // 30 secs
-  pool: false,
-};
 
 export default class Utils {
   constructor() {
@@ -206,23 +201,21 @@ export default class Utils {
 
     let body;
     try {
-      body = await request({
-        url: apiPath,
-        ...reqOpts,
-      });
+      const res = await axios.get(apiPath, {timeout: 30000 /* 30 secs */})
+      body  = res.data
     } catch (err) {
-      logger.MojangAPI.error('REQUEST', apiPath, err);
+      logger.MojangAPI.error('REQUEST', apiPath, err.toJSON());
       setTimeout(() => {
         this.apiLimited = false;
       }, this.config.api.ratelimit * 3000);
-      throw new Error(err);
+      throw new Error(err.toJSON());
     }
 
     setTimeout(() => {
       this.apiLimited = false;
     }, this.config.api.ratelimit * 1000);
 
-    return JSON.parse(body);
+    return body;
   }
 
   static getPlayerAssets(uuid, playerpath) {

@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/NyaaCat/NyaaStats#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "bignum": "^0.13.1",
     "fs-extra": "^2.0.0",
     "gauge": "^2.7.4",
@@ -34,9 +35,7 @@
     "js-yaml": "^3.13.1",
     "log4js": "^2.11.0",
     "mcnbt": "github:ITJesse/mcnbt#b5a6b83",
-    "moment": "^2.24.0",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

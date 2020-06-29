@@ -1,17 +1,14 @@
 import fs from 'fs-extra';
-import request from 'request';
+import axios from 'axios';
 import inquirer from 'inquirer';
 
 import * as logger from './logger';
 
-export function download(apiPath, dest) {
+export async function download(apiPath, dest) {
   logger.Assets.info('DOWNLOAD', apiPath);
-  request
-    .get(apiPath)
-    .on('error', (err) => {
-      logger.Assets.error('DOWNLOAD', apiPath, err);
-    })
-    .pipe(fs.createWriteStream(dest));
+  const {data} = await axios.get(apiPath, {responseType: 'stream'})
+    .catch(err => logger.Assets.error('DOWNLOAD', apiPath, err.toJSON()));
+  data.pipe(fs.createWriteStream(dest));
 }
 
 export function writeJSON(dest, data) {
