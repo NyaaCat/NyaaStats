@@ -25,7 +25,6 @@ render:
 
 api:
   ratelimit: 2 # set to 1 request per sec as per mojang api rate limit
-  max-name-history: 3 # Maximum history will be recorded
 
 # Set advancements progresses
 # Details: http://minecraft.gamepedia.com/Advancements

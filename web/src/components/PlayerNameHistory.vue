@@ -9,14 +9,11 @@
         <strong class="font-normal mr-3">{{ name }}</strong>
         <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
       </li>
-      <li v-if="isLoadingNameHistory" class="p-3 border-t first:border-t-0 border-gray-300 bg-gray-100 text-gray-500 flex items-center">{{ t('nyaa.general.loading_hint') }}</li>
     </ul>
   </PlayerAsidePanel>
 </template>
 
 <script>
-  import axios from 'axios'
-
   import PlayerAsidePanel from '@/components/PlayerAsidePanel.vue'
   import {normalizeDate} from '@/common/utils'
 
@@ -37,7 +34,6 @@
     data () {
       return {
         names: this.player.data.names,
-        isLoadingNameHistory: true,
       }
     },
 
@@ -53,24 +49,7 @@
       },
     },
 
-    created () {
-      this.loadNameHistory()
-    },
-
     methods: {
-      async loadNameHistory () {
-        if (this.names.slice(-1)[0].changedToAt) {
-          const {data} = await axios(
-            process.env.NODE_ENV === 'development'
-              ? `/mojang-api/user/profiles/${this.player.data.uuid_short}/names`
-              : `https://mojang-api.silent.land/${location.host}/user/profiles/${this.player.data.uuid_short}/names`
-          )
-          this.names = data.reverse()
-        }
-
-        this.isLoadingNameHistory = false
-      },
-
       formatDate (val) {
         return val && normalizeDate(val, 'short')
       },

@@ -183,21 +183,16 @@ export default class Utils {
 
   async getNameHistory(uuid) {
     const apiNameHistory = `https://api.mojang.com/user/profiles/${uuid}/names`;
-    const history = [];
-    let res;
+    let history;
     try {
-      res = await this.getMojangAPI(apiNameHistory);
+      history = await this.getMojangAPI(apiNameHistory);
     } catch (err) {
       return null;
     }
-    if (!res) return null;
-    let limit = this.config.api['max-name-history'];
-    if (res.length < this.config.api['max-name-history']) {
-      limit = res.length;
-    }
-    for (let i = 1; i <= limit; i += 1) {
-      history.push(res[res.length - i]);
-    }
+    if (!history) return null;
+    // The order of the response data from Mojang API is uncertain,
+    // so manually sort it (to descending order) for making sure.
+    history.sort((a, b) => (b.changedToAt || 0) - (a.changedToAt || 0))
     return history;
   }
 
