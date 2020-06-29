@@ -48,4 +48,8 @@ module.exports = {
   plugins: [
     require('@tailwindcss/ui'),
   ],
+  purge: [
+    './src/**/*.vue',
+    './src/**/*.jsx',
+  ],
 }
