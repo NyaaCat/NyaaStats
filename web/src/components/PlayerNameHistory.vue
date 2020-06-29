@@ -4,7 +4,10 @@
       <li
         v-for="({name, changedToAt}, idx) of names"
         :key="changedToAt || 'init'"
-        :class="['p-3 border-t first:border-t-0 border-gray-300 flex items-center', {'bg-gray-50 text-gray-500': idx < lastInServer || firstInServer < idx}]"
+        :class="[
+          'p-3 border-t first:border-t-0 border-gray-300 flex items-center',
+          {'bg-gray-50 text-gray-500': idx < lastInServer || (firstInServer === -1 ? Infinity : firstInServer) < idx},
+        ]"
       >
         <strong class="font-normal mr-3">{{ name }}</strong>
         <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
