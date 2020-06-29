@@ -25,7 +25,7 @@
       class="bg-white cursor-pointer relative transition-all duration-500 ease-in-out"
       @click="isExpanded = !isExpanded"
     >
-      <div class="absolute inset-x-0 top-0 h-10 bg-gray-300 flex">
+      <div class="absolute inset-x-0 top-0 h-10 bg-cool-gray-300 flex">
         <div
           v-for="({ore, mined, used, net}) of oreDataFiltered"
           :key="ore"

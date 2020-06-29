@@ -25,7 +25,7 @@ const store = new Vuex.Store({
     },
 
     setPlayer (state, [uuid, data]) {
-      state.players[uuid] = data
+      Vue.set(state.players, uuid, data)
     },
 
     setPlayerList (state, data) {
