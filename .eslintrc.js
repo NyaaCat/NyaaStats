@@ -6,7 +6,9 @@ module.exports = {
     es2020: true,
     node: true,
   },
-  parser: 'babel-eslint',
+  parserOptions: {
+    parser: 'babel-eslint',
+  },
   extends: [
     'eslint:recommended',
   ],
