@@ -1,17 +1,20 @@
-const fs = require('fs-extra')
-const axios = require('axios')
-const inquirer = require('inquirer')
+import fs from 'fs-extra'
+import axios from 'axios'
+import inquirer from 'inquirer'
 
-const logger = require('./logger')
+import * as logger from './logger'
 
-exports.download = async function download (apiPath, dest) {
+export async function download (apiPath: string, dest: string): Promise<void> {
   logger.Assets.info('DOWNLOAD', apiPath)
-  const {data} = await axios.get(apiPath, {responseType: 'stream'})
-    .catch(err => logger.Assets.error('DOWNLOAD', apiPath, err.toJSON()))
-  data.pipe(fs.createWriteStream(dest))
+  const {data} = await axios.get<fs.ReadStream>(apiPath, {responseType: 'stream'})
+    .catch(err => {
+      logger.Assets.error('DOWNLOAD', apiPath, err.toJSON())
+      return {data: null}
+    })
+  data?.pipe(fs.createWriteStream(dest))
 }
 
-exports.writeJSON = function writeJSON (dest, data) {
+export function writeJSON (dest: string, data: never): void {
   fs.writeFile(dest, JSON.stringify(data), (err) => {
     if (err) {
       logger.WriteJSON.error('CREATE', dest, err)
@@ -21,11 +24,11 @@ exports.writeJSON = function writeJSON (dest, data) {
   })
 }
 
-exports.mergeStats = function mergeStats (data) {
-  let merged = {}
+export function mergeStats (data: McPlayerStatsJson): McPlayerStatsJson {
+  const merged: McPlayerStatsJson = {}
   if (Object.prototype.hasOwnProperty.call(data, 'stats')) {
-    for (let key in data.stats) {
-      for (let s in data.stats[key]) {
+    for (const key in data.stats) {
+      for (const s in data.stats[key]) {
         merged[key + '/' + s] = data.stats[key][s]
       }
     }
@@ -34,18 +37,18 @@ exports.mergeStats = function mergeStats (data) {
   return data
 }
 
-exports.defaultSkin = function defaultSkin (uuid) {
+export function defaultSkin (uuid: LongUuid): string {
   // great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
   // https://git.io/xJpV
   // MC uses `uuid.hashCode() & 1` for alex
   // that can be compacted to counting the LSBs of every 4th byte in the UUID
   // an odd sum means alex, an even sum means steve
   // XOR-ing all the LSBs gives us 1 for alex and 0 for steve
-  const isEven = (c) => {
+  const isEven = (c: string) => {
     if (c >= '0' && c <= '9') {
-      return (c & 1) === 0
+      return (Number(c) & 1) === 0
     } else if (c >= 'a' && c <= 'f') {
-      return (c & 1) === 1
+      return (Number(c) & 1) === 1
     }
     console.log('Invalid digit', c)
     return null
@@ -55,10 +58,10 @@ exports.defaultSkin = function defaultSkin (uuid) {
   return lsbsEven ? 'Alex' : 'Steve'
 }
 
-exports.confirm = async function confirm (message, _default = true) {
+export async function confirm (message: string, _default = true): Promise<boolean> {
   const prompt = inquirer.createPromptModule()
   try {
-    const res = await prompt({
+    const res = await prompt<{confirm: boolean}>({
       type: 'confirm',
       name: 'confirm',
       default: _default,
@@ -71,6 +74,6 @@ exports.confirm = async function confirm (message, _default = true) {
   }
 }
 
-exports.delay = function delay (ms) {
+export function delay (ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }

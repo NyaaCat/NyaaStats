@@ -1,10 +1,10 @@
-const fs = require('fs-extra')
-const path = require('path')
+import fs from 'fs-extra'
+import path from 'path'
 
-const Utils = require('./utils')
-const {writeJSON, confirm} = require('./helper')
-const logger = require('./logger')
-const ProgressBar = require('./progressbar')
+import Utils from './utils'
+import {confirm, writeJSON} from './helper'
+import * as logger from './logger'
+import ProgressBar from './progressbar'
 
 process.on('SIGINT', () => {
   process.exit()
@@ -16,10 +16,8 @@ const utils = new Utils()
 const config = utils.getConfig()
 
 void async function main () {
-  /** @type {string[]} */
   const bannedUuidList = config.render['banned-players'] ? utils.getBannedPlayers() : []
 
-  /** @type {string[]} */
   const uuidList = (() => {
     let list = config.render.whitelist ? utils.getWhitelistedPlayers() : utils.getAllPlayers()
     if (!config.render['render-banned'] && bannedUuidList.length) {
@@ -33,11 +31,11 @@ void async function main () {
     logger.Default.info('Advancements is set: Render mode set to 1.12+')
   } else {
     logger.Default.info('Advancements not set: Render mode set to 1.11')
-
   }
-  const outputDir = path.join(config.BASEPATH, config.render.output)
 
+  const outputDir = path.join(config.BASEPATH, config.render.output)
   logger.Default.info('CREATE OUTPUT DIR', outputDir)
+
   if (config.render['confirm-clear-data'] !== false) {
     const prompt = await confirm('Do you want to clean the output folder?')
     if (prompt) {
@@ -49,7 +47,6 @@ void async function main () {
     }
   }
 
-  /** @type {object[]} */
   const players = []
 
   const progress = new ProgressBar(uuidList.length)
@@ -78,14 +75,14 @@ void async function main () {
 
   progress.stop()
 
-  players.sort((a, b) => b.seen - a.seen)
-  writeJSON(path.join(outputDir, 'players.json'), players)
+  players.sort((a, b) => (b.seen ?? 0) - (a.seen ?? 0))
+  writeJSON(path.join(outputDir, 'players.json'), players as never)
 
-  let worldTime = await utils.getWorldTime()
+  const worldTime = await utils.getWorldTime()
   writeJSON(path.join(outputDir, 'info.json'), {
     worldTime,
     timeFormat: config.render['time-format'],
     lastUpdate: Date.now(),
     ...config.web,
-  })
+  } as never)
 }()
