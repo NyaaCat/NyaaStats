@@ -4,31 +4,29 @@ A user state page builder for Minecraft.
 # How to use
 You can simply build your own web pages, just follow this instruction.
 
-_You need to do these command in a series._
+_You need to do these commands in a series._
 
 ## First grab user data from map folder
 1. Clone the project.
-2. `npm install`.
-3. Rename config.example.yml to config.yml and modify it.
-4. Run `npm start`. This will take long time to grab the informations for each user, be patient. Your data will be written to your `output` directory defined in config file.
+2. Run `npm install`.
+3. Rename `config.example.yml` to `config.yml`, read it and update it with your preferences.
+4. Run `npm start`. It might take a long time runing several tasks for each of your players, so be patient. The result data will be written to the directory you defined as `render.output` in `config.yml`.
 
 ## Build web pages
 1. Go into `web` folder.
-2. `npm install && npm run build`.
+2. Run `npm install && npm run build`.
 
 ## Build skin render
 1. Go into `skin` folder.
-2. `npm install && npm run build`.
+2. Run `npm install && npm run build`.
 
-## That's all
-Now you can find all the files you need in the `web/dist` folder.
+## Prepare to deploy
+Now you can find all the files you need in the `web/dist` folder. Create a folder named `webroot` and collect your files:
 
-Move files in place:
+1. Move everything UNDER `web/dist` to webroot folder.
+2. Move the `render.output` directory you defined to `webroot/data`.
 
-* Move everything under `web/dist` to your webroot
-* Move the output directory you defined to `webroot/data`
-
-### Final File Structures
+Your webroot folder should now look like this:
 
 ```
 - webroot
@@ -44,14 +42,16 @@ Move files in place:
   + skin
 ```
 
-Upload webroot to you server, and configure your nginx server like this:
+## That's all!
+
+Upload webroot folder to your server, and configure your server like this: (We assume you use Nginx)
 
 ```
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
-  root /your/root/path;
+  root /your/path/to/webroot;
 
   index index.html;
 
@@ -64,20 +64,16 @@ server {
   location @rewrites {
     rewrite ^(.+)$ /index.html last;
   }
-
 }
 ```
 
-> Notice:
-
->If you want to deploy without nignx, you will need to change the router mode from `history` to `hash` [here](https://github.com/NyaaCat/NyaaStats/blob/713303de573ac36b9cd7ef8f20100aa3eb993273/web/src/router/index.js#L11). Remember to rebuild web pages.
+> If you don't use Nginx, or you don't want to change any server config (by switching to "hash mode"), please read https://router.vuejs.org/guide/essentials/history-mode.html for further information.
+> 
+> In case you want to switch, the router config can be found at `/web/src/router/index.js`.
 
 ## Update player data
 
 Run `npm start` in the root folder of this project which means recreate the data folder and upload it to your web root. You don't need to run other commands everytime you update players' data but needed when we upgrade the code of our web client.
 
-
-
-
 # Credits
-The skin render is almost a copy from [NameMC](https://namemc.com). Thanks for their excellent work.
+The skin render is almost a copy of [NameMC](https://namemc.com). Thanks for their excellent work.
