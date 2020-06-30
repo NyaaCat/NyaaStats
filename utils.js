@@ -218,28 +218,28 @@ module.exports = class Utils {
     return body
   }
 
-  static getPlayerAssets (uuid, playerpath) {
+  async getPlayerAssets (uuid, playerpath) {
     try {
       fs.ensureDirSync(playerpath)
     } catch (error) {
       throw new Error(error)
     }
 
-    const apiPrefixAvatar = 'https://crafatar.com/avatars/'
-    const apiPrefixBody = 'https://crafatar.com/renders/body/'
-    const apiPrefixSkin = 'https://crafatar.com/skins/'
+    const apiPrefixAvatar = `${this.config.render.crafatar}/avatars/`
+    const apiPrefixBody = `${this.config.render.crafatar}/renders/body/`
+    const apiPrefixSkin = `${this.config.render.crafatar}/skins/`
 
     const slim = `&default=MHF_${defaultSkin(uuid)}`
 
-    download(
+    await download(
       `${apiPrefixAvatar}${uuid}?size=64&overlay${slim}`,
       path.join(playerpath, 'avatar.png'),
     )
-    download(
+    await download(
       `${apiPrefixBody}${uuid}?size=128&overlay${slim}`,
       path.join(playerpath, 'body.png'),
     )
-    download(
+    await download(
       `${apiPrefixSkin}${uuid}?${slim}`,
       path.join(playerpath, 'skin.png'),
     )
@@ -261,7 +261,7 @@ module.exports = class Utils {
       return data
     } else if (data && data.stats && data.data) {
       try {
-        await Utils.getPlayerAssets(uuid.replace(/-/g, ''), playerpath)
+        await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath)
       } catch (error) {
         logger.PlayerData.error('ASSETS', error)
       }

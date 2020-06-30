@@ -5,6 +5,7 @@ web:
   homepage: https://minecraft.example.com # Your homepage
 
 render:
+  crafatar: https://crafatar.com # crafatar service host, required
   level: data/level.dat # file path here, required
   playerdata: data/playerdata # directory path here, required
   stats: data/stats # directory path here, required
