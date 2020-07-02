@@ -35,7 +35,7 @@
     "inquirer": "^5.2.0",
     "js-yaml": "^3.13.1",
     "log4js": "^2.11.0",
-    "mcnbt": "github:ITJesse/mcnbt#b5a6b83",
+    "mcnbt": "github:ITJesse/mcnbt#55bcbe1",
     "moment": "^2.24.0"
   },
   "devDependencies": {
