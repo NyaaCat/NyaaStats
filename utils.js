@@ -133,8 +133,12 @@ module.exports = class Utils {
           if (nbt.select('').select('Spigot.ticksLived')) {
             lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20
           }
-          const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber()
-          const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber()
+          const timeStart = nbt.select('').select('bukkit')
+            ? bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber()
+            : null
+          const timeLast = nbt.select('').select('bukkit')
+            ? bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber()
+            : null
           const pdata = {
             seen: timeLast,
             time_start: timeStart,
