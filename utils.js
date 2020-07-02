@@ -1,5 +1,4 @@
 const axios = require('axios')
-const bignum = require('bignum')
 const NBT = require('mcnbt')
 const path = require('path')
 const yaml = require('js-yaml')
@@ -37,7 +36,7 @@ module.exports = class Utils {
         path.join(this.config.render.level),
         (err) => {
           if (err) return reject(err)
-          return resolve(bignum(nbt.select('').select('Data').select('Time').getValue()).toNumber() / 20)
+          return resolve(Number(BigInt(nbt.select('').select('Data').select('Time').getValue())) / 20)
         },
       )
     })
@@ -134,10 +133,10 @@ module.exports = class Utils {
             lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20
           }
           const timeStart = nbt.select('').select('bukkit')
-            ? bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber()
+            ? BigInt(nbt.select('').select('bukkit').select('firstPlayed').getValue())
             : null
           const timeLast = nbt.select('').select('bukkit')
-            ? bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber()
+            ? BigInt(nbt.select('').select('bukkit').select('lastPlayed').getValue())
             : null
           const pdata = {
             seen: timeLast,
