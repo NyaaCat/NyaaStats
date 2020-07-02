@@ -15,90 +15,77 @@ process.stdout.write('\x1Bc')
 const utils = new Utils()
 const config = utils.getConfig()
 
-let playerlist = []
-if (config.render.whitelist) {
-  playerlist = utils.getWhitelistedPlayers()
-} else {
-  playerlist = utils.getAllPlayers()
-}
-logger.Default.info('Players found', playerlist.length)
+void async function main () {
+  /** @type {string[]} */
+  const bannedUuidList = config.render['banned-players'] ? utils.getBannedPlayers() : []
 
-if (config.render.advancements) {
-  logger.Default.info('Advancements is set: Render mode set to 1.12+')
-} else {
-  logger.Default.info('Advancements not set: Render mode set to 1.11')
-}
+  /** @type {string[]} */
+  const uuidList = (() => {
+    let list = config.render.whitelist ? utils.getWhitelistedPlayers() : utils.getAllPlayers()
+    if (!config.render['render-banned'] && bannedUuidList.length) {
+      list = list.filter(uuid => !bannedUuidList.some(ban => ban === uuid))
+    }
+    return list
+  })()
+  logger.Default.info('Players to process:', uuidList.length)
 
-const output = path.join(config.BASEPATH, config.render.output)
-logger.Default.info('CREATE OUTPUT DIR', output)
+  if (config.render.advancements) {
+    logger.Default.info('Advancements is set: Render mode set to 1.12+')
+  } else {
+    logger.Default.info('Advancements not set: Render mode set to 1.11')
 
+  }
+  const outputDir = path.join(config.BASEPATH, config.render.output)
 
-;(async () => {
-  if (config.render['confirm-clear-data'] || config.render['confirm-clear-data'] === undefined) {
+  logger.Default.info('CREATE OUTPUT DIR', outputDir)
+  if (config.render['confirm-clear-data'] !== false) {
     const prompt = await confirm('Do you want to clean the output folder?')
     if (prompt) {
       try {
-        fs.emptyDirSync(output)
+        fs.emptyDirSync(outputDir)
       } catch (err) {
         throw new Error(err)
       }
     }
   }
 
-  let banlist = []
+  /** @type {object[]} */
   const players = []
-  if (config.render['banned-players']) {
-    banlist = utils.getBannedPlayers()
-  }
-  if (!config.render['render-banned']) {
-    playerlist = playerlist.filter(uuid => !banlist.some(ban => ban === uuid))
-  }
-  playerlist = playerlist.sort(() => 0.5 - Math.random())
 
-  const totalTasks = playerlist.length
-  const progress = new ProgressBar(totalTasks)
+  const progress = new ProgressBar(uuidList.length)
   progress.start()
-  for (const uuid of playerlist) {
-    let banned = false
-    if (config.render['render-banned']) {
-      banned = banlist.some(ban => ban === uuid)
-    }
-    let data
+
+  for (const uuid of uuidList) {
     try {
-      data = await utils.createPlayerData(uuid, banned)
-    } catch (error) {
+      const banned = config.render['render-banned'] ? bannedUuidList.some(ban => ban === uuid) : false
+      let data
+      try {
+        data = await utils.createPlayerData(uuid, banned)
+      } catch (error) {
+        logger.Default.error(`Failed to create player data for ${uuid}`)
+        continue
+      }
+      players.push({
+        uuid: data.data.uuid_short,
+        playername: data.data.playername,
+        names: data.data.names,
+        seen: data.data.seen,
+      })
+    } finally {
       progress.tick(uuid)
-      continue
     }
-    players.push({
-      uuid: data.data.uuid_short,
-      playername: data.data.playername,
-      names: data.data.names,
-      seen: data.data.seen,
-    })
-    progress.tick(uuid)
   }
+
   progress.stop()
 
   players.sort((a, b) => b.seen - a.seen)
-  writeJSON(
-    path.join(config.BASEPATH, config.render.output, 'players.json'),
-    players,
-  )
+  writeJSON(path.join(outputDir, 'players.json'), players)
 
-  let worldTime
-  try {
-    worldTime = await utils.getWorldTime()
-  } catch (error) {
-    throw new Error(error)
-  }
-  writeJSON(
-    path.join(config.BASEPATH, config.render.output, 'info.json'),
-    {
-      worldTime,
-      timeFormat: config.render['time-format'],
-      lastUpdate: (new Date()).valueOf(),
-      ...config.web,
-    },
-  )
-})()
+  let worldTime = await utils.getWorldTime()
+  writeJSON(path.join(outputDir, 'info.json'), {
+    worldTime,
+    timeFormat: config.render['time-format'],
+    lastUpdate: Date.now(),
+    ...config.web,
+  })
+}()

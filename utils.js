@@ -205,7 +205,7 @@ module.exports = class Utils {
     let body
     try {
       const res = await axios.get(apiPath, {timeout: 30000})
-      body  = res.data
+      body = res.data
     } catch (err) {
       logger.MojangAPI.error('REQUEST', apiPath, err.toJSON())
       setTimeout(() => {
@@ -255,7 +255,7 @@ module.exports = class Utils {
       if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
         data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json')))
       } else {
-        data = await this.getPlayerTotalData(uuid, banned)
+        data = await this.getPlayerTotalData(uuid)
       }
     } catch (error) {
       throw new Error(error)
