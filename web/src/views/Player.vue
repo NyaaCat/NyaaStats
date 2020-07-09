@@ -8,7 +8,7 @@
     <template v-else>
       <!-- Player name (page header) -->
       <header class="xl:w-page xl:mx-auto px-page py-1.5 md:py-2 flex flex-wrap items-center">
-        <h1 class="py-1.5 md:py-2 text-2xl md:text-3xl xl:text-4xl font-black" @click="$refs.iframe.contentWindow.location.reload()">{{ player.data.playername }}</h1>
+        <h1 class="py-1.5 md:py-2 text-2xl md:text-3xl xl:text-4xl font-black">{{ player.data.playername }}</h1>
         <span v-if="player.data.banned" class="mx-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
         <button v-if="randomPlayerMode" class="flex-none ml-auto py-1.5 md:py-2 text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player_again') }}</button>
       </header>
@@ -18,8 +18,7 @@
         <div class="md:flex-none px-page pb-5">
           <!-- Player figure & membership info -->
           <div class="bg-white rounded-md shadow overflow-hidden md:w-figure md:flex-none">
-            <!-- eslint-disable vue/max-attributes-per-line -->
-            <iframe ref="iframe" :src="'/skin/index.html?uuid=' + uuid" scrolling="no" class="w-full h-figure border-0" />
+            <player-skin-renderer :uuid="uuid" class="w-full h-figure" />
             <dl>
               <div
                 v-for="({label, value}, idx) of membership"
@@ -53,6 +52,7 @@
   import {zhCN} from 'date-fns/locale'
 
   import advancementData from '@/assets/advancement-data.json'
+  import PlayerSkinRenderer from '@/components/PlayerSkinRenderer'
   import PlayerNameHistory from '@/components/PlayerNameHistory.vue'
   import PlayerOreGraph from '@/components/PlayerOreGraph.vue'
   import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
@@ -66,6 +66,7 @@
     name: 'PlayerView',
 
     components: {
+      PlayerSkinRenderer,
       PlayerNameHistory,
       PlayerOreGraph,
       PlayerAdvancementPanel,

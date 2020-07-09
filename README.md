@@ -10,14 +10,10 @@ _You need to do these commands in a series._
 1. Clone the project.
 2. Run `npm install`.
 3. Rename `config.example.yml` to `config.yml`, read it and update it with your preferences.
-4. Run `npm start`. It might take a long time runing several tasks for each of your players, so be patient. The result data will be written to the directory you defined as `render.output` in `config.yml`.
+4. Run `npm start`. It might take a long time running several tasks for each of your players, so be patient. The result data will be written to the directory you defined as `render.output` in `config.yml`.
 
 ## Build web pages
 1. Go into `web` folder.
-2. Run `npm install && npm run build`.
-
-## Build skin render
-1. Go into `skin` folder.
 2. Run `npm install && npm run build`.
 
 ## Prepare to deploy
@@ -39,7 +35,6 @@ Your webroot folder should now look like this:
   + fonts
   + img
   + js
-  + skin
 ```
 
 ## That's all!
