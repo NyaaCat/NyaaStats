@@ -52,11 +52,11 @@
   import {zhCN} from 'date-fns/locale'
 
   import advancementData from '@/assets/advancement-data.json'
-  import PlayerSkinRenderer from '@/components/PlayerSkinRenderer'
-  import PlayerNameHistory from '@/components/PlayerNameHistory.vue'
-  import PlayerOreGraph from '@/components/PlayerOreGraph.vue'
-  import PlayerAdvancementPanel from '@/components/PlayerAdvancementPanel.vue'
-  import PlayerStatisticPanel from '@/components/PlayerStatisticPanel.vue'
+  import PlayerSkinRenderer from '@/components/player-skin-renderer'
+  import PlayerNameHistory from '@/components/player-name-history.vue'
+  import PlayerOreGraph from '@/components/player-ore-graph.vue'
+  import PlayerAdvancementPanel from '@/components/player-advancement-panel.vue'
+  import PlayerStatisticPanel from '@/components/player-statistic-panel.vue'
   import useRandomPlayer from '@/composables/random-player'
   import {normalizeDate} from '@/common/utils'
 

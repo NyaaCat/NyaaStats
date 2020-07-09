@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import PlayerAvatar from '@/components/PlayerAvatar.vue'
+  import PlayerAvatar from '@/components/player-avatar.vue'
 
   const DEFAULT_CURSOR = 50
 

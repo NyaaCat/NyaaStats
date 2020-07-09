@@ -37,9 +37,9 @@
 
 <script>
   import advancementDB from '@/assets/advancement-data.json'
-  import AdvancementTitle from '@/components/AdvancementTitle.vue'
-  import AdvancementGui from '@/components/AdvancementGui.vue'
-  import SlidingTransition from '@/components/SlidingTransition'
+  import AdvancementTitle from '@/components/advancement-title.vue'
+  import AdvancementGui from '@/components/advancement-gui.vue'
+  import SlidingTransition from '@/components/sliding-transition'
   import {normalizeDate, parseDate} from '@/common/utils'
 
   export default {

@@ -35,8 +35,8 @@
 
 <script>
   import langData from '@/assets/lang.json'
-  import SlidingTransition from '@/components/SlidingTransition.vue'
-  import FormSwitch from '@/components/FormSwitch.vue'
+  import SlidingTransition from '@/components/sliding-transition.vue'
+  import FormSwitch from '@/components/form-switch.vue'
   import useLang from '@/composables/lang'
   import useLocalConfig from '@/composables/local-config'
 

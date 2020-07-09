@@ -15,7 +15,7 @@
   import {mapState} from 'vuex'
   import {ResizeSensor} from 'css-element-queries'
 
-  import AppMenu from './AppMenu.vue'
+  import AppMenu from './app-menu.vue'
 
   export default {
     name: 'Navbar',

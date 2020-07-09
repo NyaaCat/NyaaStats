@@ -10,15 +10,15 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: () => import('../views/Home.vue'),
+      component: () => import('../views/home.vue'),
     },
     {
       path: '/player/:uuid',
-      component: () => import('../views/Player.vue'),
+      component: () => import('../views/player.vue'),
     },
     ...process.env.NODE_ENV === 'development' ? [{
       path: '/playground',
-      component: () => import('../views/Playground.vue'),
+      component: () => import('../views/playground.vue'),
     }] : [],
   ],
 })

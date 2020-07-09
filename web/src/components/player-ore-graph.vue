@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import PlayerAsidePanel from '@/components/PlayerAsidePanel.vue'
+  import PlayerAsidePanel from '@/components/player-aside-panel.vue'
 
   const ORES = [
     'coal',

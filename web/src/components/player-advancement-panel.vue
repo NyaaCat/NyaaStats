@@ -71,10 +71,10 @@
 
 <script>
   import advancementDB from '@/assets/advancement-data.json'
-  import AdvancementTitle from '@/components/AdvancementTitle.vue'
-  import AdvancementInfoPanel from '@/components/AdvancementInfoPanel.vue'
-  import SlidingTransition from '@/components/SlidingTransition.vue'
-  import FormSwitch from '@/components/FormSwitch.vue'
+  import AdvancementTitle from '@/components/advancement-title.vue'
+  import AdvancementInfoPanel from '@/components/advancement-info-panel.vue'
+  import SlidingTransition from '@/components/sliding-transition.vue'
+  import FormSwitch from '@/components/form-switch.vue'
   import useLocalConfig from '@/composables/local-config'
   import {parseDate} from '@/common/utils'
 

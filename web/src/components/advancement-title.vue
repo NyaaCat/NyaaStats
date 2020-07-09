@@ -21,8 +21,8 @@
 
 <script>
   import advancementDB from '@/assets/advancement-data.json'
-  import AdvancementGui from './AdvancementGui.vue'
-  import AdvancementIcon from './AdvancementIcon.vue'
+  import AdvancementGui from './advancement-gui.vue'
+  import AdvancementIcon from './advancement-icon.vue'
 
   const NULL_COLOR_MAP = {
     1: [0, 0, 0, 0],

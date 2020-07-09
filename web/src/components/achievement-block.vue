@@ -52,18 +52,18 @@
         required: true,
       },
     },
-    data() {
+    data () {
       return {
         ac: [],
         lang,
       }
     },
     computed: {
-      getImg() {
+      getImg () {
         return achievements[this.ac[1]]
       },
     },
-    mounted() {
+    mounted () {
       this.ac = this.prop.split('.')
     },
   }

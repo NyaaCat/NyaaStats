@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import PlayerAsidePanel from '@/components/PlayerAsidePanel.vue'
+  import PlayerAsidePanel from '@/components/player-aside-panel.vue'
   import {normalizeDate} from '@/common/utils'
 
   export default {

@@ -22,10 +22,10 @@
   import {mapState} from 'vuex'
   import {isYesterday} from 'date-fns'
 
-  import Welcome from '@/components/Welcome.vue'
-  import SearchBox from '@/components/SearchBox'
-  import PlayerGrid from '@/components/PlayerGrid.vue'
-  import PlayerList from '@/components/PlayerList.vue'
+  import Welcome from '@/components/welcome.vue'
+  import SearchBox from '@/components/search-box'
+  import PlayerGrid from '@/components/player-grid.vue'
+  import PlayerList from '@/components/player-list.vue'
   import useRandomPlayer from '@/composables/random-player'
 
   export default {
