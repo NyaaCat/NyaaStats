@@ -1,6 +1,6 @@
 {
   "name": "nyaa-stats",
-  "version": "0.0.1",
+  "version": "2.1.0",
   "description": "Web Stats for NyaaCat",
   "main": "index.js",
   "directories": {
