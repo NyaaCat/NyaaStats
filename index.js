@@ -25,9 +25,6 @@ logger.Default.info('Players found', playerlist.length)
 
 if (config.render.advancements) {
   logger.Default.info('Advancements is set: Render mode set to 1.12+')
-  if (!config['advancements-progress']) {
-    logger.Default.warn('You do not have advancements progresses defined. Please visit github.com/NyaaCat/NyaaStats for a new version of config file.')
-  }
 } else {
   logger.Default.info('Advancements not set: Render mode set to 1.11')
 }
@@ -101,7 +98,6 @@ logger.Default.info('CREATE OUTPUT DIR', output)
       worldTime,
       timeFormat: config.render['time-format'],
       lastUpdate: (new Date()).valueOf(),
-      advancementsProgress: config['advancements-progress'],
       ...config.web,
     },
   )

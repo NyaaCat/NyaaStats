@@ -26,16 +26,3 @@ render:
 
 api:
   ratelimit: 2 # set to 1 request per sec as per mojang api rate limit
-
-# Set advancements progresses
-# Details: http://minecraft.gamepedia.com/Advancements
-advancements-progress:
-  nether:
-    all_potions: 11
-    all_effects: 20
-  adventure:
-    kill_all_mobs: 22
-    adventuring_time: 36
-  husbandry:
-    bred_all_animals: 10
-    balanced_diet: 35
