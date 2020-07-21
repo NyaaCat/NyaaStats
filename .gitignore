@@ -1,10 +1,25 @@
-.idea
+.DS_Store
+node_modules
+dist
 test
 config.yml
-node_modules
-npm-debug.log
-data
-.DS_Store
-dist
 
-__mock__
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+__*__
