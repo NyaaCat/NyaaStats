@@ -1,28 +1,56 @@
-# NyaaStats configuration
-web:
-  title: Nyaa Stats # website title
-  servername: Minecraft Server # Server Name
-  homepage: https://minecraft.example.com # Your homepage
+# NYAA-STATS CONFIGURATION FILE
 
+# Grabber (main program) configuration
 render:
-  crafatar: https://crafatar.com # crafatar service host, required
-  level: data/level.dat # file path here, required
-  playerdata: data/playerdata # directory path here, required
-  stats: data/stats # directory path here, required
-  advancements: data/advancements # advancements path here, required
-  whitelist: whitelist.json # file path here, leave blank to disable
-  banned-players: banned-players.json # file path here, leave blank to disable
-  render-banned: false  # do not render banned players
-  output: web/public/data # directory path here, required
+  # Data sources
+
+  # [Required] `level.dat` file path. Example: "/opt/minecraft/world/level.dat"
+  level: data/level.dat
+  # [Required] `playerdata` directory path. Example: "/opt/minecraft/world/playerdata"
+  playerdata: data/playerdata
+  # [Required] `stats` directory path. Example: "/opt/minecraft/world/stats"
+  stats: data/stats
+  # [Required] `advancements` directory path. Example: "/opt/minecraft/world/advancements"
+  advancements: data/advancements
+  # Whether to only process whitelisted players. Possible values:
+  #   {string} - `whitelist.json` file path. Example: "/opt/minecraft/whitelist.json"
+  #   (unset)  - Disable this feature (to process all reachable players)
+  whitelist: whitelist.json
+  # Banned UUID list. Possible values:
+  #   {string} - `banned-players.json` file path. Example: "/opt/minecraft/banned-players.json"
+  #   (unset)  - Disable this feature (to assume no bans)
+  banned-players: banned-players.json
+  # Whether to render banned players. Default value: `false`
+  render-banned: false
+  # [Required] Crafatar service URL, used for player avatar/skin model generating
+  crafatar: https://crafatar.com
+
+  # Output
+
+  # [Required] Output data directory path (absolute or relative to runtime `config.yml`)
+  # Example: "webroot/data"
+  output: web/public/data
+  # Whether to prompt confirmation to clear output directory. You may want to set `false` if you're
+  # using cronjob. Possible values:
+  #   `true` | (unset) - Prompt confirmation. You can choose yes or no to output directory clearing
+  #   `false`          - Disable this feature (will not clear output directory)
+  confirm-clear-data: true
+  # [Deprecated]
   time-format: # time format on display, details http://momentjs.com/docs/#/displaying/format/
     full: dddd, MMMM Do, YYYY HH:mm:ss ZZ
     short: MMMM Do, YYYY
     compact: YYYY-M-D HH:mm:ss
-  # prompt confirmation to remove old data.
-  # Set to false if you are using cronjob,
-  # true when you run it manually.
-  # data directory will be cleared when manipulating new data.
-  confirm-clear-data: true
 
+# API usage configuration
 api:
-  ratelimit: 2 # set to 1 request per sec as per mojang api rate limit
+  # [Required] Mojang API request rate limit (N req per second)
+  ratelimit: 2
+
+# Web app configuration
+web:
+  # [Required] Web app title, will be displayed at page header and as window title
+  title: Nyaa Stats
+  # [Required] Server name, will be displayed at welcome section and page footer
+  servername: Minecraft Server
+  # [Required] Server homepage URL, will be displayed at welcome section
+  homepage: https://minecraft.example.com

@@ -63,7 +63,8 @@ export default class Utils {
 
   getWhitelistedPlayers (): LongUuid[] {
     const uuids: LongUuid[] = []
-    JSON.parse(fs.readFileSync(this.config.render.whitelist, 'utf8')).forEach((p: McWhitelistRecord) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    JSON.parse(fs.readFileSync(this.config.render.whitelist!, 'utf8')).forEach((p: McWhitelistRecord) => {
       uuids.push(p.uuid)
     })
     return uuids
@@ -71,7 +72,8 @@ export default class Utils {
 
   getBannedPlayers (): LongUuid[] {
     const banlist: LongUuid[] = []
-    const banned = JSON.parse(fs.readFileSync(path.join(this.config.render['banned-players']), 'utf8')) as McBannedPlayersJson
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const banned = JSON.parse(fs.readFileSync(path.join(this.config.render['banned-players']!), 'utf8')) as McBannedPlayersJson
     banned.forEach((ban) => {
       banlist.push(ban.uuid)
     })
@@ -259,9 +261,9 @@ export default class Utils {
     let data
     try {
       if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
-          data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json'), 'utf-8'))
+        data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json'), 'utf-8'))
       } else {
-          data = await this.getPlayerTotalData(uuid)
+        data = await this.getPlayerTotalData(uuid)
       }
     } catch (error) {
       throw new Error(error)

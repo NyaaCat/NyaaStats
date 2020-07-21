@@ -10,9 +10,9 @@ interface NSConfig {
     playerdata: string
     stats: string
     advancements: string
-    whitelist: string
-    'banned-players': string
-    'render-banned': boolean
+    whitelist?: string
+    'banned-players'?: string
+    'render-banned'?: boolean
     output: string
     'time-format': {
       full: string
