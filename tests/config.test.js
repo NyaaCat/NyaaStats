@@ -1,6 +1,6 @@
 import path from 'path'
 
-import {loadConfig} from '../src/utils'
+import loadConfig from '../src/config'
 
 describe('config', () => {
   const configPath = path.resolve(__dirname, './mocks/config.yml')
@@ -20,5 +20,9 @@ describe('config', () => {
     expect(config.resolve('./file')).toBe(path.resolve(configPath, '../file'))
     expect(config.resolve('../file')).toBe(path.resolve(configPath, '../../file'))
     expect(config.resolve('/file')).toBe('/file')
+  })
+
+  test('should return the same config object when calling loadConfig() again with same configPath', () => {
+    expect(loadConfig(configPath)).toBe(config)
   })
 })

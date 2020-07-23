@@ -1,7 +1,8 @@
 import fs from 'fs-extra'
 import path from 'path'
 
-import Utils, {loadConfig} from './utils'
+import loadConfig from './config'
+import Utils from './utils'
 import {confirm, writeJSON} from './helper'
 import * as logger from './logger'
 import ProgressBar from './progressbar'
