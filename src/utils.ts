@@ -1,5 +1,5 @@
-/// <reference types="./types/minecraft" />
-/// <reference types="./types/nyaa-stats" />
+/// <reference types="../types/minecraft" />
+/// <reference types="../types/nyaa-stats" />
 
 import fs from 'fs-extra'
 import path from 'path'

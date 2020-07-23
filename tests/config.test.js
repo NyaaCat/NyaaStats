@@ -1,6 +1,6 @@
 import path from 'path'
 
-import {loadConfig} from '../utils'
+import {loadConfig} from '../src/utils'
 
 describe('config', () => {
   const configPath = path.resolve(__dirname, './mocks/config.yml')

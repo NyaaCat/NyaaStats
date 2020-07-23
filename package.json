@@ -2,7 +2,7 @@
   "name": "nyaa-stats",
   "version": "2.1.0",
   "description": "Web Stats for NyaaCat",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "engines": {
     "node": ">=12.18.0"
   },
@@ -10,8 +10,8 @@
     "test": "test"
   },
   "scripts": {
-    "start": "ts-node index",
-    "lint": "eslint --fix *.js *.ts",
+    "start": "ts-node .",
+    "lint": "eslint --fix src/**/*.ts tests/**/*.js *.js",
     "test": "jest"
   },
   "repository": {
