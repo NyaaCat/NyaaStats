@@ -24,10 +24,6 @@ interface NSConfig {
   api: {
     ratelimit: number
   }
-
-  // Runtime extension
-  /** @deprecated */
-  BASEPATH: string
 }
 
 interface NSPlayerStatsJson {

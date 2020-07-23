@@ -10,36 +10,66 @@ import NBT from 'mcnbt'
 import {defaultSkin, delay, download, mergeStats, writeJSON} from './helper'
 import * as logger from './logger'
 
+interface Config extends NSConfig {
+  __filename: string
+  __dirname: string
+
+  resolve (filepath: string): string
+
+  get<T> (keyPath: string | string[]): T
+}
+
+let config: Config
+
+export function loadConfig (configPath = './config.yml'): Config {
+  const filename = path.resolve(configPath)
+
+  if (config?.__filename === filename) {
+    return config
+  }
+
+  let _config: NSConfig
+  try {
+    // TODO: `.yaml` support
+    _config = yaml.safeLoad(fs.readFileSync(configPath, 'utf-8')) as NSConfig
+  } catch (err) /* istanbul ignore next */ {
+    logger.Config.error('Error occurred while reading config')
+    logger.Config.error(err)
+    process.exit(1)
+  }
+
+  const dirname = path.parse(filename).dir
+  config = Object.assign(_config, {
+    __filename: filename,
+    __dirname: dirname,
+    resolve (filepath: string): string {
+      return path.resolve(dirname, filepath)
+    },
+    get<T = unknown> (keyPath: string | string[]): T {
+      if (typeof keyPath === 'string') {
+        keyPath = keyPath.split('.')
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // FIXME: Better typing
+      return keyPath.reduce((value, key) => value[key], config)
+    },
+  })
+  return config
+}
+
 export default class Utils {
-  config: NSConfig
   apiLimited: boolean
 
   constructor () {
-    this.config = Utils.loadConfig()
     this.apiLimited = false
-  }
-
-  getConfig (): NSConfig {
-    return this.config
-  }
-
-  static loadConfig (): NSConfig {
-    let config
-    try {
-      config = yaml.safeLoad(fs.readFileSync('./config.yml', 'utf8')) as NSConfig
-    } catch (e) {
-      logger.Config.error(e)
-      process.exit(1)
-    }
-    config.BASEPATH = path.parse(path.resolve('./config.yml')).dir
-    return config
   }
 
   getWorldTime (): Promise<number> {
     const nbt = new NBT()
     return new Promise((resolve, reject) => {
       nbt.loadFromZlibCompressedFile(
-        path.join(this.config.render.level),
+        path.join(config.get('render.level') as string),
         (err) => {
           if (err) return reject(err)
           return resolve(Number(BigInt(nbt.select('').select('Data').select('Time').getValue())) / 20)
@@ -51,7 +81,7 @@ export default class Utils {
   getAllPlayers (): LongUuid[] {
     const uuids: LongUuid[] = []
     const r = new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-    fs.readdirSync(path.join(this.config.render.playerdata)).forEach((f) => {
+    fs.readdirSync(path.join(config.get('render.playerdata') as string)).forEach((f) => {
       const uuid = path.basename(f, '.dat')
       // filter out old player usernames.
       if (r.test(uuid)) {
@@ -63,8 +93,7 @@ export default class Utils {
 
   getWhitelistedPlayers (): LongUuid[] {
     const uuids: LongUuid[] = []
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    JSON.parse(fs.readFileSync(this.config.render.whitelist!, 'utf8')).forEach((p: McWhitelistRecord) => {
+    JSON.parse(fs.readFileSync(config.get('render.whitelist') as string, 'utf8')).forEach((p: McWhitelistRecord) => {
       uuids.push(p.uuid)
     })
     return uuids
@@ -72,8 +101,7 @@ export default class Utils {
 
   getBannedPlayers (): LongUuid[] {
     const banlist: LongUuid[] = []
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const banned = JSON.parse(fs.readFileSync(path.join(this.config.render['banned-players']!), 'utf8')) as McBannedPlayersJson
+    const banned = JSON.parse(fs.readFileSync(path.join(config.get('render.banned-players') as string), 'utf8')) as McBannedPlayersJson
     banned.forEach((ban) => {
       banlist.push(ban.uuid)
     })
@@ -82,8 +110,8 @@ export default class Utils {
 
   getPlayerState (uuid: LongUuid): Promise<{merged: McPlayerStatsJson, source: McPlayerStatsJson}> {
     return new Promise((resolve, reject) => {
-      if (!this.config.render.stats) return reject()
-      const statsfile = path.join(this.config.render.stats, `${uuid}.json`)
+      if (!config.get('render.stats')) return reject()
+      const statsfile = path.join(config.get('render.stats') as string, `${uuid}.json`)
       let data: string | McPlayerStatsJson
       try {
         data = fs.readFileSync(statsfile, 'utf-8') as string
@@ -103,8 +131,8 @@ export default class Utils {
   getPlayerAdvancements (uuid: LongUuid): Promise<McPlayerAdvancementsJson> {
     return new Promise((resolve, reject) => {
       // compatible to 1.11
-      if (!this.config.render.advancements) return reject()
-      const advancementsfile = path.join(this.config.render.advancements, `${uuid}.json`)
+      if (!config.get('render.advancements')) return reject()
+      const advancementsfile = path.join(config.get('render.advancements') as string, `${uuid}.json`)
 
       let data: string
       try {
@@ -119,7 +147,7 @@ export default class Utils {
   }
 
   getPlayerData (uuid: LongUuid): Promise<NSPlayerInfoData> {
-    const datafile = path.join(this.config.render.playerdata, `${uuid}.dat`)
+    const datafile = path.join(config.get('render.playerdata') as string, `${uuid}.dat`)
     return new Promise((resolve, reject) => {
       const nbt = new NBT()
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
@@ -203,7 +231,7 @@ export default class Utils {
   }
 
   async getMojangAPI <T> (apiPath: string): Promise<T> {
-    if (this.config.api.ratelimit && this.apiLimited) {
+    if (config.get('api.ratelimit') && this.apiLimited) {
       await delay(10)
       return this.getMojangAPI(apiPath)
     }
@@ -218,13 +246,13 @@ export default class Utils {
       logger.MojangAPI.error('REQUEST', apiPath, err.toJSON())
       setTimeout(() => {
         this.apiLimited = false
-      }, this.config.api.ratelimit * 3000)
+      }, config.get('api.ratelimit') as number * 3000)
       throw new Error(err.toJSON())
     }
 
     setTimeout(() => {
       this.apiLimited = false
-    }, this.config.api.ratelimit * 1000)
+    }, config.get('api.ratelimit') as number * 1000)
 
     return body
   }
@@ -236,9 +264,9 @@ export default class Utils {
       throw new Error(error)
     }
 
-    const apiPrefixAvatar = `${this.config.render.crafatar}/avatars/`
-    const apiPrefixBody = `${this.config.render.crafatar}/renders/body/`
-    const apiPrefixSkin = `${this.config.render.crafatar}/skins/`
+    const apiPrefixAvatar = `${config.get('render.crafatar')}/avatars/`
+    const apiPrefixBody = `${config.get('render.crafatar')}/renders/body/`
+    const apiPrefixSkin = `${config.get('render.crafatar')}/skins/`
 
     const slim = `&default=MHF_${defaultSkin(uuid)}`
 
@@ -257,7 +285,7 @@ export default class Utils {
   }
 
   async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
-    const playerpath = path.join(this.config.render.output, uuid.replace(/-/g, ''))
+    const playerpath = path.join(config.get('render.output') as string, uuid.replace(/-/g, ''))
     let data
     try {
       if (fs.existsSync(path.join(playerpath, 'stats.json'))) {

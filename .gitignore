@@ -2,7 +2,7 @@
 node_modules
 dist
 test
-config.yml
+/config.yml
 
 # local env files
 .env.local
