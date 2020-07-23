@@ -37,7 +37,7 @@ export function mergeStats (data: McPlayerStatsJson): McPlayerStatsJson {
   return data
 }
 
-export function defaultSkin (uuid: LongUuid): string {
+export function defaultSkin (uuid: LongUuid): 'Alex' | 'Steve' {
   // great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
   // https://git.io/xJpV
   // MC uses `uuid.hashCode() & 1` for alex

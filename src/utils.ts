@@ -23,7 +23,7 @@ export default class Utils {
     const nbt = new NBT()
     return new Promise((resolve, reject) => {
       nbt.loadFromZlibCompressedFile(
-        path.join(config.get('render.level') as string),
+        path.join(config.get<string>('render.level')),
         (err) => {
           if (err) return reject(err)
           return resolve(Number(BigInt(nbt.select('').select('Data').select('Time').getValue())) / 20)
@@ -35,7 +35,7 @@ export default class Utils {
   getAllPlayers (): LongUuid[] {
     const uuids: LongUuid[] = []
     const r = new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-    fs.readdirSync(path.join(config.get('render.playerdata') as string)).forEach((f) => {
+    fs.readdirSync(path.join(config.get<string>('render.playerdata'))).forEach((f) => {
       const uuid = path.basename(f, '.dat')
       // filter out old player usernames.
       if (r.test(uuid)) {
@@ -47,7 +47,7 @@ export default class Utils {
 
   getWhitelistedPlayers (): LongUuid[] {
     const uuids: LongUuid[] = []
-    JSON.parse(fs.readFileSync(config.get('render.whitelist') as string, 'utf8')).forEach((p: McWhitelistRecord) => {
+    JSON.parse(fs.readFileSync(config.get<string>('render.whitelist'), 'utf8')).forEach((p: McWhitelistRecord) => {
       uuids.push(p.uuid)
     })
     return uuids
@@ -55,7 +55,7 @@ export default class Utils {
 
   getBannedPlayers (): LongUuid[] {
     const banlist: LongUuid[] = []
-    const banned = JSON.parse(fs.readFileSync(path.join(config.get('render.banned-players') as string), 'utf8')) as McBannedPlayersJson
+    const banned = JSON.parse(fs.readFileSync(path.join(config.get<string>('render.banned-players')), 'utf8')) as McBannedPlayersJson
     banned.forEach((ban) => {
       banlist.push(ban.uuid)
     })
@@ -65,7 +65,7 @@ export default class Utils {
   getPlayerState (uuid: LongUuid): Promise<{merged: McPlayerStatsJson, source: McPlayerStatsJson}> {
     return new Promise((resolve, reject) => {
       if (!config.get('render.stats')) return reject()
-      const statsfile = path.join(config.get('render.stats') as string, `${uuid}.json`)
+      const statsfile = path.join(config.get<string>('render.stats'), `${uuid}.json`)
       let data: string | McPlayerStatsJson
       try {
         data = fs.readFileSync(statsfile, 'utf-8') as string
@@ -86,7 +86,7 @@ export default class Utils {
     return new Promise((resolve, reject) => {
       // compatible to 1.11
       if (!config.get('render.advancements')) return reject()
-      const advancementsfile = path.join(config.get('render.advancements') as string, `${uuid}.json`)
+      const advancementsfile = path.join(config.get<string>('render.advancements'), `${uuid}.json`)
 
       let data: string
       try {
@@ -101,7 +101,7 @@ export default class Utils {
   }
 
   getPlayerData (uuid: LongUuid): Promise<NSPlayerInfoData> {
-    const datafile = path.join(config.get('render.playerdata') as string, `${uuid}.dat`)
+    const datafile = path.join(config.get<string>('render.playerdata'), `${uuid}.dat`)
     return new Promise((resolve, reject) => {
       const nbt = new NBT()
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
@@ -200,13 +200,13 @@ export default class Utils {
       logger.MojangAPI.error('REQUEST', apiPath, err.toJSON())
       setTimeout(() => {
         this.apiLimited = false
-      }, config.get('api.ratelimit') as number * 3000)
+      }, config.get<number>('api.ratelimit') * 3000)
       throw new Error(err.toJSON())
     }
 
     setTimeout(() => {
       this.apiLimited = false
-    }, config.get('api.ratelimit') as number * 1000)
+    }, config.get<number>('api.ratelimit') * 1000)
 
     return body
   }
@@ -239,7 +239,7 @@ export default class Utils {
   }
 
   async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
-    const playerpath = path.join(config.get('render.output') as string, uuid.replace(/-/g, ''))
+    const playerpath = path.join(config.get<string>('render.output'), uuid.replace(/-/g, ''))
     let data
     try {
       if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
