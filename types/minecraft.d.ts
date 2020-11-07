@@ -23,9 +23,9 @@ interface McBannedPlayerRecord {
 
 type McBannedPlayersJson = McBannedPlayerRecord[]
 
-type McPlayerStatsJson = any // FIXME: implement it
+type McPlayerStatsJson = Json // FIXME: implement it
 
-type McPlayerAdvancementsJson = any // FIXME: implement it
+type McPlayerAdvancementsJson = Json // FIXME: implement it
 
 interface McNameHistoryRecord {
   name: string

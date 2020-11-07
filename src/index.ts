@@ -60,7 +60,7 @@ void async function main () {
       try {
         data = await utils.createPlayerData(uuid, banned)
       } catch (error) {
-        logger.Default.error(`Failed to create player data for ${uuid}`)
+        logger.Default.error(`Failed to create player data for ${uuid}`, JSON.stringify(error))
         continue
       }
       players.push({

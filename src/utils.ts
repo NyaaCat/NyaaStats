@@ -69,16 +69,16 @@ export default class Utils {
       let data: string | McPlayerStatsJson
       try {
         data = fs.readFileSync(statsfile, 'utf-8') as string
+        logger.PlayerData.info('READ', statsfile)
+        data = JSON.parse(data) as McPlayerStatsJson
+        return resolve({
+          merged: mergeStats(data),
+          source: data,
+        })
       } catch (error) {
-        logger.PlayerData.warn('READ', statsfile, error)
-        return reject()
+        logger.PlayerData.warn('READ', statsfile, JSON.stringify(error))
+        return resolve({merged: {}, source: {}})
       }
-      logger.PlayerData.info('READ', statsfile)
-      data = JSON.parse(data) as McPlayerStatsJson
-      return resolve({
-        merged: mergeStats(data),
-        source: data,
-      })
     })
   }
 
@@ -91,12 +91,12 @@ export default class Utils {
       let data: string
       try {
         data = fs.readFileSync(advancementsfile, 'utf-8') as string
+        logger.PlayerData.info('READ', advancementsfile)
+        return resolve(JSON.parse(data))
       } catch (error) {
-        logger.PlayerData.warn('READ', advancementsfile, error)
-        return reject()
+        logger.PlayerData.warn('READ', advancementsfile, JSON.stringify(error))
+        return resolve({})
       }
-      logger.PlayerData.info('READ', advancementsfile)
-      return resolve(JSON.parse(data))
     })
   }
 
