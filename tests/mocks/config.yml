@@ -1,0 +1,3 @@
+render:
+  server-dir: /opt/minecraft
+  render-banned: true

@@ -1,7 +1,16 @@
-const Gauge = require('gauge')
+import Timeout = NodeJS.Timeout
 
-module.exports = class ProgressBar {
-  constructor (total) {
+import Gauge from 'gauge'
+
+export default class ProgressBar {
+  gauge: Gauge
+  total: number
+  completed: number
+  startTime: number
+  pulse: string
+  timer?: Timeout
+
+  constructor (total: number) {
     this.gauge = new Gauge()
     this.total = total
     this.completed = 0
@@ -9,7 +18,7 @@ module.exports = class ProgressBar {
     this.pulse = ''
   }
 
-  tick (text) {
+  tick (text: string): void {
     this.completed += 1
     this.gauge.show(text, this.completed / this.total)
     const now = (new Date()).valueOf()
@@ -18,7 +27,7 @@ module.exports = class ProgressBar {
     this.pulse = `${this.completed}/${this.total} ${time}s left`
   }
 
-  start () {
+  start (): void {
     this.gauge.show()
     this.timer = setInterval(() => {
       this.gauge.pulse(this.pulse)
@@ -26,8 +35,8 @@ module.exports = class ProgressBar {
     this.startTime = (new Date()).valueOf()
   }
 
-  stop () {
-    clearInterval(this.timer)
+  stop (): void {
+    this.timer && clearInterval(this.timer)
     this.gauge.hide()
   }
 }

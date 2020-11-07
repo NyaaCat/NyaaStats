@@ -99,6 +99,12 @@
     "title": "advancements.adventure.arbalistic.title",
     "description": "advancements.adventure.arbalistic.description"
   },
+  "minecraft:adventure/bullseye": {
+    "type": "challenge",
+    "icon": "minecraft:target",
+    "title": "advancements.adventure.bullseye.title",
+    "description": "advancements.adventure.bullseye.description"
+  },
   "minecraft:adventure/hero_of_the_village": {
     "type": "challenge",
     "icon": "minecraft:white_banner",
@@ -123,58 +129,76 @@
     "title": "advancements.adventure.kill_all_mobs.title",
     "description": "advancements.adventure.kill_all_mobs.description",
     "requirements": [
-      "minecraft:cave_spider",
-      "minecraft:spider",
-      "minecraft:zombie_pigman",
-      "minecraft:enderman",
       "minecraft:blaze",
+      "minecraft:cave_spider",
       "minecraft:creeper",
+      "minecraft:drowned",
+      "minecraft:elder_guardian",
+      "minecraft:ender_dragon",
+      "minecraft:enderman",
+      "minecraft:endermite",
       "minecraft:evoker",
       "minecraft:ghast",
       "minecraft:guardian",
+      "minecraft:hoglin",
       "minecraft:husk",
       "minecraft:magma_cube",
+      "minecraft:phantom",
+      "minecraft:piglin",
+      "minecraft:piglin_brute",
+      "minecraft:pillager",
+      "minecraft:ravager",
       "minecraft:shulker",
       "minecraft:silverfish",
       "minecraft:skeleton",
       "minecraft:slime",
+      "minecraft:spider",
       "minecraft:stray",
+      "minecraft:vex",
       "minecraft:vindicator",
       "minecraft:witch",
       "minecraft:wither_skeleton",
-      "minecraft:zombie",
+      "minecraft:wither",
+      "minecraft:zoglin",
       "minecraft:zombie_villager",
-      "minecraft:phantom",
-      "minecraft:drowned",
-      "minecraft:pillager",
-      "minecraft:ravager"
+      "minecraft:zombie",
+      "minecraft:zombified_piglin"
     ],
     "requirement_names": {
-      "minecraft:cave_spider": "entity.minecraft.cave_spider",
-      "minecraft:spider": "entity.minecraft.spider",
-      "minecraft:zombie_pigman": "entity.minecraft.zombie_pigman",
-      "minecraft:enderman": "entity.minecraft.enderman",
       "minecraft:blaze": "entity.minecraft.blaze",
+      "minecraft:cave_spider": "entity.minecraft.cave_spider",
       "minecraft:creeper": "entity.minecraft.creeper",
+      "minecraft:drowned": "entity.minecraft.drowned",
+      "minecraft:elder_guardian": "entity.minecraft.elder_guardian",
+      "minecraft:ender_dragon": "entity.minecraft.ender_dragon",
+      "minecraft:enderman": "entity.minecraft.enderman",
+      "minecraft:endermite": "entity.minecraft.endermite",
       "minecraft:evoker": "entity.minecraft.evoker",
       "minecraft:ghast": "entity.minecraft.ghast",
       "minecraft:guardian": "entity.minecraft.guardian",
+      "minecraft:hoglin": "entity.minecraft.hoglin",
       "minecraft:husk": "entity.minecraft.husk",
       "minecraft:magma_cube": "entity.minecraft.magma_cube",
+      "minecraft:phantom": "entity.minecraft.phantom",
+      "minecraft:piglin": "entity.minecraft.piglin",
+      "minecraft:piglin_brute": "entity.minecraft.piglin_brute",
+      "minecraft:pillager": "entity.minecraft.pillager",
+      "minecraft:ravager": "entity.minecraft.ravager",
       "minecraft:shulker": "entity.minecraft.shulker",
       "minecraft:silverfish": "entity.minecraft.silverfish",
       "minecraft:skeleton": "entity.minecraft.skeleton",
       "minecraft:slime": "entity.minecraft.slime",
+      "minecraft:spider": "entity.minecraft.spider",
       "minecraft:stray": "entity.minecraft.stray",
+      "minecraft:vex": "entity.minecraft.vex",
       "minecraft:vindicator": "entity.minecraft.vindicator",
       "minecraft:witch": "entity.minecraft.witch",
       "minecraft:wither_skeleton": "entity.minecraft.wither_skeleton",
-      "minecraft:zombie": "entity.minecraft.zombie",
+      "minecraft:wither": "entity.minecraft.wither",
+      "minecraft:zoglin": "entity.minecraft.zoglin",
       "minecraft:zombie_villager": "entity.minecraft.zombie_villager",
-      "minecraft:phantom": "entity.minecraft.phantom",
-      "minecraft:drowned": "entity.minecraft.drowned",
-      "minecraft:pillager": "entity.minecraft.pillager",
-      "minecraft:ravager": "entity.minecraft.ravager"
+      "minecraft:zombie": "entity.minecraft.zombie",
+      "minecraft:zombified_piglin": "entity.minecraft.zombified_piglin"
     }
   },
   "minecraft:adventure/ol_betsy": {
@@ -397,12 +421,6 @@
       "honey_bottle": "item.minecraft.honey_bottle"
     }
   },
-  "minecraft:husbandry/break_diamond_hoe": {
-    "type": "challenge",
-    "icon": "minecraft:diamond_hoe",
-    "title": "advancements.husbandry.break_diamond_hoe.title",
-    "description": "advancements.husbandry.break_diamond_hoe.description"
-  },
   "minecraft:husbandry/bred_all_animals": {
     "type": "challenge",
     "icon": "minecraft:golden_carrot",
@@ -410,6 +428,8 @@
     "description": "advancements.husbandry.bred_all_animals.description",
     "requirements": [
       "minecraft:horse",
+      "minecraft:donkey",
+      "minecraft:mule",
       "minecraft:sheep",
       "minecraft:cow",
       "minecraft:mooshroom",
@@ -419,14 +439,18 @@
       "minecraft:ocelot",
       "minecraft:rabbit",
       "minecraft:llama",
-      "minecraft:turtle",
       "minecraft:cat",
       "minecraft:panda",
       "minecraft:fox",
-      "minecraft:bee"
+      "minecraft:bee",
+      "minecraft:hoglin",
+      "minecraft:strider",
+      "minecraft:turtle"
     ],
     "requirement_names": {
       "minecraft:horse": "entity.minecraft.horse",
+      "minecraft:donkey": "entity.minecraft.donkey",
+      "minecraft:mule": "entity.minecraft.mule",
       "minecraft:sheep": "entity.minecraft.sheep",
       "minecraft:cow": "entity.minecraft.cow",
       "minecraft:mooshroom": "entity.minecraft.mooshroom",
@@ -436,11 +460,13 @@
       "minecraft:ocelot": "entity.minecraft.ocelot",
       "minecraft:rabbit": "entity.minecraft.rabbit",
       "minecraft:llama": "entity.minecraft.llama",
-      "minecraft:turtle": "entity.minecraft.turtle",
       "minecraft:cat": "entity.minecraft.cat",
       "minecraft:panda": "entity.minecraft.panda",
       "minecraft:fox": "entity.minecraft.fox",
-      "minecraft:bee": "entity.minecraft.bee"
+      "minecraft:bee": "entity.minecraft.bee",
+      "minecraft:hoglin": "entity.minecraft.hoglin",
+      "minecraft:strider": "entity.minecraft.strider",
+      "minecraft:turtle": "entity.minecraft.turtle"
     }
   },
   "minecraft:husbandry/breed_an_animal": {
@@ -486,6 +512,12 @@
     "icon": "minecraft:fishing_rod",
     "title": "advancements.husbandry.fishy_business.title",
     "description": "advancements.husbandry.fishy_business.description"
+  },
+  "minecraft:husbandry/obtain_netherite_hoe": {
+    "type": "challenge",
+    "icon": "minecraft:netherite_hoe",
+    "title": "advancements.husbandry.netherite_hoe.title",
+    "description": "advancements.husbandry.netherite_hoe.description"
   },
   "minecraft:husbandry/plant_seed": {
     "type": "task",
@@ -541,6 +573,12 @@
     "title": "advancements.nether.brew_potion.title",
     "description": "advancements.nether.brew_potion.description"
   },
+  "minecraft:nether/charge_respawn_anchor": {
+    "type": "task",
+    "icon": "minecraft:respawn_anchor",
+    "title": "advancements.nether.charge_respawn_anchor.title",
+    "description": "advancements.nether.charge_respawn_anchor.description"
+  },
   "minecraft:nether/create_beacon": {
     "type": "task",
     "icon": "minecraft:beacon",
@@ -553,11 +591,43 @@
     "title": "advancements.nether.create_full_beacon.title",
     "description": "advancements.nether.create_full_beacon.description"
   },
+  "minecraft:nether/distract_piglin": {
+    "type": "task",
+    "icon": "minecraft:gold_ingot",
+    "title": "advancements.nether.distract_piglin.title",
+    "description": "advancements.nether.distract_piglin.description"
+  },
+  "minecraft:nether/explore_nether": {
+    "type": "challenge",
+    "icon": "minecraft:netherite_boots",
+    "title": "advancements.nether.explore_nether.title",
+    "description": "advancements.nether.explore_nether.description",
+    "requirements": [
+      "minecraft:nether_wastes",
+      "minecraft:soul_sand_valley",
+      "minecraft:warped_forest",
+      "minecraft:crimson_forest",
+      "minecraft:basalt_deltas"
+    ],
+    "requirement_names": {
+      "minecraft:nether_wastes": "biome.minecraft.nether_wastes",
+      "minecraft:soul_sand_valley": "biome.minecraft.soul_sand_valley",
+      "minecraft:warped_forest": "biome.minecraft.warped_forest",
+      "minecraft:crimson_forest": "biome.minecraft.crimson_forest",
+      "minecraft:basalt_deltas": "biome.minecraft.basalt_deltas"
+    }
+  },
   "minecraft:nether/fast_travel": {
     "type": "challenge",
     "icon": "minecraft:map",
     "title": "advancements.nether.fast_travel.title",
     "description": "advancements.nether.fast_travel.description"
+  },
+  "minecraft:nether/find_bastion": {
+    "type": "task",
+    "icon": "minecraft:polished_blackstone_bricks",
+    "title": "advancements.nether.find_bastion.title",
+    "description": "advancements.nether.find_bastion.description"
   },
   "minecraft:nether/find_fortress": {
     "type": "task",
@@ -571,17 +641,47 @@
     "title": "advancements.nether.get_wither_skull.title",
     "description": "advancements.nether.get_wither_skull.description"
   },
+  "minecraft:nether/loot_bastion": {
+    "type": "task",
+    "icon": "minecraft:chest",
+    "title": "advancements.nether.loot_bastion.title",
+    "description": "advancements.nether.loot_bastion.description"
+  },
+  "minecraft:nether/netherite_armor": {
+    "type": "challenge",
+    "icon": "minecraft:netherite_chestplate",
+    "title": "advancements.nether.netherite_armor.title",
+    "description": "advancements.nether.netherite_armor.description"
+  },
+  "minecraft:nether/obtain_ancient_debris": {
+    "type": "task",
+    "icon": "minecraft:ancient_debris",
+    "title": "advancements.nether.obtain_ancient_debris.title",
+    "description": "advancements.nether.obtain_ancient_debris.description"
+  },
   "minecraft:nether/obtain_blaze_rod": {
     "type": "task",
     "icon": "minecraft:blaze_rod",
     "title": "advancements.nether.obtain_blaze_rod.title",
     "description": "advancements.nether.obtain_blaze_rod.description"
   },
+  "minecraft:nether/obtain_crying_obsidian": {
+    "type": "task",
+    "icon": "minecraft:crying_obsidian",
+    "title": "advancements.nether.obtain_crying_obsidian.title",
+    "description": "advancements.nether.obtain_crying_obsidian.description"
+  },
   "minecraft:nether/return_to_sender": {
     "type": "challenge",
     "icon": "minecraft:fire_charge",
     "title": "advancements.nether.return_to_sender.title",
     "description": "advancements.nether.return_to_sender.description"
+  },
+  "minecraft:nether/ride_strider": {
+    "type": "task",
+    "icon": "minecraft:warped_fungus_on_a_stick",
+    "title": "advancements.nether.ride_strider.title",
+    "description": "advancements.nether.ride_strider.description"
   },
   "minecraft:nether/root": {
     "type": "task",
@@ -600,6 +700,12 @@
     "icon": "minecraft:ghast_tear",
     "title": "advancements.nether.uneasy_alliance.title",
     "description": "advancements.nether.uneasy_alliance.description"
+  },
+  "minecraft:nether/use_lodestone": {
+    "type": "task",
+    "icon": "minecraft:lodestone",
+    "title": "advancements.nether.use_lodestone.title",
+    "description": "advancements.nether.use_lodestone.description"
   },
   "minecraft:story/cure_zombie_villager": {
     "type": "goal",

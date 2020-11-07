@@ -1,12 +1,22 @@
 /* eslint-disable */
 export const root = require('./root.png');
 export const return_to_sender = require('./return_to_sender.png');
+export const find_bastion = require('./find_bastion.png');
+export const obtain_ancient_debris = require('./obtain_ancient_debris.png');
 export const fast_travel = require('./fast_travel.png');
 export const find_fortress = require('./find_fortress.png');
+export const obtain_crying_obsidian = require('./obtain_crying_obsidian.png');
+export const distract_piglin = require('./distract_piglin.png');
+export const ride_strider = require('./ride_strider.png');
 export const uneasy_alliance = require('./uneasy_alliance.png');
+export const loot_bastion = require('./loot_bastion.png');
+export const use_lodestone = require('./use_lodestone.png');
+export const netherite_armor = require('./netherite_armor.png');
 export const get_wither_skull = require('./get_wither_skull.png');
 export const obtain_blaze_rod = require('./obtain_blaze_rod.png');
-export const summon_wither = require('./summon_wither.png');
+export const charge_respawn_anchor = require('./charge_respawn_anchor.png');
+export const explore_nether = require('./explore_nether.png');
+export const summon_wither = require('./summon_wither.gif');
 export const brew_potion = require('./brew_potion.png');
 export const create_beacon = require('./create_beacon.png');
 export const all_potions = require('./all_potions.png');

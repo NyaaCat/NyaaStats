@@ -1,52 +1,41 @@
-const axios = require('axios')
-const bignum = require('bignum')
-const NBT = require('mcnbt')
-const path = require('path')
-const yaml = require('js-yaml')
-const fs = require('fs-extra')
+/// <reference types="../types/minecraft" />
+/// <reference types="../types/nyaa-stats" />
 
-const {writeJSON, mergeStats, defaultSkin, download, delay} = require('./helper')
-const logger = require('./logger')
+import fs from 'fs-extra'
+import path from 'path'
+import axios from 'axios'
+import NBT from 'mcnbt'
 
-module.exports = class Utils {
+import loadConfig from './config'
+import {defaultSkin, delay, download, mergeStats, writeJSON} from './helper'
+import * as logger from './logger'
+
+const config = loadConfig()
+
+export default class Utils {
+  apiLimited: boolean
+
   constructor () {
-    this.config = Utils.loadConfig()
     this.apiLimited = false
   }
 
-  getConfig () {
-    return this.config
-  }
-
-  static loadConfig () {
-    let config
-    try {
-      config = yaml.safeLoad(fs.readFileSync('./config.yml'), 'utf8')
-    } catch (e) {
-      logger.Config.error(e)
-      process.exit(1)
-    }
-    config.BASEPATH = path.parse(path.resolve('./config.yml')).dir
-    return config
-  }
-
-  getWorldTime () {
+  getWorldTime (): Promise<number> {
     const nbt = new NBT()
     return new Promise((resolve, reject) => {
       nbt.loadFromZlibCompressedFile(
-        path.join(this.config.render.level),
+        path.join(config.get<string>('render.level')),
         (err) => {
           if (err) return reject(err)
-          return resolve(bignum(nbt.select('').select('Data').select('Time').getValue()).toNumber() / 20)
+          return resolve(Number(BigInt(nbt.select('').select('Data').select('Time').getValue())) / 20)
         },
       )
     })
   }
 
-  getAllPlayers () {
-    const uuids = []
+  getAllPlayers (): LongUuid[] {
+    const uuids: LongUuid[] = []
     const r = new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-    fs.readdirSync(path.join(this.config.render.playerdata)).forEach((f) => {
+    fs.readdirSync(path.join(config.get<string>('render.playerdata'))).forEach((f) => {
       const uuid = path.basename(f, '.dat')
       // filter out old player usernames.
       if (r.test(uuid)) {
@@ -56,63 +45,63 @@ module.exports = class Utils {
     return uuids
   }
 
-  getWhitelistedPlayers () {
-    const uuids = []
-    JSON.parse(fs.readFileSync(this.config.render.whitelist, 'utf8')).forEach((p) => {
+  getWhitelistedPlayers (): LongUuid[] {
+    const uuids: LongUuid[] = []
+    JSON.parse(fs.readFileSync(config.get<string>('render.whitelist'), 'utf8')).forEach((p: McWhitelistRecord) => {
       uuids.push(p.uuid)
     })
     return uuids
   }
 
-  getBannedPlayers () {
-    const banlist = []
-    const banned = JSON.parse(fs.readFileSync(path.join(this.config.render['banned-players']), 'utf8'))
+  getBannedPlayers (): LongUuid[] {
+    const banlist: LongUuid[] = []
+    const banned = JSON.parse(fs.readFileSync(path.join(config.get<string>('render.banned-players')), 'utf8')) as McBannedPlayersJson
     banned.forEach((ban) => {
       banlist.push(ban.uuid)
     })
     return banlist
   }
 
-  getPlayerState (uuid) {
+  getPlayerState (uuid: LongUuid): Promise<{merged: McPlayerStatsJson, source: McPlayerStatsJson}> {
     return new Promise((resolve, reject) => {
-      if (!this.config.render.stats) return reject()
-      const statsfile = path.join(this.config.render.stats, `${uuid}.json`)
-      let data
+      if (!config.get('render.stats')) return reject()
+      const statsfile = path.join(config.get<string>('render.stats'), `${uuid}.json`)
+      let data: string | McPlayerStatsJson
       try {
-        data = fs.readFileSync(statsfile)
+        data = fs.readFileSync(statsfile, 'utf-8') as string
+        logger.PlayerData.info('READ', statsfile)
+        data = JSON.parse(data) as McPlayerStatsJson
+        return resolve({
+          merged: mergeStats(data),
+          source: data,
+        })
       } catch (error) {
-        logger.PlayerData.warn('READ', statsfile, error)
-        return reject()
+        logger.PlayerData.warn('READ', statsfile, JSON.stringify(error))
+        return resolve({merged: {}, source: {}})
       }
-      logger.PlayerData.info('READ', statsfile)
-      data = JSON.parse(data)
-      return resolve({
-        merged: mergeStats(data),
-        source: data,
-      })
     })
   }
 
-  getPlayerAdvancements (uuid) {
+  getPlayerAdvancements (uuid: LongUuid): Promise<McPlayerAdvancementsJson> {
     return new Promise((resolve, reject) => {
       // compatible to 1.11
-      if (!this.config.render.advancements) return reject()
-      const advancementsfile = path.join(this.config.render.advancements, `${uuid}.json`)
+      if (!config.get('render.advancements')) return reject()
+      const advancementsfile = path.join(config.get<string>('render.advancements'), `${uuid}.json`)
 
-      let data
+      let data: string
       try {
-        data = fs.readFileSync(advancementsfile)
+        data = fs.readFileSync(advancementsfile, 'utf-8') as string
+        logger.PlayerData.info('READ', advancementsfile)
+        return resolve(JSON.parse(data))
       } catch (error) {
-        logger.PlayerData.warn('READ', advancementsfile, error)
-        return reject()
+        logger.PlayerData.warn('READ', advancementsfile, JSON.stringify(error))
+        return resolve({})
       }
-      logger.PlayerData.info('READ', advancementsfile)
-      return resolve(JSON.parse(data))
     })
   }
 
-  getPlayerData (uuid) {
-    const datafile = path.join(this.config.render.playerdata, `${uuid}.dat`)
+  getPlayerData (uuid: LongUuid): Promise<NSPlayerInfoData> {
+    const datafile = path.join(config.get<string>('render.playerdata'), `${uuid}.dat`)
     return new Promise((resolve, reject) => {
       const nbt = new NBT()
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
@@ -129,13 +118,17 @@ module.exports = class Utils {
           return reject()
         }
         if (history && history[0]) {
-          let lived = ''
+          let lived: number | undefined
           if (nbt.select('').select('Spigot.ticksLived')) {
-            lived = nbt.select('').select('Spigot.ticksLived').getValue() / 20
+            lived = (nbt.select('').select('Spigot.ticksLived').getValue() as number) / 20
           }
-          const timeStart = bignum(nbt.select('').select('bukkit').select('firstPlayed').getValue()).toNumber()
-          const timeLast = bignum(nbt.select('').select('bukkit').select('lastPlayed').getValue()).toNumber()
-          const pdata = {
+          const timeStart = nbt.select('').select('bukkit')
+            ? Number(BigInt(nbt.select('').select('bukkit').select('firstPlayed').getValue()))
+            : undefined
+          const timeLast = nbt.select('').select('bukkit')
+            ? Number(BigInt(nbt.select('').select('bukkit').select('lastPlayed').getValue()))
+            : undefined
+          const pdata: NSPlayerInfoData = {
             seen: timeLast,
             time_start: timeStart,
             time_last: timeLast,
@@ -153,7 +146,7 @@ module.exports = class Utils {
     })
   }
 
-  async getPlayerTotalData (uuid) {
+  async getPlayerTotalData (uuid: LongUuid): Promise<NSPlayerStatsJson | null> {
     let s
     let stats
     let stats_source
@@ -176,11 +169,11 @@ module.exports = class Utils {
     }
   }
 
-  async getNameHistory (uuid) {
+  async getNameHistory (uuid: LongUuid): Promise<McNameHistory | null> {
     const apiNameHistory = `https://api.mojang.com/user/profiles/${uuid}/names`
     let history
     try {
-      history = await this.getMojangAPI(apiNameHistory)
+      history = await this.getMojangAPI<McNameHistory>(apiNameHistory)
     } catch (err) {
       return null
     }
@@ -191,8 +184,8 @@ module.exports = class Utils {
     return history
   }
 
-  async getMojangAPI (apiPath) {
-    if (this.config.api.ratelimit && this.apiLimited) {
+  async getMojangAPI <T> (apiPath: string): Promise<T> {
+    if (config.get('api.ratelimit') && this.apiLimited) {
       await delay(10)
       return this.getMojangAPI(apiPath)
     }
@@ -202,32 +195,32 @@ module.exports = class Utils {
     let body
     try {
       const res = await axios.get(apiPath, {timeout: 30000})
-      body  = res.data
+      body = res.data
     } catch (err) {
       logger.MojangAPI.error('REQUEST', apiPath, err.toJSON())
       setTimeout(() => {
         this.apiLimited = false
-      }, this.config.api.ratelimit * 3000)
+      }, config.get<number>('api.ratelimit') * 3000)
       throw new Error(err.toJSON())
     }
 
     setTimeout(() => {
       this.apiLimited = false
-    }, this.config.api.ratelimit * 1000)
+    }, config.get<number>('api.ratelimit') * 1000)
 
     return body
   }
 
-  async getPlayerAssets (uuid, playerpath) {
+  async getPlayerAssets (uuid: LongUuid, playerpath: string): Promise<void> {
     try {
       fs.ensureDirSync(playerpath)
     } catch (error) {
       throw new Error(error)
     }
 
-    const apiPrefixAvatar = `${this.config.render.crafatar}/avatars/`
-    const apiPrefixBody = `${this.config.render.crafatar}/renders/body/`
-    const apiPrefixSkin = `${this.config.render.crafatar}/skins/`
+    const apiPrefixAvatar = `${config.get('render.crafatar')}/avatars/`
+    const apiPrefixBody = `${config.get('render.crafatar')}/renders/body/`
+    const apiPrefixSkin = `${config.get('render.crafatar')}/skins/`
 
     const slim = `&default=MHF_${defaultSkin(uuid)}`
 
@@ -245,14 +238,14 @@ module.exports = class Utils {
     )
   }
 
-  async createPlayerData (uuid, banned = false) {
-    const playerpath = path.join(this.config.render.output, uuid.replace(/-/g, ''))
+  async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
+    const playerpath = path.join(config.get<string>('render.output'), uuid.replace(/-/g, ''))
     let data
     try {
       if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
-        data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json')))
+        data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json'), 'utf-8'))
       } else {
-        data = await this.getPlayerTotalData(uuid, banned)
+        data = await this.getPlayerTotalData(uuid)
       }
     } catch (error) {
       throw new Error(error)
@@ -269,7 +262,7 @@ module.exports = class Utils {
         ...data.data,
         banned,
       }
-      writeJSON(path.join(playerpath, 'stats.json'), data)
+      writeJSON(path.join(playerpath, 'stats.json'), data as never)
       return data
     }
     throw new Error()
