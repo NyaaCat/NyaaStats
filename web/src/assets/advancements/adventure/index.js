@@ -18,3 +18,4 @@ export const arbalistic = require('./arbalistic.png');
 export const adventuring_time = require('./adventuring_time.png');
 export const very_very_frightening = require('./very_very_frightening.png');
 export const sniper_duel = require('./sniper_duel.png');
+export const bullseye = require('./bullseye.png');
