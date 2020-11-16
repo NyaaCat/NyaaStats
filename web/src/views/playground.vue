@@ -1,7 +1,9 @@
 <template>
   <!-- eslint-disable -->
 
-  <div class="el flex-1 flex flex-col items-center">
+  <div class="flex-1 py-10 flex flex-col items-center space-y-10">
+    <rotating-cube size="64" />
+
     <button class="flex" @click="flag = !flag">
       <span class="min-w-6 leading-5 px-1 border-2 border-gray-500 rounded text-gray-600 font-mono inline-flex items-center justify-center" style="min-width: 24px;">/</span>
     </button>
@@ -16,13 +18,16 @@
   </div>
 </template>
 
-<script lang="jsx">
+<script>
   /* eslint-disable */
+
+  import RotatingCube from '@/components/rotating-cube.vue'
 
   export default {
     name: 'PlaygroundView',
 
     components: {
+      RotatingCube,
     },
 
     data () {
@@ -71,12 +76,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .el {
-    > * {
-      @apply mt-10;
-    }
-  }
-
   .grid {
     grid-template-columns: auto auto auto;
   }

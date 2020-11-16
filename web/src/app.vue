@@ -1,5 +1,18 @@
 <template>
   <div id="app" class="leading-none antialiased">
+    <transition
+      enter-class="scale-0"
+      leave-to-class="scale-0"
+      enter-active-class="transform transition duration-200 ease-in-out"
+      leave-active-class="transform transition duration-200 ease-in-out"
+    >
+      <RotatingCube
+        v-show="showingRotatingCube"
+        size="64"
+        class="fixed inset-0 z-50 m-auto rounded-full"
+        style="box-shadow: 0 0 100px 10px #000;"
+      />
+    </transition>
     <div class="min-h-screen bg-gray-200 flex flex-col relative">
       <Navbar class="flex-none relative z-10" />
       <!-- Network error alert -->
@@ -19,26 +32,37 @@
 
 <script>
   import Navbar from '@/components/navbar.vue'
-  import Footer from '@/components/footer'
+  import Footer from '@/components/footer.vue'
+  import RotatingCube from '@/components/rotating-cube.vue'
 
   export default {
-    name: 'App',
-
     components: {
       Navbar,
       Footer,
+      RotatingCube,
+    },
+
+    provide () {
+      return {
+        rotatingCube: this.rotatingCube,
+      }
     },
 
     data () {
       return {
+        showingRotatingCube: true,
         showNetworkErrorAlert: false,
       }
     },
 
     created () {
       // TODO: Error handling
-      this.$store.dispatch('fetchInfo')
-      this.$store.dispatch('fetchPlayers')
+      Promise.all([
+        this.$store.dispatch('fetchInfo'),
+        this.$store.dispatch('fetchPlayers'),
+      ]).then(() => {
+        this.showingRotatingCube = false
+      })
 
       if (process.env.NODE_ENV === 'development') {
         document.addEventListener('keyup', ev => {
@@ -47,6 +71,12 @@
           }
         })
       }
+    },
+
+    methods: {
+      rotatingCube (flag = true) {
+        this.showingRotatingCube = flag
+      },
     },
   }
 </script>

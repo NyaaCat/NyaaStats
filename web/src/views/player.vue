@@ -1,49 +1,42 @@
 <template>
   <div>
-    <!-- Loading indicator -->
-    <div v-if="!player" class="xl:w-page px-page py-10 xl:mx-auto text-center">
-      <span class="tracking-widest">LOADING</span>
-    </div>
+    <!-- Player name (page header) -->
+    <header class="xl:w-page xl:mx-auto px-page py-1.5 md:py-2 flex flex-wrap items-center">
+      <h1 class="py-1.5 md:py-2 text-2xl md:text-3xl xl:text-4xl font-black">{{ player.data.playername }}</h1>
+      <span v-if="player.data.banned" class="mx-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
+      <button v-if="randomPlayerMode" class="flex-none ml-auto py-1.5 md:py-2 text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player_again') }}</button>
+    </header>
 
-    <template v-else>
-      <!-- Player name (page header) -->
-      <header class="xl:w-page xl:mx-auto px-page py-1.5 md:py-2 flex flex-wrap items-center">
-        <h1 class="py-1.5 md:py-2 text-2xl md:text-3xl xl:text-4xl font-black">{{ player.data.playername }}</h1>
-        <span v-if="player.data.banned" class="mx-2 p-1 rounded bg-red-600 text-white text-sm md:text-base font-medium">BANNED</span>
-        <button v-if="randomPlayerMode" class="flex-none ml-auto py-1.5 md:py-2 text-blue-600" @click="goRandom">{{ t('nyaa.general.go_random_player_again') }}</button>
-      </header>
-
-      <div class="xl:w-page xl:mx-auto md:flex md:items-start">
-        <!-- Player info (aside) -->
-        <div class="md:flex-none px-page pb-5">
-          <!-- Player figure & membership info -->
-          <div class="bg-white rounded-md shadow overflow-hidden md:w-figure md:flex-none">
-            <player-skin-renderer :uuid="uuid" class="w-full h-figure" />
-            <dl>
-              <div
-                v-for="({label, value}, idx) of membership"
-                :key="idx"
-                class="p-3 border-t border-gray-300 flex items-center"
-              >
-                <dt class="text-gray-500 mr-3">{{ label }}</dt>
-                <dd class="ml-auto font-tnum">{{ value }}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <PlayerNameHistory :player="player" class="mt-5" />
-
-          <PlayerOreGraph :player="player" class="mt-5" />
+    <div class="xl:w-page xl:mx-auto md:flex md:items-start">
+      <!-- Player info (aside) -->
+      <div class="md:flex-none px-page pb-5">
+        <!-- Player figure & membership info -->
+        <div class="bg-white rounded-md shadow overflow-hidden md:w-figure md:flex-none">
+          <player-skin-renderer :uuid="uuid" class="w-full h-figure" />
+          <dl>
+            <div
+              v-for="({label, value}, idx) of membership"
+              :key="idx"
+              class="p-3 border-t border-gray-300 flex items-center"
+            >
+              <dt class="text-gray-500 mr-3">{{ label }}</dt>
+              <dd class="ml-auto font-tnum">{{ value }}</dd>
+            </div>
+          </dl>
         </div>
-        <!-- Main -->
-        <div class="flex-1 md:mr-5 xl:ml-5 xl:mr-0 -mb-5">
-          <!-- Advancements -->
-          <PlayerAdvancementPanel :player="player" class="mb-5" />
-          <!-- Statistics -->
-          <PlayerStatisticPanel :player="player" class="mb-5" />
-        </div>
+
+        <PlayerNameHistory :player="player" class="mt-5" />
+
+        <PlayerOreGraph :player="player" class="mt-5" />
       </div>
-    </template>
+      <!-- Main -->
+      <div class="flex-1 md:mr-5 xl:ml-5 xl:mr-0 -mb-5">
+        <!-- Advancements -->
+        <PlayerAdvancementPanel :player="player" class="mb-5" />
+        <!-- Statistics -->
+        <PlayerStatisticPanel :player="player" class="mb-5" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,6 +65,8 @@
       PlayerAdvancementPanel,
       PlayerStatisticPanel,
     },
+
+    inject: ['rotatingCube'],
 
     data () {
       return {
@@ -119,13 +114,14 @@
     },
 
     watch: {
-      uuid () {
-        this.fetchData()
+      uuid: {
+        immediate: true,
+        async handler () {
+          this.rotatingCube(true)
+          await this.fetchData()
+          this.rotatingCube(false)
+        },
       },
-    },
-
-    created () {
-      this.fetchData()
     },
 
     methods: {
