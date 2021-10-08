@@ -6,8 +6,16 @@ import * as logger from './logger'
 
 export async function download (apiPath: string, dest: string): Promise<void> {
   logger.Assets.info('DOWNLOAD', apiPath)
-  const {data} = await axios.get<fs.ReadStream>(apiPath, {responseType: 'stream'})
+  const {data} = await axios.get<fs.ReadStream>(apiPath, {
+    headers: {'Accept': 'image/*'},
+    responseType: 'stream',
+  })
     .catch(err => {
+      // Sometimes Crafatar responds with 500 AND the correct image. If this is
+      // the case, just return the body which is enough of use.
+      if (err.response.headers['content-length'] && err.response.headers['content-type'].startsWith('image/')) {
+        return {data: err.response.data}
+      }
       logger.Assets.error('DOWNLOAD', apiPath, err.toJSON())
       return {data: null}
     })
@@ -38,7 +46,7 @@ export function mergeStats (data: McPlayerStatsJson): McPlayerStatsJson {
 }
 
 export function defaultSkin (uuid: LongUuid): 'Alex' | 'Steve' {
-  // great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
+  // Great thanks to Minecrell for research into Minecraft and Java's UUID hashing!
   // https://git.io/xJpV
   // MC uses `uuid.hashCode() & 1` for alex
   // that can be compacted to counting the LSBs of every 4th byte in the UUID
