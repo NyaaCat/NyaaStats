@@ -1,6 +1,9 @@
 const {resolve} = require('path')
 const fs = require('fs-extra')
 const fetch = require('node-fetch')
+const agent = process.env.NODE_ENV === 'development' && (process.env.https_proxy || process.env.http_proxy)
+  ? require('https-proxy-agent')(process.env.https_proxy || process.env.http_proxy)
+  : undefined
 
 const MOCK_DIR = resolve(__dirname, '../__mock__')
 
@@ -19,7 +22,7 @@ module.exports = {
         const file = resolve(MOCK_DIR, './' + path)
 
         if (!fs.existsSync(file)) {
-          await fetch('https://stats.craft.moe' + path)
+          await fetch('https://stats.craft.moe' + path, {agent})
             .then(res => res.buffer())
             .then(buffer => fs.outputFile(file, buffer))
         }

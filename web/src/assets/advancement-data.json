@@ -201,6 +201,12 @@
       "minecraft:zombified_piglin": "entity.minecraft.zombified_piglin"
     }
   },
+  "minecraft:adventure/lightning_rod_with_villager_no_fire": {
+    "type": "task",
+    "icon": "minecraft:lightning_rod",
+    "title": "advancements.adventure.lightning_rod_with_villager_no_fire.title",
+    "description": "advancements.adventure.lightning_rod_with_villager_no_fire.description"
+  },
   "minecraft:adventure/ol_betsy": {
     "type": "task",
     "icon": "minecraft:crossbow",
@@ -230,6 +236,24 @@
     "icon": "minecraft:arrow",
     "title": "advancements.adventure.sniper_duel.title",
     "description": "advancements.adventure.sniper_duel.description"
+  },
+  "minecraft:adventure/spyglass_at_dragon": {
+    "type": "task",
+    "icon": "minecraft:spyglass",
+    "title": "advancements.adventure.spyglass_at_dragon.title",
+    "description": "advancements.adventure.spyglass_at_dragon.description"
+  },
+  "minecraft:adventure/spyglass_at_ghast": {
+    "type": "task",
+    "icon": "minecraft:spyglass",
+    "title": "advancements.adventure.spyglass_at_ghast.title",
+    "description": "advancements.adventure.spyglass_at_ghast.description"
+  },
+  "minecraft:adventure/spyglass_at_parrot": {
+    "type": "task",
+    "icon": "minecraft:spyglass",
+    "title": "advancements.adventure.spyglass_at_parrot.title",
+    "description": "advancements.adventure.spyglass_at_parrot.description"
   },
   "minecraft:adventure/summon_iron_golem": {
     "type": "goal",
@@ -272,6 +296,12 @@
     "icon": "minecraft:white_banner",
     "title": "advancements.adventure.voluntary_exile.title",
     "description": "advancements.adventure.voluntary_exile.description"
+  },
+  "minecraft:adventure/walk_on_powder_snow_with_leather_boots": {
+    "type": "task",
+    "icon": "minecraft:leather_boots",
+    "title": "advancements.adventure.walk_on_powder_snow_with_leather_boots.title",
+    "description": "advancements.adventure.walk_on_powder_snow_with_leather_boots.description"
   },
   "minecraft:adventure/whos_the_pillager_now": {
     "type": "task",
@@ -333,6 +363,12 @@
     "title": "advancements.end.root.title",
     "description": "advancements.end.root.description"
   },
+  "minecraft:husbandry/axolotl_in_a_bucket": {
+    "type": "task",
+    "icon": "minecraft:axolotl_bucket",
+    "title": "advancements.husbandry.axolotl_in_a_bucket.title",
+    "description": "advancements.husbandry.axolotl_in_a_bucket.description"
+  },
   "minecraft:husbandry/balanced_diet": {
     "type": "challenge",
     "icon": "minecraft:apple",
@@ -377,7 +413,8 @@
       "dried_kelp",
       "suspicious_stew",
       "sweet_berries",
-      "honey_bottle"
+      "honey_bottle",
+      "glow_berries"
     ],
     "requirement_names": {
       "apple": "item.minecraft.apple",
@@ -418,7 +455,8 @@
       "dried_kelp": "item.minecraft.dried_kelp",
       "suspicious_stew": "item.minecraft.suspicious_stew",
       "sweet_berries": "item.minecraft.sweet_berries",
-      "honey_bottle": "item.minecraft.honey_bottle"
+      "honey_bottle": "item.minecraft.honey_bottle",
+      "glow_berries": "item.minecraft.glow_berries"
     }
   },
   "minecraft:husbandry/bred_all_animals": {
@@ -445,6 +483,8 @@
       "minecraft:bee",
       "minecraft:hoglin",
       "minecraft:strider",
+      "minecraft:goat",
+      "minecraft:axolotl",
       "minecraft:turtle"
     ],
     "requirement_names": {
@@ -466,6 +506,8 @@
       "minecraft:bee": "entity.minecraft.bee",
       "minecraft:hoglin": "entity.minecraft.hoglin",
       "minecraft:strider": "entity.minecraft.strider",
+      "minecraft:goat": "entity.minecraft.goat",
+      "minecraft:axolotl": "entity.minecraft.axolotl",
       "minecraft:turtle": "entity.minecraft.turtle"
     }
   },
@@ -513,6 +555,18 @@
     "title": "advancements.husbandry.fishy_business.title",
     "description": "advancements.husbandry.fishy_business.description"
   },
+  "minecraft:husbandry/kill_axolotl_target": {
+    "type": "task",
+    "icon": "minecraft:tropical_fish_bucket",
+    "title": "advancements.husbandry.kill_axolotl_target.title",
+    "description": "advancements.husbandry.kill_axolotl_target.description"
+  },
+  "minecraft:husbandry/make_a_sign_glow": {
+    "type": "task",
+    "icon": "minecraft:glow_ink_sac",
+    "title": "advancements.husbandry.make_a_sign_glow.title",
+    "description": "advancements.husbandry.make_a_sign_glow.description"
+  },
   "minecraft:husbandry/obtain_netherite_hoe": {
     "type": "challenge",
     "icon": "minecraft:netherite_hoe",
@@ -524,6 +578,12 @@
     "icon": "minecraft:wheat",
     "title": "advancements.husbandry.plant_seed.title",
     "description": "advancements.husbandry.plant_seed.description"
+  },
+  "minecraft:husbandry/ride_a_boat_with_a_goat": {
+    "type": "task",
+    "icon": "minecraft:oak_boat",
+    "title": "advancements.husbandry.ride_a_boat_with_a_goat.title",
+    "description": "advancements.husbandry.ride_a_boat_with_a_goat.description"
   },
   "minecraft:husbandry/root": {
     "type": "task",
@@ -554,6 +614,18 @@
     "icon": "minecraft:lead",
     "title": "advancements.husbandry.tame_an_animal.title",
     "description": "advancements.husbandry.tame_an_animal.description"
+  },
+  "minecraft:husbandry/wax_off": {
+    "type": "task",
+    "icon": "minecraft:stone_axe",
+    "title": "advancements.husbandry.wax_off.title",
+    "description": "advancements.husbandry.wax_off.description"
+  },
+  "minecraft:husbandry/wax_on": {
+    "type": "task",
+    "icon": "minecraft:honeycomb",
+    "title": "advancements.husbandry.wax_on.title",
+    "description": "advancements.husbandry.wax_on.description"
   },
   "minecraft:nether/all_effects": {
     "type": "challenge",

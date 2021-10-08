@@ -16,10 +16,10 @@ const router = new Router({
       path: '/player/:uuid',
       component: () => import('../views/player.vue'),
     },
-    ...process.env.NODE_ENV === 'development' ? [{
-      path: '/playground',
-      component: () => import('../views/playground.vue'),
-    }] : [],
+    // ...process.env.NODE_ENV === 'development' ? [{
+    //   path: '/playground',
+    //   component: () => import('../views/playground.vue'),
+    // }] : [],
   ],
 })
 

@@ -15,6 +15,7 @@ export const netherite_armor = require('./netherite_armor.png');
 export const get_wither_skull = require('./get_wither_skull.png');
 export const obtain_blaze_rod = require('./obtain_blaze_rod.png');
 export const charge_respawn_anchor = require('./charge_respawn_anchor.png');
+export const ride_strider_in_overworld_lava = require('./ride_strider_in_overworld_lava.png');
 export const explore_nether = require('./explore_nether.png');
 export const summon_wither = require('./summon_wither.gif');
 export const brew_potion = require('./brew_potion.png');
