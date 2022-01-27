@@ -9,7 +9,7 @@
     "core-js": "^3.6.5",
     "css-element-queries": "^1.2.3",
     "date-fns": "^2.14.0",
-    "three": "^0.118.3",
+    "three": "^0.137.0",
     "velocity-animate": "^1.5.2",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
