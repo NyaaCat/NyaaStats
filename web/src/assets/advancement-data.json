@@ -105,6 +105,12 @@
     "title": "advancements.adventure.bullseye.title",
     "description": "advancements.adventure.bullseye.description"
   },
+  "minecraft:adventure/fall_from_world_height": {
+    "type": "task",
+    "icon": "minecraft:water_bucket",
+    "title": "advancements.adventure.fall_from_world_height.title",
+    "description": "advancements.adventure.fall_from_world_height.description"
+  },
   "minecraft:adventure/hero_of_the_village": {
     "type": "challenge",
     "icon": "minecraft:white_banner",
@@ -278,6 +284,12 @@
     "icon": "minecraft:emerald",
     "title": "advancements.adventure.trade.title",
     "description": "advancements.adventure.trade.description"
+  },
+  "minecraft:adventure/trade_at_world_height": {
+    "type": "task",
+    "icon": "minecraft:emerald",
+    "title": "advancements.adventure.trade_at_world_height.title",
+    "description": "advancements.adventure.trade_at_world_height.description"
   },
   "minecraft:adventure/two_birds_one_arrow": {
     "type": "challenge",
@@ -579,6 +591,12 @@
     "title": "advancements.husbandry.plant_seed.title",
     "description": "advancements.husbandry.plant_seed.description"
   },
+  "minecraft:husbandry/play_jukebox_in_meadows": {
+    "type": "task",
+    "icon": "minecraft:note_block",
+    "title": "advancements.husbandry.play_jukebox_in_meadows.title",
+    "description": "advancements.husbandry.play_jukebox_in_meadows.description"
+  },
   "minecraft:husbandry/ride_a_boat_with_a_goat": {
     "type": "task",
     "icon": "minecraft:oak_boat",
@@ -754,6 +772,12 @@
     "icon": "minecraft:warped_fungus_on_a_stick",
     "title": "advancements.nether.ride_strider.title",
     "description": "advancements.nether.ride_strider.description"
+  },
+  "minecraft:nether/ride_strider_in_overworld_lava": {
+    "type": "task",
+    "icon": "minecraft:warped_fungus_on_a_stick",
+    "title": "advancements.nether.ride_strider_in_overworld_lava.title",
+    "description": "advancements.nether.ride_strider_in_overworld_lava.description"
   },
   "minecraft:nether/root": {
     "type": "task",
