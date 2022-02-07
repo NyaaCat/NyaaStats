@@ -143,8 +143,8 @@
     computed: {
       oreData () {
         const data = ORES.map(ore => {
-          const mined = this.player.stats[`minecraft:mined/minecraft:${ore}_ore`] ?? 0
-          const used = this.player.stats[`minecraft:used/minecraft:${ore}_ore`] ?? 0
+          const mined = (this.player.stats[`minecraft:mined/minecraft:${ore}_ore`] ?? 0) + (this.player.stats[`minecraft:mined/minecraft:deepslate_${ore}_ore`] ?? 0)
+          const used = (this.player.stats[`minecraft:used/minecraft:${ore}_ore`] ?? 0) + (this.player.stats[`minecraft:used/minecraft:deepslate_${ore}_ore`] ?? 0)
           const net = Math.max(mined - used, 0)
           return {
             ore,
