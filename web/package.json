@@ -22,7 +22,7 @@
     "@vue/cli-service": "^4.4.6",
     "babel-eslint": "^10.1.0",
     "eslint-plugin-vue": "^6.2.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "sass": "^1.26.9",
     "sass-loader": "^8.0.2",
     "tailwindcss": "^1.4.6",
