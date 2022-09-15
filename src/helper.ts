@@ -23,9 +23,9 @@ export async function download (apiPath: string, dest: string): Promise<void> {
 }
 
 export function writeJSON (dest: string, data: never): void {
-  fs.writeFile(dest, JSON.stringify(data), (err) => {
+  fs.outputFile(dest, JSON.stringify(data), (err) => {
     if (err) {
-      logger.WriteJSON.error('CREATE', dest, err)
+      logger.WriteJSON.error('CREATE', dest, err.toString())
     } else {
       logger.WriteJSON.info('CREATE', dest)
     }

@@ -45,6 +45,11 @@ interface NSPlayerStatsJson {
   data: NSPlayerInfoData
 }
 
+interface NSPlayerNameHistoryRecord {
+  name: PlayerName
+  detectedAt: UTCTimestamp
+}
+
 interface NSPlayerInfoData {
   uuid: LongUuid
   uuid_short: ShortUuid
@@ -53,7 +58,7 @@ interface NSPlayerInfoData {
   time_last?: UTCTimestamp
   time_lived?: number
   playername: PlayerName
-  names: McNameHistory
+  names: Array<McNameHistoryRecord | NSPlayerNameHistoryRecord>
   banned?: boolean
   lastUpdate: UTCTimestamp
 }

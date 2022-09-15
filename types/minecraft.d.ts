@@ -33,3 +33,34 @@ interface McNameHistoryRecord {
 }
 
 type McNameHistory = McNameHistoryRecord[]
+
+interface McPlayerProfile {
+  id: ShortUuid
+  name: PlayerName
+  legacy?: true
+  properties: [
+    {
+      name: 'textures'
+      value: string
+      signature?: string
+    }
+  ]
+}
+
+interface McPlayerTextures {
+  timestamp: UTCTimestamp
+  profileId: ShortUuid
+  profileName: PlayerName
+  signatureRequired?: true
+  textures: {
+    SKIN?: {
+      url: string
+      metadata?: {
+        model: 'slim'
+      }
+    }
+    CAPE?: {
+      url: string
+    }
+  }
+}

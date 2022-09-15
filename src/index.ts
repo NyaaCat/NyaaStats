@@ -41,7 +41,14 @@ void async function main () {
     const prompt = await confirm('Do you want to clean the output folder?')
     if (prompt) {
       try {
-        fs.emptyDirSync(outputDir)
+        // Clean output dir
+        for (const f of fs.readdirSync(outputDir)) {
+          // ...but keep players.json as we need the name history in it
+          // This file will be re-generated anyway
+          if (f !== 'players.json') {
+            fs.removeSync(path.join(outputDir, f))
+          }
+        }
       } catch (err) {
         throw new Error(err)
       }

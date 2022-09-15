@@ -11,6 +11,9 @@ import {defaultSkin, delay, download, mergeStats, writeJSON} from './helper'
 import * as logger from './logger'
 
 const config = loadConfig()
+const outputDir = config.resolve(config.render.output)
+const playersPath = path.join(outputDir, 'players.json')
+const oldPlayers: NSPlayerInfoData[] | null = fs.existsSync(playersPath) ? fs.readJsonSync(playersPath) : null
 
 export default class Utils {
   apiLimited: boolean
@@ -111,11 +114,10 @@ export default class Utils {
         }
         logger.PlayerData.info('READ', datafile)
         const uuidShort = uuid.replace(/-/g, '')
-        let history
-        try {
-          history = await this.getNameHistory(uuidShort)
-        } catch (error) {
-          return reject()
+        let history = oldPlayers?.find(p => p.uuid === uuidShort)?.names ?? null
+        if (!history) {
+          const name = await this.getCurrentName(uuid)
+          history = name ? [{name, detectedAt: Date.now()}] : null
         }
         if (history && history[0]) {
           let lived: number | undefined
@@ -169,19 +171,15 @@ export default class Utils {
     }
   }
 
-  async getNameHistory (uuid: LongUuid): Promise<McNameHistory | null> {
-    const apiNameHistory = `https://api.mojang.com/user/profiles/${uuid}/names`
-    let history
+  async getCurrentName (uuid: LongUuid): Promise<string | null> {
+    const apiProfile = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
+    let profile
     try {
-      history = await this.getMojangAPI<McNameHistory>(apiNameHistory)
+      profile = await this.getMojangAPI<McPlayerProfile | ''>(apiProfile)
+      return profile === '' ? null : profile.name
     } catch (err) {
       return null
     }
-    if (!history) return null
-    // The order of the response data from Mojang API is uncertain,
-    // so manually sort it (to descending order) for making sure.
-    history.sort((a, b) => (b.changedToAt || 0) - (a.changedToAt || 0))
-    return history
   }
 
   async getMojangAPI <T> (apiPath: string): Promise<T> {
@@ -239,11 +237,17 @@ export default class Utils {
   }
 
   async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
-    const playerpath = path.join(config.get<string>('render.output'), uuid.replace(/-/g, ''))
+    const uuidShort = uuid.replace(/-/g, '')
+    const playerpath = path.join(config.get<string>('render.output'), uuidShort)
     let data
     try {
       if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
         data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json'), 'utf-8'))
+        // Name data is currently updated only in players.json
+        // so we need to duplicate it into stats.json
+        const playerInfo = oldPlayers!.find(p => p.uuid === uuidShort)!
+        data.data.playername = playerInfo.playername
+        data.data.names = playerInfo.names
       } else {
         data = await this.getPlayerTotalData(uuid)
       }
