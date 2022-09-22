@@ -30,7 +30,7 @@ export default function loadConfig (configPath = './config.yml'): Config {
     _config = yaml.safeLoad(fs.readFileSync(configPath, 'utf-8')) as NSConfig
   } catch (err) /* istanbul ignore next */ {
     logger.Config.error('Error occurred while reading config')
-    logger.Config.error(err)
+    logger.Config.error(err.toString())
     process.exit(1)
   }
 
