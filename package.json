@@ -34,7 +34,7 @@
     "gauge": "^2.7.4",
     "inquirer": "^5.2.0",
     "js-yaml": "^3.13.1",
-    "log4js": "^2.11.0",
+    "log4js": "^6.4.0",
     "mcnbt": "github:SilentDepth/mcnbt#6ecad3f",
     "moment": "^2.24.0",
     "ts-node": "^8.10.2"
