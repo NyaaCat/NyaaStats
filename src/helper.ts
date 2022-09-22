@@ -16,7 +16,7 @@ export async function download (apiPath: string, dest: string): Promise<void> {
       if (err.response.headers['content-length'] && err.response.headers['content-type'].startsWith('image/')) {
         return {data: err.response.data}
       }
-      logger.Assets.error('DOWNLOAD', apiPath, err.toJSON())
+      logger.Assets.error('DOWNLOAD', apiPath, err.toString())
       return {data: null}
     })
   data?.pipe(fs.createWriteStream(dest))

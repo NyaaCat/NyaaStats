@@ -79,7 +79,7 @@ export default class Utils {
           source: data,
         })
       } catch (error) {
-        logger.PlayerData.warn('READ', statsfile, JSON.stringify(error))
+        logger.PlayerData.warn('READ', statsfile, error.toString())
         return resolve({merged: {}, source: {}})
       }
     })
@@ -97,7 +97,7 @@ export default class Utils {
         logger.PlayerData.info('READ', advancementsfile)
         return resolve(JSON.parse(data))
       } catch (error) {
-        logger.PlayerData.warn('READ', advancementsfile, JSON.stringify(error))
+        logger.PlayerData.warn('READ', advancementsfile, error.toString())
         return resolve({})
       }
     })
@@ -109,7 +109,7 @@ export default class Utils {
       const nbt = new NBT()
       nbt.loadFromZlibCompressedFile(datafile, async (err) => {
         if (err) {
-          logger.PlayerData.warn('READ', datafile, err)
+          logger.PlayerData.warn('READ', datafile, err.toString())
           return reject()
         }
         logger.PlayerData.info('READ', datafile)
@@ -195,11 +195,11 @@ export default class Utils {
       const res = await axios.get(apiPath, {timeout: 30000})
       body = res.data
     } catch (err) {
-      logger.MojangAPI.error('REQUEST', apiPath, err.toJSON())
+      logger.MojangAPI.error('REQUEST', apiPath, err.toString())
       setTimeout(() => {
         this.apiLimited = false
       }, config.get<number>('api.ratelimit') * 3000)
-      throw new Error(err.toJSON())
+      throw new Error(err)
     }
 
     setTimeout(() => {
@@ -260,7 +260,7 @@ export default class Utils {
       try {
         await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath)
       } catch (error) {
-        logger.PlayerData.error('ASSETS', error)
+        logger.PlayerData.error('ASSETS', error.toString())
       }
       data.data = {
         ...data.data,
