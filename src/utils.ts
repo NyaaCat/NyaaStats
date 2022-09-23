@@ -239,24 +239,13 @@ export default class Utils {
   async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
     const uuidShort = uuid.replace(/-/g, '')
     const playerpath = path.join(config.get<string>('render.output'), uuidShort)
-    let data
-    try {
-      if (fs.existsSync(path.join(playerpath, 'stats.json'))) {
-        data = JSON.parse(fs.readFileSync(path.join(playerpath, 'stats.json'), 'utf-8'))
-        // Name data is currently updated only in players.json
-        // so we need to duplicate it into stats.json
-        const playerInfo = oldPlayers!.find(p => p.uuid === uuidShort)!
-        data.data.playername = playerInfo.playername
-        data.data.names = playerInfo.names
-      } else {
-        data = await this.getPlayerTotalData(uuid)
-      }
-    } catch (error) {
-      throw new Error(error)
-    }
-    if (fs.existsSync(path.join(playerpath, 'avatar.png') && path.join(playerpath, 'body.png'))) {
-      return data
-    } else if (data && data.stats && data.data) {
+    const data = await this.getPlayerTotalData(uuid)
+    if (data) {
+      // Name data is currently updated only in players.json
+      // so we need to duplicate it into stats.json
+      const playerInfo = oldPlayers!.find(p => p.uuid === uuidShort)!
+      data.data.playername = playerInfo.playername
+      data.data.names = playerInfo.names
       try {
         await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath)
       } catch (error) {
@@ -268,7 +257,8 @@ export default class Utils {
       }
       writeJSON(path.join(playerpath, 'stats.json'), data as never)
       return data
+    } else {
+      throw new Error(`No data grabbed for player ${uuidShort}`)
     }
-    throw new Error()
   }
 }
