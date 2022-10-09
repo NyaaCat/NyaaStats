@@ -243,9 +243,11 @@ export default class Utils {
     if (data) {
       // Name data is currently updated only in players.json
       // so we need to duplicate it into stats.json
-      const playerInfo = oldPlayers!.find(p => p.uuid === uuidShort)!
-      data.data.playername = playerInfo.playername
-      data.data.names = playerInfo.names
+      const playerInfo = oldPlayers!.find(p => p.uuid === uuidShort)
+      if (playerInfo) {
+        data.data.playername = playerInfo.playername
+        data.data.names = playerInfo.names
+      }
       try {
         await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath)
       } catch (error) {
