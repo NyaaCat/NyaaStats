@@ -54,7 +54,10 @@
       "minecraft:windswept_savanna",
       "minecraft:frozen_peaks",
       "minecraft:dripstone_caves",
-      "minecraft:lush_caves"
+      "minecraft:lush_caves",
+      "minecraft:deep_dark",
+      "minecraft:mangrove_swamp",
+      "minecraft:cherry_grove"
     ],
     "requirement_names": {
       "minecraft:mushroom_fields": "biome.minecraft.mushroom_fields",
@@ -106,7 +109,10 @@
       "minecraft:windswept_savanna": "biome.minecraft.windswept_savanna",
       "minecraft:frozen_peaks": "biome.minecraft.frozen_peaks",
       "minecraft:dripstone_caves": "biome.minecraft.dripstone_caves",
-      "minecraft:lush_caves": "biome.minecraft.lush_caves"
+      "minecraft:lush_caves": "biome.minecraft.lush_caves",
+      "minecraft:deep_dark": "biome.minecraft.deep_dark",
+      "minecraft:mangrove_swamp": "biome.minecraft.mangrove_swamp",
+      "minecraft:cherry_grove": "biome.minecraft.cherry_grove"
     }
   },
   "minecraft:adventure/arbalistic": {
@@ -114,6 +120,12 @@
     "icon": "minecraft:crossbow",
     "title": "advancements.adventure.arbalistic.title",
     "description": "advancements.adventure.arbalistic.description"
+  },
+  "minecraft:adventure/avoid_vibration": {
+    "type": "task",
+    "icon": "minecraft:sculk_sensor",
+    "title": "advancements.adventure.avoid_vibration.title",
+    "description": "advancements.adventure.avoid_vibration.description"
   },
   "minecraft:adventure/bullseye": {
     "type": "challenge",
@@ -222,6 +234,12 @@
       "minecraft:zombie": "entity.minecraft.zombie",
       "minecraft:zombified_piglin": "entity.minecraft.zombified_piglin"
     }
+  },
+  "minecraft:adventure/kill_mob_near_sculk_catalyst": {
+    "type": "challenge",
+    "icon": "minecraft:sculk_catalyst",
+    "title": "advancements.adventure.kill_mob_near_sculk_catalyst.title",
+    "description": "advancements.adventure.kill_mob_near_sculk_catalyst.description"
   },
   "minecraft:adventure/lightning_rod_with_villager_no_fire": {
     "type": "task",
@@ -397,6 +415,18 @@
     "title": "advancements.end.root.title",
     "description": "advancements.end.root.description"
   },
+  "minecraft:husbandry/allay_deliver_cake_to_note_block": {
+    "type": "task",
+    "icon": "minecraft:note_block",
+    "title": "advancements.husbandry.allay_deliver_cake_to_note_block.title",
+    "description": "advancements.husbandry.allay_deliver_cake_to_note_block.description"
+  },
+  "minecraft:husbandry/allay_deliver_item_to_player": {
+    "type": "task",
+    "icon": "minecraft:cookie",
+    "title": "advancements.husbandry.allay_deliver_item_to_player.title",
+    "description": "advancements.husbandry.allay_deliver_item_to_player.description"
+  },
   "minecraft:husbandry/axolotl_in_a_bucket": {
     "type": "task",
     "icon": "minecraft:axolotl_bucket",
@@ -519,7 +549,10 @@
       "minecraft:strider",
       "minecraft:goat",
       "minecraft:axolotl",
-      "minecraft:turtle"
+      "minecraft:turtle",
+      "minecraft:frog",
+      "minecraft:camel",
+      "minecraft:sniffer"
     ],
     "requirement_names": {
       "minecraft:horse": "entity.minecraft.horse",
@@ -542,7 +575,10 @@
       "minecraft:strider": "entity.minecraft.strider",
       "minecraft:goat": "entity.minecraft.goat",
       "minecraft:axolotl": "entity.minecraft.axolotl",
-      "minecraft:turtle": "entity.minecraft.turtle"
+      "minecraft:turtle": "entity.minecraft.turtle",
+      "minecraft:frog": "entity.minecraft.frog",
+      "minecraft:camel": "entity.minecraft.camel",
+      "minecraft:sniffer": "entity.minecraft.sniffer"
     }
   },
   "minecraft:husbandry/breed_an_animal": {
@@ -589,11 +625,33 @@
     "title": "advancements.husbandry.fishy_business.title",
     "description": "advancements.husbandry.fishy_business.description"
   },
+  "minecraft:husbandry/froglights": {
+    "type": "challenge",
+    "icon": "minecraft:verdant_froglight",
+    "title": "advancements.husbandry.froglights.title",
+    "description": "advancements.husbandry.froglights.description"
+  },
   "minecraft:husbandry/kill_axolotl_target": {
     "type": "task",
     "icon": "minecraft:tropical_fish_bucket",
     "title": "advancements.husbandry.kill_axolotl_target.title",
     "description": "advancements.husbandry.kill_axolotl_target.description"
+  },
+  "minecraft:husbandry/leash_all_frog_variants": {
+    "type": "task",
+    "icon": "minecraft:lead",
+    "title": "advancements.husbandry.leash_all_frog_variants.title",
+    "description": "advancements.husbandry.leash_all_frog_variants.description",
+    "requirements": [
+      "minecraft:cold",
+      "minecraft:temperate",
+      "minecraft:warm"      
+    ],
+    "requirement_names": {
+      "minecraft:cold": "frog.cold",
+      "minecraft:temperate": "frog.temperate",
+      "minecraft:warm": "frog.warm"
+    }
   },
   "minecraft:husbandry/make_a_sign_glow": {
     "type": "task",
@@ -642,6 +700,12 @@
     "icon": "minecraft:pufferfish_bucket",
     "title": "advancements.husbandry.tactical_fishing.title",
     "description": "advancements.husbandry.tactical_fishing.description"
+  },
+  "minecraft:husbandry/tadpole_in_a_bucket": {
+    "type": "task",
+    "icon": "minecraft:tadpole_bucket",
+    "title": "advancements.husbandry.tadpole_in_a_bucket.title",
+    "description": "advancements.husbandry.tadpole_in_a_bucket.description"
   },
   "minecraft:husbandry/tame_an_animal": {
     "type": "task",

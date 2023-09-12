@@ -1,11 +1,15 @@
 /* eslint-disable */
+export const allay_deliver_cake_to_note_block = require('./allay_deliver_cake_to_note_block.png');
+export const allay_deliver_item_to_player = require('./allay_deliver_item_to_player.png');
 export const axolotl_in_a_bucket = require('./axolotl_in_a_bucket.png');
 export const balanced_diet = require('./balanced_diet.png');
 export const bred_all_animals = require('./bred_all_animals.png');
 export const breed_an_animal = require('./breed_an_animal.png');
 export const complete_catalogue = require('./complete_catalogue.png');
 export const fishy_business = require('./fishy_business.png');
+export const froglights = require('./froglights.png');
 export const kill_axolotl_target = require('./kill_axolotl_target.png');
+export const leash_all_frog_variants = require('./leash_all_frog_variants.png');
 export const make_a_sign_glow = require('./make_a_sign_glow.png');
 export const obtain_netherite_hoe = require('./obtain_netherite_hoe.png');
 export const plant_seed = require('./plant_seed.png');
@@ -14,6 +18,7 @@ export const root = require('./root.png');
 export const safely_harvest_honey = require('./safely_harvest_honey.png');
 export const silk_touch_nest = require('./silk_touch_nest.png');
 export const tactical_fishing = require('./tactical_fishing.png');
+export const tadpole_in_a_bucket = require('./tadpole_in_a_bucket.png');
 export const tame_an_animal = require('./tame_an_animal.png');
 export const wax_off = require('./wax_off.png');
 export const wax_on = require('./wax_on.png');

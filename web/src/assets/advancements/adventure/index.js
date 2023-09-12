@@ -1,12 +1,14 @@
 /* eslint-disable */
 export const adventuring_time = require('./adventuring_time.png');
 export const arbalistic = require('./arbalistic.png');
+export const avoid_vibration = require('./avoid_vibration.png');
 export const bullseye = require('./bullseye.png');
 export const fall_from_world_height = require('./fall_from_world_height.png');
 export const hero_of_the_village = require('./hero_of_the_village.png');
 export const honey_block_slide = require('./honey_block_slide.png');
 export const kill_a_mob = require('./kill_a_mob.png');
 export const kill_all_mobs = require('./kill_all_mobs.png');
+export const kill_mob_near_sculk_catalyst = require('./kill_mob_near_sculk_catalyst.png');
 export const lightning_rod_with_villager_no_fire = require('./lightning_rod_with_villager_no_fire.png');
 export const ol_betsy = require('./ol_betsy.png');
 export const play_jukebox_in_meadows = require('./play_jukebox_in_meadows.png');
