@@ -121,6 +121,12 @@
     "title": "advancements.adventure.arbalistic.title",
     "description": "advancements.adventure.arbalistic.description"
   },
+  "minecraft:adventure/craft_decorated_pot_using_only_sherds": {
+    "type": "task",
+    "icon": "minecraft:decorated_pot",
+    "title": "advancements.adventure.craft_decorated_pot_using_only_sherds.title",
+    "description": "advancements.adventure.craft_decorated_pot_using_only_sherds.description"
+  },
   "minecraft:adventure/avoid_vibration": {
     "type": "task",
     "icon": "minecraft:sculk_sensor",
@@ -259,11 +265,23 @@
     "title": "advancements.adventure.play_jukebox_in_meadows.title",
     "description": "advancements.adventure.play_jukebox_in_meadows.description"
   },
+  "minecraft:adventure/read_power_of_chiseled_bookshelf": {
+    "type": "task",
+    "icon": "minecraft:chiseled_bookshelf",
+    "title": "advancements.adventure.read_power_of_chiseled_bookshelf.title",
+    "description": "advancements.adventure.read_power_of_chiseled_bookshelf.description"
+  },
   "minecraft:adventure/root": {
     "type": "task",
     "icon": "minecraft:map",
     "title": "advancements.adventure.root.title",
     "description": "advancements.adventure.root.description"
+  },
+  "minecraft:adventure/salvage_sherd": {
+    "type": "task",
+    "icon": "minecraft:brush",
+    "title": "advancements.adventure.salvage_sherd.title",
+    "description": "advancements.adventure.salvage_sherd.description"
   },
   "minecraft:adventure/shoot_arrow": {
     "type": "task",
@@ -324,6 +342,38 @@
     "icon": "minecraft:emerald",
     "title": "advancements.adventure.trade.title",
     "description": "advancements.adventure.trade.description"
+  },
+  "minecraft:adventure/trim_with_all_exclusive_armor_patterns": {
+    "type": "challenge",
+    "icon": "minecraft:silence_armor_trim_smithing_template",
+    "title": "advancements.adventure.trim_with_all_exclusive_armor_patterns.title",
+    "description": "advancements.adventure.trim_with_all_exclusive_armor_patterns.description",
+    "requirements": [
+      "armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"
+    ],
+    "requirement_names": {
+      "armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim": "item.minecraft.silence_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim": "item.minecraft.wayfinder_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim": "item.minecraft.tide_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim": "item.minecraft.spire_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim": "item.minecraft.vex_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim": "item.minecraft.ward_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim": "item.minecraft.rib_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim": "item.minecraft.snout_armor_trim_smithing_template"
+    }
+  },
+  "minecraft:adventure/trim_with_any_armor_pattern": {
+    "type": "task",
+    "icon": "minecraft:dune_armor_trim_smithing_template",
+    "title": "advancements.adventure.trim_with_any_armor_pattern.title",
+    "description": "advancements.adventure.trim_with_any_armor_pattern.description"
   },
   "minecraft:adventure/trade_at_world_height": {
     "type": "task",
@@ -619,6 +669,12 @@
       "textures/entity/cat/all_black.png": "cat.all_black"
     }
   },
+  "minecraft:husbandry/feed_snifflet": {
+    "type": "task",
+    "icon": "minecraft:torchflower_seeds",
+    "title": "advancements.husbandry.feed_snifflet.title",
+    "description": "advancements.husbandry.feed_snifflet.description"
+  },
   "minecraft:husbandry/fishy_business": {
     "type": "task",
     "icon": "minecraft:fishing_rod",
@@ -664,6 +720,18 @@
     "icon": "minecraft:netherite_hoe",
     "title": "advancements.husbandry.netherite_hoe.title",
     "description": "advancements.husbandry.netherite_hoe.description"
+  },
+  "minecraft:husbandry/obtain_sniffer_egg": {
+    "type": "task",
+    "icon": "minecraft:sniffer_egg",
+    "title": "advancements.husbandry.obtain_sniffer_egg.title",
+    "description": "advancements.husbandry.obtain_sniffer_egg.description"
+  },
+  "minecraft:husbandry/plant_any_sniffer_seed": {
+    "type": "task",
+    "icon": "minecraft:pitcher_pod",
+    "title": "advancements.husbandry.plant_any_sniffer_seed.title",
+    "description": "advancements.husbandry.plant_any_sniffer_seed.description"
   },
   "minecraft:husbandry/plant_seed": {
     "type": "task",
