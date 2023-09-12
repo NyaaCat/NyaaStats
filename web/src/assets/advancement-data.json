@@ -54,7 +54,10 @@
       "minecraft:windswept_savanna",
       "minecraft:frozen_peaks",
       "minecraft:dripstone_caves",
-      "minecraft:lush_caves"
+      "minecraft:lush_caves",
+      "minecraft:deep_dark",
+      "minecraft:mangrove_swamp",
+      "minecraft:cherry_grove"
     ],
     "requirement_names": {
       "minecraft:mushroom_fields": "biome.minecraft.mushroom_fields",
@@ -106,7 +109,10 @@
       "minecraft:windswept_savanna": "biome.minecraft.windswept_savanna",
       "minecraft:frozen_peaks": "biome.minecraft.frozen_peaks",
       "minecraft:dripstone_caves": "biome.minecraft.dripstone_caves",
-      "minecraft:lush_caves": "biome.minecraft.lush_caves"
+      "minecraft:lush_caves": "biome.minecraft.lush_caves",
+      "minecraft:deep_dark": "biome.minecraft.deep_dark",
+      "minecraft:mangrove_swamp": "biome.minecraft.mangrove_swamp",
+      "minecraft:cherry_grove": "biome.minecraft.cherry_grove"
     }
   },
   "minecraft:adventure/arbalistic": {
@@ -114,6 +120,18 @@
     "icon": "minecraft:crossbow",
     "title": "advancements.adventure.arbalistic.title",
     "description": "advancements.adventure.arbalistic.description"
+  },
+  "minecraft:adventure/craft_decorated_pot_using_only_sherds": {
+    "type": "task",
+    "icon": "minecraft:decorated_pot",
+    "title": "advancements.adventure.craft_decorated_pot_using_only_sherds.title",
+    "description": "advancements.adventure.craft_decorated_pot_using_only_sherds.description"
+  },
+  "minecraft:adventure/avoid_vibration": {
+    "type": "task",
+    "icon": "minecraft:sculk_sensor",
+    "title": "advancements.adventure.avoid_vibration.title",
+    "description": "advancements.adventure.avoid_vibration.description"
   },
   "minecraft:adventure/bullseye": {
     "type": "challenge",
@@ -223,6 +241,12 @@
       "minecraft:zombified_piglin": "entity.minecraft.zombified_piglin"
     }
   },
+  "minecraft:adventure/kill_mob_near_sculk_catalyst": {
+    "type": "challenge",
+    "icon": "minecraft:sculk_catalyst",
+    "title": "advancements.adventure.kill_mob_near_sculk_catalyst.title",
+    "description": "advancements.adventure.kill_mob_near_sculk_catalyst.description"
+  },
   "minecraft:adventure/lightning_rod_with_villager_no_fire": {
     "type": "task",
     "icon": "minecraft:lightning_rod",
@@ -241,11 +265,23 @@
     "title": "advancements.adventure.play_jukebox_in_meadows.title",
     "description": "advancements.adventure.play_jukebox_in_meadows.description"
   },
+  "minecraft:adventure/read_power_of_chiseled_bookshelf": {
+    "type": "task",
+    "icon": "minecraft:chiseled_bookshelf",
+    "title": "advancements.adventure.read_power_of_chiseled_bookshelf.title",
+    "description": "advancements.adventure.read_power_of_chiseled_bookshelf.description"
+  },
   "minecraft:adventure/root": {
     "type": "task",
     "icon": "minecraft:map",
     "title": "advancements.adventure.root.title",
     "description": "advancements.adventure.root.description"
+  },
+  "minecraft:adventure/salvage_sherd": {
+    "type": "task",
+    "icon": "minecraft:brush",
+    "title": "advancements.adventure.salvage_sherd.title",
+    "description": "advancements.adventure.salvage_sherd.description"
   },
   "minecraft:adventure/shoot_arrow": {
     "type": "task",
@@ -306,6 +342,38 @@
     "icon": "minecraft:emerald",
     "title": "advancements.adventure.trade.title",
     "description": "advancements.adventure.trade.description"
+  },
+  "minecraft:adventure/trim_with_all_exclusive_armor_patterns": {
+    "type": "challenge",
+    "icon": "minecraft:silence_armor_trim_smithing_template",
+    "title": "advancements.adventure.trim_with_all_exclusive_armor_patterns.title",
+    "description": "advancements.adventure.trim_with_all_exclusive_armor_patterns.description",
+    "requirements": [
+      "armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim",
+      "armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"
+    ],
+    "requirement_names": {
+      "armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim": "item.minecraft.silence_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim": "item.minecraft.wayfinder_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim": "item.minecraft.tide_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim": "item.minecraft.spire_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim": "item.minecraft.vex_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim": "item.minecraft.ward_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim": "item.minecraft.rib_armor_trim_smithing_template",
+      "armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim": "item.minecraft.snout_armor_trim_smithing_template"
+    }
+  },
+  "minecraft:adventure/trim_with_any_armor_pattern": {
+    "type": "task",
+    "icon": "minecraft:dune_armor_trim_smithing_template",
+    "title": "advancements.adventure.trim_with_any_armor_pattern.title",
+    "description": "advancements.adventure.trim_with_any_armor_pattern.description"
   },
   "minecraft:adventure/trade_at_world_height": {
     "type": "task",
@@ -396,6 +464,18 @@
     "icon": "minecraft:end_stone",
     "title": "advancements.end.root.title",
     "description": "advancements.end.root.description"
+  },
+  "minecraft:husbandry/allay_deliver_cake_to_note_block": {
+    "type": "task",
+    "icon": "minecraft:note_block",
+    "title": "advancements.husbandry.allay_deliver_cake_to_note_block.title",
+    "description": "advancements.husbandry.allay_deliver_cake_to_note_block.description"
+  },
+  "minecraft:husbandry/allay_deliver_item_to_player": {
+    "type": "task",
+    "icon": "minecraft:cookie",
+    "title": "advancements.husbandry.allay_deliver_item_to_player.title",
+    "description": "advancements.husbandry.allay_deliver_item_to_player.description"
   },
   "minecraft:husbandry/axolotl_in_a_bucket": {
     "type": "task",
@@ -519,7 +599,10 @@
       "minecraft:strider",
       "minecraft:goat",
       "minecraft:axolotl",
-      "minecraft:turtle"
+      "minecraft:turtle",
+      "minecraft:frog",
+      "minecraft:camel",
+      "minecraft:sniffer"
     ],
     "requirement_names": {
       "minecraft:horse": "entity.minecraft.horse",
@@ -542,7 +625,10 @@
       "minecraft:strider": "entity.minecraft.strider",
       "minecraft:goat": "entity.minecraft.goat",
       "minecraft:axolotl": "entity.minecraft.axolotl",
-      "minecraft:turtle": "entity.minecraft.turtle"
+      "minecraft:turtle": "entity.minecraft.turtle",
+      "minecraft:frog": "entity.minecraft.frog",
+      "minecraft:camel": "entity.minecraft.camel",
+      "minecraft:sniffer": "entity.minecraft.sniffer"
     }
   },
   "minecraft:husbandry/breed_an_animal": {
@@ -583,17 +669,45 @@
       "textures/entity/cat/all_black.png": "cat.all_black"
     }
   },
+  "minecraft:husbandry/feed_snifflet": {
+    "type": "task",
+    "icon": "minecraft:torchflower_seeds",
+    "title": "advancements.husbandry.feed_snifflet.title",
+    "description": "advancements.husbandry.feed_snifflet.description"
+  },
   "minecraft:husbandry/fishy_business": {
     "type": "task",
     "icon": "minecraft:fishing_rod",
     "title": "advancements.husbandry.fishy_business.title",
     "description": "advancements.husbandry.fishy_business.description"
   },
+  "minecraft:husbandry/froglights": {
+    "type": "challenge",
+    "icon": "minecraft:verdant_froglight",
+    "title": "advancements.husbandry.froglights.title",
+    "description": "advancements.husbandry.froglights.description"
+  },
   "minecraft:husbandry/kill_axolotl_target": {
     "type": "task",
     "icon": "minecraft:tropical_fish_bucket",
     "title": "advancements.husbandry.kill_axolotl_target.title",
     "description": "advancements.husbandry.kill_axolotl_target.description"
+  },
+  "minecraft:husbandry/leash_all_frog_variants": {
+    "type": "task",
+    "icon": "minecraft:lead",
+    "title": "advancements.husbandry.leash_all_frog_variants.title",
+    "description": "advancements.husbandry.leash_all_frog_variants.description",
+    "requirements": [
+      "minecraft:cold",
+      "minecraft:temperate",
+      "minecraft:warm"      
+    ],
+    "requirement_names": {
+      "minecraft:cold": "frog.cold",
+      "minecraft:temperate": "frog.temperate",
+      "minecraft:warm": "frog.warm"
+    }
   },
   "minecraft:husbandry/make_a_sign_glow": {
     "type": "task",
@@ -606,6 +720,18 @@
     "icon": "minecraft:netherite_hoe",
     "title": "advancements.husbandry.netherite_hoe.title",
     "description": "advancements.husbandry.netherite_hoe.description"
+  },
+  "minecraft:husbandry/obtain_sniffer_egg": {
+    "type": "task",
+    "icon": "minecraft:sniffer_egg",
+    "title": "advancements.husbandry.obtain_sniffer_egg.title",
+    "description": "advancements.husbandry.obtain_sniffer_egg.description"
+  },
+  "minecraft:husbandry/plant_any_sniffer_seed": {
+    "type": "task",
+    "icon": "minecraft:pitcher_pod",
+    "title": "advancements.husbandry.plant_any_sniffer_seed.title",
+    "description": "advancements.husbandry.plant_any_sniffer_seed.description"
   },
   "minecraft:husbandry/plant_seed": {
     "type": "task",
@@ -642,6 +768,12 @@
     "icon": "minecraft:pufferfish_bucket",
     "title": "advancements.husbandry.tactical_fishing.title",
     "description": "advancements.husbandry.tactical_fishing.description"
+  },
+  "minecraft:husbandry/tadpole_in_a_bucket": {
+    "type": "task",
+    "icon": "minecraft:tadpole_bucket",
+    "title": "advancements.husbandry.tadpole_in_a_bucket.title",
+    "description": "advancements.husbandry.tadpole_in_a_bucket.description"
   },
   "minecraft:husbandry/tame_an_animal": {
     "type": "task",
