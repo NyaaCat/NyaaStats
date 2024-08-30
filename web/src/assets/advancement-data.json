@@ -121,23 +121,41 @@
     "title": "advancements.adventure.arbalistic.title",
     "description": "advancements.adventure.arbalistic.description"
   },
-  "minecraft:adventure/craft_decorated_pot_using_only_sherds": {
-    "type": "task",
-    "icon": "minecraft:decorated_pot",
-    "title": "advancements.adventure.craft_decorated_pot_using_only_sherds.title",
-    "description": "advancements.adventure.craft_decorated_pot_using_only_sherds.description"
-  },
   "minecraft:adventure/avoid_vibration": {
     "type": "task",
     "icon": "minecraft:sculk_sensor",
     "title": "advancements.adventure.avoid_vibration.title",
     "description": "advancements.adventure.avoid_vibration.description"
   },
+  "minecraft:adventure/blowback": {
+    "type": "challenge",
+    "icon": "minecraft:wind_charge",
+    "title": "advancements.adventure.blowback.title",
+    "description": "advancements.adventure.blowback.description"
+  },
   "minecraft:adventure/bullseye": {
     "type": "challenge",
     "icon": "minecraft:target",
     "title": "advancements.adventure.bullseye.title",
     "description": "advancements.adventure.bullseye.description"
+  },
+  "minecraft:adventure/brush_armadillo": {
+    "type": "challenge",
+    "icon": "minecraft:armadillo_scute",
+    "title": "advancements.adventure.brush_armadillo.title",
+    "description": "advancements.adventure.brush_armadillo.description"
+  },
+  "minecraft:adventure/craft_decorated_pot_using_only_sherds": {
+    "type": "task",
+    "icon": "minecraft:decorated_pot",
+    "title": "advancements.adventure.craft_decorated_pot_using_only_sherds.title",
+    "description": "advancements.adventure.craft_decorated_pot_using_only_sherds.description"
+  },
+  "minecraft:adventure/crafters_crafting_crafters": {
+    "type": "task",
+    "icon": "minecraft:crafter",
+    "title": "advancements.adventure.crafters_crafting_crafters.title",
+    "description": "advancements.adventure.crafters_crafting_crafters.description"
   },
   "minecraft:adventure/fall_from_world_height": {
     "type": "task",
@@ -169,6 +187,8 @@
     "title": "advancements.adventure.kill_all_mobs.title",
     "description": "advancements.adventure.kill_all_mobs.description",
     "requirements": [
+      "minecraft:bogged",
+      "minecraft:breeze",
       "minecraft:blaze",
       "minecraft:cave_spider",
       "minecraft:creeper",
@@ -205,6 +225,8 @@
       "minecraft:zombified_piglin"
     ],
     "requirement_names": {
+      "minecraft:bogged": "entity.minecraft.bogged",
+      "minecraft:breeze": "entity.minecraft.breeze",
       "minecraft:blaze": "entity.minecraft.blaze",
       "minecraft:cave_spider": "entity.minecraft.cave_spider",
       "minecraft:creeper": "entity.minecraft.creeper",
@@ -247,17 +269,35 @@
     "title": "advancements.adventure.kill_mob_near_sculk_catalyst.title",
     "description": "advancements.adventure.kill_mob_near_sculk_catalyst.description"
   },
+  "minecraft:adventure/lighten_up": {
+    "type": "task",
+    "icon": "minecraft:copper_bulb",
+    "title": "advancements.adventure.lighten_up.title",
+    "description": "advancements.adventure.lighten_up.description"
+  },
   "minecraft:adventure/lightning_rod_with_villager_no_fire": {
     "type": "task",
     "icon": "minecraft:lightning_rod",
     "title": "advancements.adventure.lightning_rod_with_villager_no_fire.title",
     "description": "advancements.adventure.lightning_rod_with_villager_no_fire.description"
   },
+  "minecraft:adventure/minecraft_trials_edition": {
+    "type": "task",
+    "icon": "minecraft:chiseled_tuff",
+    "title": "advancements.adventure.minecraft_trials_edition.title",
+    "description": "advancements.adventure.minecraft_trials_edition.description"
+  },
   "minecraft:adventure/ol_betsy": {
     "type": "task",
     "icon": "minecraft:crossbow",
     "title": "advancements.adventure.ol_betsy.title",
     "description": "advancements.adventure.ol_betsy.description"
+  },
+  "minecraft:adventure/overoverkill": {
+    "type": "challenge",
+    "icon": "minecraft:mace",
+    "title": "advancements.adventure.overoverkill.title",
+    "description": "advancements.adventure.overoverkill.description"
   },
   "minecraft:adventure/play_jukebox_in_meadows": {
     "type": "task",
@@ -270,6 +310,12 @@
     "icon": "minecraft:chiseled_bookshelf",
     "title": "advancements.adventure.read_power_of_chiseled_bookshelf.title",
     "description": "advancements.adventure.read_power_of_chiseled_bookshelf.description"
+  },
+  "minecraft:adventure/revaulting": {
+    "type": "goal",
+    "icon": "minecraft:ominous_trial_key",
+    "title": "advancements.adventure.revaulting.title",
+    "description": "advancements.adventure.revaulting.description"
   },
   "minecraft:adventure/root": {
     "type": "task",
@@ -405,11 +451,23 @@
     "title": "advancements.adventure.walk_on_powder_snow_with_leather_boots.title",
     "description": "advancements.adventure.walk_on_powder_snow_with_leather_boots.description"
   },
+  "minecraft:adventure/who_needs_rockets": {
+    "type": "task",
+    "icon": "minecraft:wind_charge",
+    "title": "advancements.adventure.who_needs_rockets.title",
+    "description": "advancements.adventure.who_needs_rockets.description"
+  },
   "minecraft:adventure/whos_the_pillager_now": {
     "type": "task",
     "icon": "minecraft:crossbow",
     "title": "advancements.adventure.whos_the_pillager_now.title",
     "description": "advancements.adventure.whos_the_pillager_now.description"
+  },
+  "minecraft:adventure/under_lock_and_key": {
+    "type": "task",
+    "icon": "minecraft:trial_key",
+    "title": "advancements.adventure.under_lock_and_key.title",
+    "description": "advancements.adventure.under_lock_and_key.description"
   },
   "minecraft:end/dragon_breath": {
     "type": "goal",
@@ -602,7 +660,8 @@
       "minecraft:turtle",
       "minecraft:frog",
       "minecraft:camel",
-      "minecraft:sniffer"
+      "minecraft:sniffer",
+      "minecraft:armadillo"
     ],
     "requirement_names": {
       "minecraft:horse": "entity.minecraft.horse",
@@ -628,7 +687,8 @@
       "minecraft:turtle": "entity.minecraft.turtle",
       "minecraft:frog": "entity.minecraft.frog",
       "minecraft:camel": "entity.minecraft.camel",
-      "minecraft:sniffer": "entity.minecraft.sniffer"
+      "minecraft:sniffer": "entity.minecraft.sniffer",
+      "minecraft:armadillo": "entity.minecraft.armadillo"
     }
   },
   "minecraft:husbandry/breed_an_animal": {
@@ -739,6 +799,18 @@
     "title": "advancements.husbandry.plant_seed.title",
     "description": "advancements.husbandry.plant_seed.description"
   },
+  "minecraft:husbandry/remove_wolf_armor": {
+    "type": "task",
+    "icon": "minecraft:shears",
+    "title": "advancements.husbandry.remove_wolf_armor.title",
+    "description": "advancements.husbandry.remove_wolf_armor.description"
+  },
+  "minecraft:husbandry/repair_wolf_armor": {
+    "type": "task",
+    "icon": "minecraft:wolf_armor",
+    "title": "advancements.husbandry.repair_wolf_armor.title",
+    "description": "advancements.husbandry.repair_wolf_armor.description"
+  },
   "minecraft:husbandry/ride_a_boat_with_a_goat": {
     "type": "task",
     "icon": "minecraft:oak_boat",
@@ -792,6 +864,34 @@
     "icon": "minecraft:honeycomb",
     "title": "advancements.husbandry.wax_on.title",
     "description": "advancements.husbandry.wax_on.description"
+  },
+  "minecraft:husbandry/whole_pack": {
+    "type": "challenge",
+    "icon": "minecraft:bone",
+    "title": "advancements.husbandry.whole_pack.title",
+    "description": "advancements.husbandry.whole_pack.description",
+    "requirements": [
+      "minecraft:pale",
+      "minecraft:woods",
+      "minecraft:ashen",
+      "minecraft:black",
+      "minecraft:chestnut",
+      "minecraft:rusty",
+      "minecraft:spotted",
+      "minecraft:striped",
+      "minecraft:snowy"
+    ],
+    "requirement_names": {
+      "minecraft:pale": "wolf.pale",
+      "minecraft:woods": "wolf.woods",
+      "minecraft:ashen": "wolf.ashen",
+      "minecraft:black": "wolf.black",
+      "minecraft:chestnut": "wolf.chestnut",
+      "minecraft:rusty": "wolf.rusty",
+      "minecraft:spotted": "wolf.spotted",
+      "minecraft:striped": "wolf.striped",
+      "minecraft:snowy": "wolf.snowy"
+    }
   },
   "minecraft:nether/all_effects": {
     "type": "challenge",
