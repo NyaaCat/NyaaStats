@@ -57,7 +57,8 @@
       "minecraft:lush_caves",
       "minecraft:deep_dark",
       "minecraft:mangrove_swamp",
-      "minecraft:cherry_grove"
+      "minecraft:cherry_grove",
+      "minecraft:pale_garden"
     ],
     "requirement_names": {
       "minecraft:mushroom_fields": "biome.minecraft.mushroom_fields",
@@ -112,7 +113,8 @@
       "minecraft:lush_caves": "biome.minecraft.lush_caves",
       "minecraft:deep_dark": "biome.minecraft.deep_dark",
       "minecraft:mangrove_swamp": "biome.minecraft.mangrove_swamp",
-      "minecraft:cherry_grove": "biome.minecraft.cherry_grove"
+      "minecraft:cherry_grove": "biome.minecraft.cherry_grove",
+      "minecraft:pale_garden": "biome.minecraft.pale_garden"
     }
   },
   "minecraft:adventure/arbalistic": {
@@ -163,6 +165,12 @@
     "title": "advancements.adventure.fall_from_world_height.title",
     "description": "advancements.adventure.fall_from_world_height.description"
   },
+  "minecraft:adventure/heart_transplanter": {
+    "type": "task",
+    "icon": "minecraft:creaking_heart",
+    "title": "advancements.adventure.heart_transplanter.title",
+    "description": "advancements.adventure.heart_transplanter.description"
+  },
   "minecraft:adventure/hero_of_the_village": {
     "type": "challenge",
     "icon": "minecraft:white_banner",
@@ -191,6 +199,7 @@
       "minecraft:breeze",
       "minecraft:blaze",
       "minecraft:cave_spider",
+      "minecraft:creaking",
       "minecraft:creeper",
       "minecraft:drowned",
       "minecraft:elder_guardian",
@@ -229,6 +238,7 @@
       "minecraft:breeze": "entity.minecraft.breeze",
       "minecraft:blaze": "entity.minecraft.blaze",
       "minecraft:cave_spider": "entity.minecraft.cave_spider",
+      "minecraft:creaking": "entity.minecraft.creaking",
       "minecraft:creeper": "entity.minecraft.creeper",
       "minecraft:drowned": "entity.minecraft.drowned",
       "minecraft:elder_guardian": "entity.minecraft.elder_guardian",
@@ -468,6 +478,12 @@
     "icon": "minecraft:trial_key",
     "title": "advancements.adventure.under_lock_and_key.title",
     "description": "advancements.adventure.under_lock_and_key.description"
+  },
+  "minecraft:adventure/use_lodestone": {
+    "type": "task",
+    "icon": "minecraft:lodestone",
+    "title": "advancements.adventure.use_lodestone.title",
+    "description": "advancements.adventure.use_lodestone.description"
   },
   "minecraft:end/dragon_breath": {
     "type": "goal",
@@ -787,6 +803,12 @@
     "title": "advancements.husbandry.obtain_sniffer_egg.title",
     "description": "advancements.husbandry.obtain_sniffer_egg.description"
   },
+  "minecraft:husbandry/place_dried_ghast_in_water": {
+    "type": "task",
+    "icon": "minecraft:dried_ghast",
+    "title": "advancements.husbandry.place_dried_ghast_in_water.title",
+    "description": "advancements.husbandry.place_dried_ghast_in_water.description"
+  },
   "minecraft:husbandry/plant_any_sniffer_seed": {
     "type": "task",
     "icon": "minecraft:pitcher_pod",
@@ -1044,12 +1066,6 @@
     "icon": "minecraft:ghast_tear",
     "title": "advancements.nether.uneasy_alliance.title",
     "description": "advancements.nether.uneasy_alliance.description"
-  },
-  "minecraft:nether/use_lodestone": {
-    "type": "task",
-    "icon": "minecraft:lodestone",
-    "title": "advancements.nether.use_lodestone.title",
-    "description": "advancements.nether.use_lodestone.description"
   },
   "minecraft:story/cure_zombie_villager": {
     "type": "goal",

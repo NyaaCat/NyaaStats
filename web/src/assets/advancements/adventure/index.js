@@ -8,6 +8,7 @@ export const brush_armadillo = require('./brush_armadillo.png');
 export const craft_decorated_pot_using_only_sherds = require('./craft_decorated_pot_using_only_sherds.png');
 export const crafters_crafting_crafters = require('./crafters_crafting_crafters.png');
 export const fall_from_world_height = require('./fall_from_world_height.png');
+export const heart_transplanter = require('./heart_transplanter.png');
 export const hero_of_the_village = require('./hero_of_the_village.png');
 export const honey_block_slide = require('./honey_block_slide.png');
 export const kill_a_mob = require('./kill_a_mob.png');

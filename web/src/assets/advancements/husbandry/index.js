@@ -14,6 +14,7 @@ export const leash_all_frog_variants = require('./leash_all_frog_variants.png');
 export const make_a_sign_glow = require('./make_a_sign_glow.png');
 export const obtain_netherite_hoe = require('./obtain_netherite_hoe.png');
 export const obtain_sniffer_egg = require('./obtain_sniffer_egg.png');
+export const place_dried_ghast_in_water = require('./place_dried_ghast_in_water.png');
 export const plant_any_sniffer_seed = require('./plant_any_sniffer_seed.png');
 export const plant_seed = require('./plant_seed.png');
 export const remove_wolf_armor = require('./remove_wolf_armor.png');
