@@ -1,4 +1,5 @@
 import {createApp} from 'vue'
+import {createHead} from '@unhead/vue/client'
 
 import '@/assets/base.css'
 import '@/common/velocity'
@@ -7,9 +8,11 @@ import router from './router'
 import store from './store'
 import App from './app.vue'
 
+const head = createHead()
 const app = createApp(App)
   .use(router)
   .use(store)
+  .use(head)
   .mixin({
     computed: {
       t () {

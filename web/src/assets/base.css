@@ -13,8 +13,20 @@
 }
 
 @layer base {
+  body {
+    @apply bg-gray-200;
+  }
+
   svg {
     @apply fill-current;
+  }
+
+  #app {
+    font-family: Inter, var(--font-sans);
+
+    @supports (font-variation-settings: normal) {
+      font-family: 'Inter var', var(--font-sans);
+    }
   }
 }
 

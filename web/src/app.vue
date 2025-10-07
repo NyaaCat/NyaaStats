@@ -1,6 +1,9 @@
 <template>
-  <div id="app" class="leading-none antialiased">
-    <div class="min-h-screen bg-gray-200 flex flex-col relative">
+  <Head>
+    <html :lang="lang" />
+  </Head>
+  <div class="leading-none antialiased">
+    <div class="min-h-screen flex flex-col relative">
       <Navbar class="flex-none relative z-10" />
       <!-- Network error alert -->
       <div v-if="showNetworkErrorAlert" class="my-4 px-page py-4 border border-red-300 rounded bg-red-200 text-red-700 flex items-center">
@@ -18,20 +21,28 @@
 </template>
 
 <script>
+  import { Head } from '@unhead/vue/components'
+
   import Navbar from '@/components/navbar.vue'
   import Footer from '@/components/footer.vue'
+  import useLang from '@/composables/lang'
 
   export default {
     name: 'App',
 
     components: {
+      Head,
       Navbar,
       Footer,
     },
 
     data () {
+      const { langAttrValue } = useLang()
+
       return {
         showNetworkErrorAlert: false,
+
+        lang: langAttrValue,
       }
     },
 
@@ -50,15 +61,3 @@
     },
   }
 </script>
-
-<style>
-  #app {
-    font-family: Inter, var(--font-sans);
-  }
-
-  @supports (font-variation-settings: normal) {
-    #app {
-      font-family: 'Inter var', var(--font-sans);
-    }
-  }
-</style>

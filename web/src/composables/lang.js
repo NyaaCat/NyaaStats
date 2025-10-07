@@ -22,6 +22,7 @@ Object.defineProperty(t, 'lang', {
 export default function useLang () {
   return {
     lang: config.lang,
+    langAttrValue: config.lang.split('_')[0].toLowerCase(),
     t,
   }
 }

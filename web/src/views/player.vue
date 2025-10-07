@@ -119,8 +119,8 @@
     },
 
     watch: {
-      uuid () {
-        this.fetchData()
+      uuid (value) {
+        value && this.fetchData()
       },
     },
 
