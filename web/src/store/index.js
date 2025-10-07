@@ -1,10 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import {createStore} from 'vuex'
 import axios from 'axios'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     info: {
       title: 'NyaaStats',
@@ -25,7 +22,7 @@ const store = new Vuex.Store({
     },
 
     setPlayer (state, [uuid, data]) {
-      Vue.set(state.players, uuid, data)
+      state.players[uuid] = data
     },
 
     setPlayerList (state, data) {

@@ -1,6 +1,6 @@
 <template>
   <transition
-    enter-class="bg-layer-leave"
+    enter-from-class="bg-layer-leave"
     leave-to-class="bg-layer-leave"
     enter-active-class="transition-colors duration-200 ease-out"
     leave-active-class="transition-colors duration-200 ease-in"
@@ -10,7 +10,7 @@
     <div v-show="visible" class="bg-layer-enter flex flex-col" @click.self="state.modal = null">
       <div class="md:mx-auto mt-auto md:mb-auto max-h-2/3 px-4 md:px-5 pb-4 md:pb-5 overflow-auto flex flex-col">
         <transition
-          enter-class="transform-leave opacity-0"
+          enter-from-class="transform-leave opacity-0"
           leave-to-class="transform-leave opacity-0"
           enter-active-class="transition duration-200 ease-out"
           leave-active-class="transition duration-200 ease-in"
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-  import Vue from 'vue'
+  import {reactive} from 'vue'
 
   import {getScrollbarWidth} from '@/common/utils'
 
-  export const state = Vue.observable({
+  export const state = reactive({
     modal: null,
   })
   state.setModal = (component, data = {}) => {

@@ -1,11 +1,11 @@
 <template>
-  <div class="h-full relative" :data-prevent-clickaway="visible">
+  <div class="h-full relative" :data-prevent-clickaway="visible || null">
     <button class="h-full w-header -mr-offset relative z-10 flex" @click="visible = !visible">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="m-auto w-6 h-6">
         <transition
-          enter-class="translate-y-full"
+          enter-from-class="translate-y-full"
           enter-to-class="translate-y-0"
-          leave-class="translate-y-0"
+          leave-from-class="translate-y-0"
           leave-to-class="translate-y-full"
           enter-active-class="transform origin-center transition-transform duration-200 easing-linear"
           leave-active-class="transform origin-center transition-transform duration-200 easing-linear"
@@ -13,9 +13,9 @@
           <path v-show="!visible" d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" />
         </transition>
         <transition
-          enter-class="-translate-y-full"
+          enter-from-class="-translate-y-full"
           enter-to-class="translate-y-0"
-          leave-class="translate-y-0"
+          leave-from-class="translate-y-0"
           leave-to-class="-translate-y-full"
           enter-active-class="transform origin-center transition-transform duration-200 easing-linear"
           leave-active-class="transform origin-center transition-transform duration-200 easing-linear"

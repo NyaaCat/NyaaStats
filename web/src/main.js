@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import {createApp} from 'vue'
 
 import '@/assets/base.scss'
 import '@/common/velocity'
@@ -7,18 +7,19 @@ import router from './router'
 import store from './store'
 import App from './app.vue'
 
-Vue.config.productionTip = false
-
-Vue.mixin({
-  computed: {
-    t () {
-      return useLang().t
+const app = createApp(App)
+  .use(router)
+  .use(store)
+  .mixin({
+    computed: {
+      t () {
+        return useLang().t
+      },
     },
-  },
-})
+  })
 
 if (import.meta.env.DEV) {
-  Vue.mixin({
+  app.mixin({
     mounted () {
       this.$el.setAttribute?.(
         'data-component-name',
@@ -32,9 +33,4 @@ if (import.meta.env.DEV) {
   })
 }
 
-/* eslint-disable no-new */
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+app.mount('#app')

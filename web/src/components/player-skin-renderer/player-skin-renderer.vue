@@ -32,7 +32,7 @@
       this.resize()
     },
 
-    beforeDestroy () {
+    beforeUnmount () {
       this.clear?.()
       window.removeEventListener('resize', this.resize)
     },

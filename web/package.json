@@ -12,18 +12,19 @@
     "date-fns": "^2.14.0",
     "three": "^0.118.3",
     "velocity-animate": "^1.5.2",
-    "vue": "^2.7.16",
-    "vue-router": "^3.3.4",
-    "vuex": "^3.4.0"
+    "vue": "^3.5.22",
+    "vue-router": "^4.5.1",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@tailwindcss/ui": "^0.3.0",
-    "@vitejs/plugin-vue2": "^2.3.4",
-    "eslint": "^6.0.0",
-    "eslint-plugin-vue": "^6.2.2",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "eslint": "^9.37.0",
+    "eslint-plugin-vue": "^10.5.0",
     "https-proxy-agent": "^7.0.6",
     "sass": "^1.26.9",
     "tailwindcss": "^1.4.6",
-    "vite": "^7.1.9"
+    "vite": "^7.1.9",
+    "vue-eslint-parser": "^10.2.0"
   }
 }

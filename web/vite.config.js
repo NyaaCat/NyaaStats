@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import axios from 'axios'
 import createAgent from 'https-proxy-agent'
 import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 
 const MOCK_DIR = resolve(__dirname, '../__mock__')
 const agent = process.env.https_proxy || process.env.http_proxy

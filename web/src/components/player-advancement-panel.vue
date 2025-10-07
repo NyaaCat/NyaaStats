@@ -38,7 +38,7 @@
             :advancement-id="adv.id"
             :player="player"
             :color-map="mouseHoverAdv === adv.id ? hoverColorMap : 'none'"
-            :data-prevent-clickaway="Boolean(openedAdv)"
+            :data-prevent-clickaway="Boolean(openedAdv) || null"
             :class="['cursor-pointer', {'opacity-50 hover:opacity-100': !adv.criteria}]"
             @mouseenter.native="mouseHoverAdv = adv.id"
             @mouseleave.native="mouseHoverAdv = mouseHoverAdv === adv.id ? null : mouseHoverAdv"

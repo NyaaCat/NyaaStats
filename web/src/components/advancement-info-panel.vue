@@ -4,7 +4,7 @@
       :advancement-id="advancementId"
       :player="player"
       :class="['flex-none', {'cursor-pointer': expandable}]"
-      @click.native="expandable && toggle()"
+      @click="expandable && toggle()"
     />
     <SlidingTransition :duration="{enter: 300, leave: 200}" @after-enter="$emit('after-expand')" @after-leave="$emit('after-collapse')">
       <div v-show="isDescriptionVisible" class="flex flex-col justify-end" style="margin-top: -14px;">

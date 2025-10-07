@@ -2,7 +2,7 @@
   <PlayerAsidePanel :title="t('nyaa.player_ore_graph.section_title')">
     <template #header>
       <transition
-        enter-class="opacity-0"
+        enter-from-class="opacity-0"
         leave-to-class="opacity-0"
         enter-active-class="transition-opacity duration-300 ease-linear"
         leave-active-class="transition-opacity duration-300 ease-linear"
@@ -41,7 +41,7 @@
         </div>
       </div>
       <transition
-        enter-class="opacity-0"
+        enter-from-class="opacity-0"
         leave-to-class="opacity-0"
         enter-active-class="transition-opacity duration-300 ease-linear"
         leave-active-class="transition-opacity duration-300 ease-linear"
@@ -71,8 +71,8 @@
                 <span class="ml-auto">{{ total.used }}</span>
               </span>
               <template v-for="({ore, mined, used, order}) of oreData">
-                <span :key="ore + '-mined'" class="pl-1 py-0.5 _text-bg rounded-l text-right" :style="{gridRow: order + 1}">{{ mined }}</span>
-                <span :key="ore + '-used'" class="-mr-1 pr-1 py-0.5 _text-bg rounded-r text-gray-500 flex" :style="{gridRow: order + 1}">
+                <span class="pl-1 py-0.5 _text-bg rounded-l text-right" :style="{gridRow: order + 1}">{{ mined }}</span>
+                <span class="-mr-1 pr-1 py-0.5 _text-bg rounded-r text-gray-500 flex" :style="{gridRow: order + 1}">
                   <span class="mx-1">/</span>
                   <span class="ml-auto">{{ used }}</span>
                 </span>

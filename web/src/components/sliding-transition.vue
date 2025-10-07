@@ -1,8 +1,7 @@
 <template>
   <transition
-    v-bind="$props"
+    v-bind="$attrs"
     :css="false"
-    v-on="$listeners"
     @enter="enter"
     @leave="leave"
   >

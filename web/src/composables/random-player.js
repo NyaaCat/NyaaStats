@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import {reactive} from 'vue'
 
 import $store from '@/store'
 import $router from '@/router'
 
-const state = Vue.observable({
+const state = reactive({
   randomMode: false,
 })
 
