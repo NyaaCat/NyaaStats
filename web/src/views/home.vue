@@ -23,7 +23,7 @@
   import {isYesterday} from 'date-fns'
 
   import Welcome from '@/components/welcome.vue'
-  import SearchBox from '@/components/search-box'
+  import SearchBox from '@/components/search-box.vue'
   import PlayerGrid from '@/components/player-grid.vue'
   import PlayerList from '@/components/player-list.vue'
   import useRandomPlayer from '@/composables/random-player'
@@ -50,7 +50,7 @@
       ...mapState(['playerList']),
 
       yesterdayPlayers () {
-        return process.env.NODE_ENV === 'development'
+        return import.meta.env.DEV
           ? this.playerList.filter(p => p.playername.length <= 3 || p.playername.length >= 16)
           : this.playerList.filter(p => isYesterday(p.seen))
       },

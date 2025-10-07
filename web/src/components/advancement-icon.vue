@@ -7,7 +7,7 @@
 <script>
   import advancementItemIcons from '@/assets/advancements'
   import advancementData from '@/assets/advancement-data.json'
-  import AdvancementGui from '@/components/advancement-gui'
+  import AdvancementGui from '@/components/advancement-gui.vue'
 
   export default {
     name: 'AdvancementIcon',

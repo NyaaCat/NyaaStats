@@ -37,7 +37,7 @@
 
 <script>
   import lang from '../assets/lang.json'
-  import * as achievements from '../assets/achievements'
+  import achievements from '../assets/achievements'
 
   export default {
     name: 'AchievementBlock',

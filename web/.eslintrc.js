@@ -8,9 +8,6 @@ module.exports = {
     'plugin:vue/recommended',
     'plugin:vue/strongly-recommended',
   ],
-  parserOptions: {
-    parser: 'babel-eslint',
-  },
   rules: {
     'vue/max-attributes-per-line': [__PROD__ ? 'error' : 'warn', {singleline: 3}],
     'vue/script-indent': [__PROD__ ? 'error' : 'warn', 2, {baseIndent: 1}],

@@ -16,7 +16,7 @@ const router = new Router({
       path: '/player/:uuid',
       component: () => import('../views/player.vue'),
     },
-    // ...process.env.NODE_ENV === 'development' ? [{
+    // ...import.meta.env.DEV ? [{
     //   path: '/playground',
     //   component: () => import('../views/playground.vue'),
     // }] : [],

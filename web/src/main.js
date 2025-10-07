@@ -17,7 +17,7 @@ Vue.mixin({
   },
 })
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   Vue.mixin({
     mounted () {
       this.$el.setAttribute?.(

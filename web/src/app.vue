@@ -19,7 +19,7 @@
 
 <script>
   import Navbar from '@/components/navbar.vue'
-  import Footer from '@/components/footer'
+  import Footer from '@/components/footer.vue'
 
   export default {
     name: 'App',
@@ -40,7 +40,7 @@
       this.$store.dispatch('fetchInfo')
       this.$store.dispatch('fetchPlayers')
 
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         document.addEventListener('keyup', ev => {
           if (ev.target === document.body && ev.key === '`') {
             this.$router.push('/playground')
@@ -52,8 +52,6 @@
 </script>
 
 <style>
-  @import url('/font/inter.css');
-
   #app {
     font-family: Inter, theme('fontFamily.sans');
   }
