@@ -3,6 +3,19 @@
     <html :lang="lang" />
   </Head>
   <div class="leading-none antialiased">
+    <transition
+      enter-from-class="scale-0"
+      leave-to-class="scale-0"
+      enter-active-class="transition duration-200 ease-in-out"
+      leave-active-class="transition duration-200 ease-in-out"
+    >
+      <RotatingCube
+        v-show="showingRotatingCube"
+        size="64"
+        class="fixed inset-0 z-50 m-auto rounded-full"
+        style="box-shadow: 0 0 100px 10px #000;"
+      />
+    </transition>
     <div class="min-h-screen flex flex-col relative">
       <Navbar class="flex-none relative z-10" />
       <!-- Network error alert -->
@@ -25,6 +38,7 @@
 
   import Navbar from '@/components/navbar.vue'
   import Footer from '@/components/footer.vue'
+  import RotatingCube from '@/components/rotating-cube.vue'
   import useLang from '@/composables/lang'
 
   export default {
@@ -33,13 +47,21 @@
     components: {
       Head,
       Navbar,
+      RotatingCube,
       Footer,
+    },
+
+    provide () {
+      return {
+        rotatingCube: this.rotatingCube,
+      }
     },
 
     data () {
       const { langAttrValue } = useLang()
 
       return {
+        showingRotatingCube: false,
         showNetworkErrorAlert: false,
 
         lang: langAttrValue,
@@ -48,8 +70,12 @@
 
     created () {
       // TODO: Error handling
-      this.$store.dispatch('fetchInfo')
-      this.$store.dispatch('fetchPlayers')
+      Promise.all([
+        this.$store.dispatch('fetchInfo'),
+        this.$store.dispatch('fetchPlayers'),
+      ]).then(() => {
+        this.showingRotatingCube = false
+      })
 
       if (import.meta.env.DEV) {
         document.addEventListener('keyup', ev => {
@@ -57,6 +83,12 @@
             this.$router.push('/playground')
           }
         })
+      }
+    },
+
+    methods: {
+      rotatingCube (flag = true) {
+        this.showingRotatingCube = flag
       }
     },
   }
