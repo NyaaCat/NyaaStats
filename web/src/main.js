@@ -2,7 +2,6 @@ import {createApp} from 'vue'
 import {createHead} from '@unhead/vue/client'
 
 import '@/assets/base.css'
-import '@/common/velocity'
 import useLang from '@/composables/lang'
 import router from './router'
 import store from './store'

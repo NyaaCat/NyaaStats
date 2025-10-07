@@ -11,8 +11,9 @@
     "axios": "^0.19.2",
     "css-element-queries": "^1.2.3",
     "date-fns": "^2.14.0",
+    "motion": "^12.23.22",
+    "motion-v": "^1.7.2",
     "three": "^0.118.3",
-    "velocity-animate": "^1.5.2",
     "vue": "^3.5.22",
     "vue-router": "^4.5.1",
     "vuex": "^4.1.0"

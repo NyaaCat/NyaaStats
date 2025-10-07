@@ -10,7 +10,7 @@
         </button>
       </div>
       <SlidingTransition :duration="150">
-        <div v-show="showConfig" style="height: 0;">
+        <div v-show="showConfig">
           <label class="px-page xl:px-5 py-3 border-t border-gray-300 cursor-pointer flex items-center">
             <span>{{ t('nyaa.config.show_long_statistics') }}</span>
             <FormSwitch v-model="config.showLongStatistics" class="ml-auto" />

@@ -1,69 +1,27 @@
+<script setup>
+  import {computed} from 'vue'
+  import {animate} from 'motion'
+
+  const props = defineProps({
+    duration: {
+      type: [Number, Object],
+      required: true,
+    },
+  })
+  const enterDuration = computed(() => typeof props.duration === 'number' ? props.duration : props.duration.enter)
+  const leaveDuration = computed(() => typeof props.duration === 'number' ? props.duration : props.duration.leave)
+</script>
+
 <template>
-  <transition
+  <Transition
     v-bind="$attrs"
-    :css="false"
-    @enter="enter"
-    @leave="leave"
+    :duration="$props.duration"
+    enter-from-class="h-0"
+    enter-active-class="overflow-hidden"
+    leave-active-class="overflow-hidden"
+    @enter="el => animate(el, {height: 'auto'}, {duration: enterDuration / 1000})"
+    @leave="el => animate(el, {height: 0}, {duration: leaveDuration / 1000})"
   >
     <slot />
-  </transition>
+  </Transition>
 </template>
-
-<script>
-  const EASING_IN_OUT = [0.4, 0, 0.2, 1]
-
-  export default {
-    name: 'SlidingTransition',
-
-    props: {
-      duration: {
-        type: [Number, Object],
-        required: true,
-      },
-    },
-
-    methods: {
-      enter (el, done) {
-        Object.assign(el.style, {
-          height: '0',
-          overflow: 'hidden',
-        })
-        el.velocity(
-          {
-            height: [...el.children].reduce((t, n) => t + n.offsetHeight, 0),
-          },
-          typeof this.duration === 'number' ? this.duration : this.duration.enter,
-          EASING_IN_OUT,
-          () => {
-            done()
-            Object.assign(el.style, {
-              height: null,
-              overflow: null,
-            })
-          },
-        )
-      },
-
-      leave (el, done) {
-        Object.assign(el.style, {
-          height: el.offsetHeight,
-          overflow: 'hidden',
-        })
-        el.velocity(
-          {
-            height: 0,
-          },
-          typeof this.duration === 'number' ? this.duration : this.duration.leave,
-          EASING_IN_OUT,
-          () => {
-            done()
-            Object.assign(el.style, {
-              height: null,
-              overflow: null,
-            })
-          },
-        )
-      },
-    },
-  }
-</script>
