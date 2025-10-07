@@ -91,7 +91,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .bg-layer-enter {
     background-color: rgba(0, 0, 0, 0.3);
   }
@@ -103,7 +103,7 @@
   .transform-leave {
     transform: translateY(40px);
 
-    @screen md {
+    @media (width >= theme(--breakpoint-md)) {
       transform: scale(0.95);
     }
   }

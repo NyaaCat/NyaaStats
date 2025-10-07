@@ -6,7 +6,7 @@
       <span class="min-w-6 leading-5 px-1 border-2 border-gray-500 rounded text-gray-600 font-mono inline-flex items-center justify-center" style="min-width: 24px;">/</span>
     </button>
 
-    <div class="text-right font-tnum grid">
+    <div class="text-right tabular-nums grid">
       <template v-for="(r, idx) of data">
         <span :style="{gridRow: orders[idx], gridColumn: 1}">{{ r[0] }}</span>
         <span class="mx-2" :style="{gridRow: orders[idx], gridColumn: 2}">/</span>
@@ -70,9 +70,9 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .el {
-    > * {
+    & > * {
       @apply mt-10;
     }
   }

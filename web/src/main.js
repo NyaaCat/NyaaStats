@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 
-import '@/assets/base.scss'
+import '@/assets/base.css'
 import '@/common/velocity'
 import useLang from '@/composables/lang'
 import router from './router'

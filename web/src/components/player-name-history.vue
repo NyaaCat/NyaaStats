@@ -10,7 +10,7 @@
         ]"
       >
         <strong class="font-normal mr-3">{{ name }}</strong>
-        <span class="ml-auto text-gray-500 font-tnum">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
+        <span class="ml-auto text-gray-500 tabular-nums">{{ formatDate(changedToAt) || t('nyaa.player_name_history.first_name') }}</span>
       </li>
     </ul>
   </PlayerAsidePanel>

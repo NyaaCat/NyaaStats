@@ -4,6 +4,7 @@ import axios from 'axios'
 import createAgent from 'https-proxy-agent'
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
 
 const MOCK_DIR = resolve(__dirname, '../__mock__')
 const agent = process.env.https_proxy || process.env.http_proxy
@@ -36,6 +37,7 @@ const resources = () => ({
 export default defineConfig({
   plugins: [
     vue(),
+    tailwindcss(),
     resources(),
   ],
 

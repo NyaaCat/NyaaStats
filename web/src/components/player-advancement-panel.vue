@@ -2,7 +2,7 @@
   <div class="bg-white md:rounded-md shadow">
     <header class="border-b border-gray-300 bg-gray-100 md:rounded-t-md flex flex-col">
       <div class="px-page xl:px-5 flex items-center">
-        <h2 class="py-3 xl:py-4 text-cool-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">{{ t('nyaa.player_advancements.section_title') }}</h2>
+        <h2 class="py-3 xl:py-4 text-gray-700 text-lg xl:text-xl font-medium uppercase tracking-wide">{{ t('nyaa.player_advancements.section_title') }}</h2>
         <button class="ml-auto p-1 -mr-1 flex" @click="showConfig = !showConfig">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="['w-6 h-6', showConfig ? 'fill-black' : 'fill-gray-500']">
             <path d="M8 7a5 5 0 1 0 0 10h8a5 5 0 0 0 0-10H8zm0-2h8a7 7 0 0 1 0 14H8A7 7 0 0 1 8 5zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -24,14 +24,14 @@
       :class="[{'border-t border-gray-300': idx}]"
     >
       <h3 class="px-page xl:px-5 py-3 xl:py-4 border-b border-gray-300 flex items-center">
-        <span class="text-cool-gray-700 uppercase tracking-wide">{{ title }}</span>
-        <span class="ml-auto text-cool-gray-500">{{ data.filter(adv => adv.done).length }}/{{ t('nyaa.player_advancements.progress_completed', getGroupTotal(group)) }}</span>
+        <span class="text-gray-700 uppercase tracking-wide">{{ title }}</span>
+        <span class="ml-auto text-gray-500">{{ data.filter(adv => adv.done).length }}/{{ t('nyaa.player_advancements.progress_completed', getGroupTotal(group)) }}</span>
       </h3>
       <div class="px-page xl:px-4 py-2 lg:flex lg:flex-wrap lg:-ml-5">
         <div
           v-for="(adv, advIdx) of data"
           :key="adv.id"
-          :class="['lg:flex-grow-0 lg:flex-shrink lg:w-1/2 xl:w-1/3 lg:pl-5 py-1 md:overflow-visible transition-opacity duration-100 ease-linear', {'opacity-50': openedAdv && openedAdv !== adv.id, 'second': advIdx % 2 === 1, 'third': advIdx % 3 === 2}]"
+          :class="['lg:grow-0 lg:shrink lg:w-1/2 xl:w-1/3 lg:pl-5 py-1 md:overflow-visible transition-opacity duration-100 ease-linear', {'opacity-50': openedAdv && openedAdv !== adv.id, 'second': advIdx % 2 === 1, 'third': advIdx % 3 === 2}]"
         >
           <AdvancementTitle
             v-show="openedAdv !== adv.id"
@@ -192,24 +192,26 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+  @reference "tailwindcss";
+
   .transition-height {
     transition-property: height;
   }
 
-  @responsive {
+  @layer utilities {
     .w-info-panel-lg {
       width: 400px;
     }
   }
 
-  @screen lg {
+  @media (width >= theme(--breakpoint-lg)) {
     .second .x-float-right {
       @apply float-right;
     }
   }
 
-  @screen xl {
+  @media (width >= theme(--breakpoint-xl)) {
     .second .x-float-right {
       @apply float-none;
     }

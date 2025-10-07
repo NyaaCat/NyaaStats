@@ -26,7 +26,7 @@
                 class="p-3 border-t border-gray-300 flex items-center"
               >
                 <dt class="text-gray-500 mr-3">{{ label }}</dt>
-                <dd class="ml-auto font-tnum">{{ value }}</dd>
+                <dd class="ml-auto tabular-nums">{{ value }}</dd>
               </div>
             </dl>
           </div>
@@ -143,8 +143,10 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @screens xl {
+<style scoped>
+  @reference "tailwindcss";
+
+  @media (width >= theme(--breakpoint-xl)) {
     .w-page {
       width: 1200px;
     }
@@ -154,7 +156,7 @@
     height: 300px;
   }
 
-  @screens md {
+  @media (width >= theme(--breakpoint-md)) {
     .w-figure {
       width: 300px;
     }

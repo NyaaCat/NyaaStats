@@ -53,12 +53,12 @@
 
 <style>
   #app {
-    font-family: Inter, theme('fontFamily.sans');
+    font-family: Inter, var(--font-sans);
   }
 
   @supports (font-variation-settings: normal) {
     #app {
-      font-family: 'Inter var', theme('fontFamily.sans');
+      font-family: 'Inter var', var(--font-sans);
     }
   }
 </style>

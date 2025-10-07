@@ -25,7 +25,7 @@
       class="bg-white cursor-pointer relative transition-all duration-500 ease-in-out"
       @click="isExpanded = !isExpanded"
     >
-      <div class="absolute inset-x-0 top-0 h-10 bg-cool-gray-300 flex">
+      <div class="absolute inset-x-0 top-0 h-10 bg-gray-300 flex">
         <div
           v-for="({ore, mined, used, net}) of oreDataFiltered"
           :key="ore"
@@ -64,7 +64,7 @@
             </li>
           </ul>
           <transition v-bind="textTransitionProps">
-            <div v-if="isShowingOriginalData" class="ml-auto font-tnum grid row-gap-px items-center">
+            <div v-if="isShowingOriginalData" class="ml-auto tabular-nums grid gap-y-px items-center">
               <span class="pl-1" :style="{gridRow: 1}">{{ total.mined }}</span>
               <span :style="{gridRow: 1}" class="text-gray-600 flex">
                 <span class="mx-1">/</span>
@@ -78,7 +78,7 @@
                 </span>
               </template>
             </div>
-            <ul v-else class="ml-auto font-tnum flex flex-col items-end">
+            <ul v-else class="ml-auto tabular-nums flex flex-col items-end">
               <li class="order-first h-10 flex items-center">
                 <span>{{ total.net }}</span>
               </li>
@@ -192,7 +192,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   [data-type=coal]          div {background: #343434;}
   [data-type=iron]          div {background: #af8e77;}
   [data-type=lapis]         div {background: #315ec4;}

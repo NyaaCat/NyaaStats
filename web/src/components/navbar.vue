@@ -1,7 +1,7 @@
 <template>
   <div ref="wrapper" class="h-header">
     <div ref="navbar" class="set-bg w-full text-gray-300 fixed left-0 top-0">
-      <div class="page-section h-header flex items-center">
+      <div class="px-4 md:px-5 xl:w-page xl:px-0 xl:mx-auto h-header flex items-center">
         <RouterLink to="/" class="font-medium hover:text-white transition-color duration-100 ease-linear">{{ info.title }}</RouterLink>
         <div class="ml-auto self-stretch">
           <AppMenu />

@@ -1,6 +1,6 @@
 <template>
   <div class="xl:w-page xl:mx-auto px-page py-4 md:py-6 xl:py-12 flex flex-col sm:flex-row sm:items-center">
-    <div class="sm:flex-grow-0 sm:flex-shrink sm:w-1/2 text-center sm:text-left">
+    <div class="sm:grow-0 sm:shrink sm:w-1/2 text-center sm:text-left">
       <h1 class="text-3xl md:text-4xl xl:text-5xl leading-tight font-black">{{ info.servername }}</h1>
       <p class="mt-3">
         <a :href="info.homepage" target="_blank" class="text-lg text-blue-600 inline-flex items-center">
@@ -13,12 +13,12 @@
     </div>
     <dl class="flex-none mt-4 sm:mt-0 sm:ml-auto text-center sm:text-right flex">
       <div class="flex-1 sm:ml-8 cursor-pointer" @click="showWorldTimeInDays = !showWorldTimeInDays">
-        <dt class="text-sm md:text-base text-gray-600 whitespace-no-wrap">{{ t('nyaa.home.starring_number.uptime') }}</dt>
-        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ worldTime || '...' }}</dd>
+        <dt class="text-sm md:text-base text-gray-600 whitespace-nowrap">{{ t('nyaa.home.starring_number.uptime') }}</dt>
+        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-nowrap">{{ worldTime || '...' }}</dd>
       </div>
       <div class="flex-1 sm:ml-8">
-        <dt class="text-sm md:text-base text-gray-600 whitespace-no-wrap">{{ t('nyaa.home.starring_number.total_players') }}</dt>
-        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-no-wrap">{{ totalPlayers || '...' }}</dd>
+        <dt class="text-sm md:text-base text-gray-600 whitespace-nowrap">{{ t('nyaa.home.starring_number.total_players') }}</dt>
+        <dd class="mt-2 text-2xl md:text-3xl xl:text-4xl font-medium whitespace-nowrap">{{ totalPlayers || '...' }}</dd>
       </div>
     </dl>
   </div>

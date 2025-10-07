@@ -4,7 +4,7 @@
       <li v-for="{uuid, playername, historyName} of data.slice(0, cursor)" :key="extract(uuid)">
         <RouterLink
           :to="'/player/' + extract(uuid)"
-          class="sm:-mx-3 sm:px-3 py-2 hover:bg-cool-gray-100 rounded-md flex items-center transition duration-100 ease-linear"
+          class="sm:-mx-3 sm:px-3 py-2 hover:bg-gray-100 rounded-md flex items-center transition duration-100 ease-linear"
         >
           <PlayerAvatar :uuid="extract(uuid)" class="flex-none w-10 h-10 rounded" />
           <span class="flex-1 ml-4 flex items-center">
@@ -28,7 +28,7 @@
       </li>
     </ul>
     <div class="-mx-3">
-      <button v-show="restCount > 0" class="flex w-full h-14 px-3 py-2 hover:bg-cool-gray-100 rounded-md text-gray-600 text-left transition duration-100 ease-linear" @click="cursor += 50">
+      <button v-show="restCount > 0" class="flex w-full h-14 px-3 py-2 hover:bg-gray-100 rounded-md text-gray-600 text-left transition duration-100 ease-linear" @click="cursor += 50">
         <span class="ml-14">{{ t('nyaa.player_list.load_more_button_label') }}</span>
       </button>
     </div>
