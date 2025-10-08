@@ -193,7 +193,7 @@ function render () {
 let rafId
 
 function renderAnimation () {
-  if (renderState.animate) {
+  if (renderState?.animate) {
     renderState.frame += 1
     render()
     rafId = window.requestAnimationFrame(renderAnimation)
