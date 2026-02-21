@@ -6,20 +6,21 @@ import * as logger from './logger'
 
 export async function download (apiPath: string, dest: string): Promise<void> {
   logger.Assets.info('DOWNLOAD', apiPath)
-  const {data} = await axios.get<fs.ReadStream>(apiPath, {
+  const {data: rs} = await axios.get<fs.ReadStream>(apiPath, {
     headers: {'Accept': 'image/*'},
     responseType: 'stream',
   })
     .catch(err => {
-      // Sometimes Crafatar responds with 500 AND the correct image. If this is
-      // the case, just return the body which is enough of use.
-      if (err.response.headers['content-length'] && err.response.headers['content-type'].startsWith('image/')) {
-        return {data: err.response.data}
-      }
       logger.Assets.error('DOWNLOAD', apiPath, err.toString())
       return {data: null}
     })
-  data?.pipe(fs.createWriteStream(dest))
+  if (rs) {
+    await new Promise(resolve => {
+      const ws = fs.createWriteStream(dest)
+      rs.pipe(ws)
+      ws.on('close', resolve)
+    })
+  }
 }
 
 export function writeJSON (dest: string, data: never): void {

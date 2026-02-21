@@ -30,13 +30,15 @@
   "homepage": "https://github.com/NyaaCat/NyaaStats#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "base64-js": "^1.5.1",
     "fs-extra": "^2.0.0",
     "gauge": "^2.7.4",
     "inquirer": "^5.2.0",
     "js-yaml": "^3.13.1",
-    "log4js": "^2.11.0",
+    "log4js": "^6.9.1",
     "mcnbt": "github:SilentDepth/mcnbt#6ecad3f",
     "moment": "^2.24.0",
+    "sharp": "^0.34.5",
     "ts-node": "^8.10.2"
   },
   "devDependencies": {

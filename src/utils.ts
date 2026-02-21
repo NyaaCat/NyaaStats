@@ -5,6 +5,8 @@ import fs from 'fs-extra'
 import path from 'path'
 import axios from 'axios'
 import NBT from 'mcnbt'
+import { toByteArray } from 'base64-js'
+import sharp from 'sharp'
 
 import loadConfig from './config'
 import {defaultSkin, delay, download, mergeStats, writeJSON} from './helper'
@@ -103,7 +105,7 @@ export default class Utils {
     })
   }
 
-  getPlayerData (uuid: LongUuid): Promise<NSPlayerInfoData> {
+  getPlayerData (uuid: LongUuid, playerpath: string): Promise<NSPlayerInfoData> {
     const datafile = path.join(config.get<string>('render.playerdata'), `${uuid}.dat`)
     return new Promise((resolve, reject) => {
       const nbt = new NBT()
@@ -113,10 +115,11 @@ export default class Utils {
           return reject()
         }
         logger.PlayerData.info('READ', datafile)
+        const profile = await this.getMojangProfile(uuid, playerpath)
         const uuidShort = uuid.replace(/-/g, '')
         let history = oldPlayers?.find(p => p.uuid === uuidShort)?.names ?? null
         if (!history) {
-          const name = await this.getCurrentName(uuid)
+          const name = profile?.name
           history = name ? [{name, detectedAt: Date.now()}] : null
         }
         if (history && history[0]) {
@@ -148,7 +151,7 @@ export default class Utils {
     })
   }
 
-  async getPlayerTotalData (uuid: LongUuid): Promise<NSPlayerStatsJson | null> {
+  async getPlayerTotalData (uuid: LongUuid, playerpath: string): Promise<NSPlayerStatsJson | null> {
     let s
     let stats
     let stats_source
@@ -159,7 +162,7 @@ export default class Utils {
       stats = s['merged']
       stats_source = s['source']
       advancements = await this.getPlayerAdvancements(uuid)
-      data = await this.getPlayerData(uuid)
+      data = await this.getPlayerData(uuid, playerpath)
     } catch (error) {
       return null
     }
@@ -171,13 +174,28 @@ export default class Utils {
     }
   }
 
-  async getCurrentName (uuid: LongUuid): Promise<string | null> {
-    const apiProfile = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
-    let profile
-    try {
-      profile = await this.getMojangAPI<McPlayerProfile | ''>(apiProfile)
-      return profile === '' ? null : profile.name
-    } catch (err) {
+  async getMojangProfile (uuid: LongUuid, playerpath: string): Promise<McPlayerProfile | null> {
+    const url = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
+    const profile = await this.getMojangAPI<McPlayerProfile | ''>(url)
+    if (profile) {
+      const texturesRaw = profile.properties.find(it => it.name === 'textures')?.value
+      if (texturesRaw) {
+        const textures = JSON.parse(new TextDecoder().decode(toByteArray(texturesRaw))) as McPlayerTextures
+        if (textures.textures.SKIN) {
+          const skin = path.join(playerpath, 'skin.png')
+          await download(textures.textures.SKIN.url, skin)
+          try {
+            await sharp(skin)
+              .extract({left: 8, top: 8, width: 8, height: 8})
+              .resize({width: 64, height: 64, kernel: 'nearest'})
+              .toFile(path.resolve(skin, '../avatar.png'))
+          } catch (error) {
+            logger.Assets.error('EXTRACT AVATAR', uuid, error.toString())
+          }
+        }
+      }
+      return profile
+    } else {
       return null
     }
   }
@@ -209,6 +227,9 @@ export default class Utils {
     return body
   }
 
+  /**
+   * @deprecated Crafatar is not accessible anymore.
+   */
   async getPlayerAssets (uuid: LongUuid, playerpath: string): Promise<void> {
     try {
       fs.ensureDirSync(playerpath)
@@ -217,7 +238,6 @@ export default class Utils {
     }
 
     const apiPrefixAvatar = `${config.get('render.crafatar')}/avatars/`
-    const apiPrefixBody = `${config.get('render.crafatar')}/renders/body/`
     const apiPrefixSkin = `${config.get('render.crafatar')}/skins/`
 
     const slim = `&default=MHF_${defaultSkin(uuid)}`
@@ -225,10 +245,6 @@ export default class Utils {
     await download(
       `${apiPrefixAvatar}${uuid}?size=64&overlay${slim}`,
       path.join(playerpath, 'avatar.png'),
-    )
-    await download(
-      `${apiPrefixBody}${uuid}?size=128&overlay${slim}`,
-      path.join(playerpath, 'body.png'),
     )
     await download(
       `${apiPrefixSkin}${uuid}?${slim}`,
@@ -239,7 +255,7 @@ export default class Utils {
   async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
     const uuidShort = uuid.replace(/-/g, '')
     const playerpath = path.join(config.get<string>('render.output'), uuidShort)
-    const data = await this.getPlayerTotalData(uuid)
+    const data = await this.getPlayerTotalData(uuid, playerpath)
     if (data) {
       // Name data is currently updated only in players.json
       // so we need to duplicate it into stats.json
@@ -247,11 +263,6 @@ export default class Utils {
       if (playerInfo) {
         data.data.playername = playerInfo.playername
         data.data.names = playerInfo.names
-      }
-      try {
-        await this.getPlayerAssets(uuid.replace(/-/g, ''), playerpath)
-      } catch (error) {
-        logger.PlayerData.error('ASSETS', error.toString())
       }
       data.data = {
         ...data.data,

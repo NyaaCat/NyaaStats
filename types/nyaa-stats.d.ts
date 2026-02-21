@@ -5,7 +5,8 @@ interface NSConfig {
     homepage?: string
   }
   render: {
-    crafatar: string
+    /** @deprecated */
+    crafatar?: string
     level: string
     playerdata: string
     stats: string
