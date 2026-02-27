@@ -255,11 +255,12 @@ export default class Utils {
   async createPlayerData (uuid: LongUuid, banned = false): Promise<NSPlayerStatsJson> {
     const uuidShort = uuid.replace(/-/g, '')
     const playerpath = path.join(config.get<string>('render.output'), uuidShort)
+    fs.ensureDirSync(playerpath)
     const data = await this.getPlayerTotalData(uuid, playerpath)
     if (data) {
       // Name data is currently updated only in players.json
       // so we need to duplicate it into stats.json
-      const playerInfo = oldPlayers!.find(p => p.uuid === uuidShort)
+      const playerInfo = oldPlayers?.find(p => p.uuid === uuidShort)
       if (playerInfo) {
         data.data.playername = playerInfo.playername
         data.data.names = playerInfo.names
