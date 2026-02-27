@@ -217,7 +217,6 @@ export default class Utils {
       setTimeout(() => {
         this.apiLimited = false
       }, config.get<number>('api.ratelimit') * 3000)
-      throw new Error(err)
     }
 
     setTimeout(() => {
