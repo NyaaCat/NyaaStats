@@ -106,6 +106,10 @@
     },
 
     methods: {
+      close () {
+        this.visible = false
+      },
+
       onClickAway ({target}) {
         let el = target
         do {
